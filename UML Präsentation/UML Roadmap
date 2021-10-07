@@ -1,4 +1,24 @@
 # Roadmap Präsentation UML
 
-## 
+## Definition UML:
+Die Unified Modeling Language (vereinheitlichte Modellierungssprache), kurz UML, ist eine grafische Modellierungssprache zur Spezifikation, Konstruktion, Dokumentation und Visualisierung von Software-Teilen und anderen Systemen.
+Quelle: Wikipedia
+
+## Ziele:
+"structure is a way of dealing with complexity"
+-> Komplexitätsreduktion
+
+* Software muss maintained werden. UML ist deutlich zugänglicher als Code
+* Veranschaulichung von Software / Systemen
+* Orientierung beim Bug-Fixen
+
+## Typen
+### verschiedene Notationen je nach Verwendungszweck. Zum Beispiel:
+Strukturdiagramme:
+* Use-Case-Diagramm
+* Klassendiagramm (Class Diagram)
+* Objektdiagramm (Object diagram)
+
+Verhaltensdiagramme:
+* Sequenzdiagramm
 

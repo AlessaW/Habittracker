@@ -11,6 +11,7 @@ Quelle: Wikipedia
 * Software muss maintained werden. UML ist deutlich zugänglicher als Code
 * Veranschaulichung von Software / Systemen
 * Orientierung beim Bug-Fixen
+* Modell aus Komponenten entwickeln -> Wiederverwendbarkeit
 
 ## Typen
 ### verschiedene Notationen je nach Verwendungszweck. Zum Beispiel:
@@ -21,4 +22,13 @@ Strukturdiagramme:
 
 Verhaltensdiagramme:
 * Sequenzdiagramm
+
+## Verwendung:
+"First model, then code!"
+
+## Was macht UML?
+* Festlegen von Begriffen
+* Beziehungen zwischen den Begriffen darstellen
+* grafische Notationen für die Beziehungen bereitstellen
+(vergleichbar mit technischen Zeichnungen: jede Linie hat eine bestimmte Bedeutung)
 

@@ -9,3 +9,4 @@ Speichern von Mood und Gewohnheit in Korrelation. Die Nutzerin kann verschiedene
 * Gamificationansatz: Rewardfunctions
 * 50min time blocker
 * Energy-Accounting
+* Gamificationansatz: Prozedural generiertes Textadventure, abhängig von Mood und Gewohnheiten

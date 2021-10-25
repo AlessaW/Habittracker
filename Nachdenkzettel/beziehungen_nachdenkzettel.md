@@ -57,3 +57,5 @@ Rectangle: Rectangle(width, heigth) {
 Ja, weil Baum!
 
 Das einzige, was uns dazu weitergehend einfällt, ist Polymorphismus...aber das macht irgendwie nicht so Sinn?
+
+Weitergehend haben wir überlegt, dass das Prinzip ja Vererbung heißt. Und dass es aber keinen Sinn macht, String zu extenden, weil man String ja einfach so verwenden kann.

@@ -1,4 +1,4 @@
-package org.jap.GuiHelper;
+package org.jap.examples.GuiHelper;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;

@@ -1,4 +1,4 @@
-package org.jap;
+package org.jap.examples;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;

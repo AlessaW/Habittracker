@@ -1,7 +1,7 @@
-package org.jap;
+package org.jap.examples;
 
-import org.jap.GuiHelper.Dialog;
-import org.jap.GuiHelper.NumberField;
+import org.jap.examples.GuiHelper.Dialog;
+import org.jap.examples.GuiHelper.NumberField;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

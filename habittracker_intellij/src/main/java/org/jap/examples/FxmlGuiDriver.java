@@ -1,4 +1,4 @@
-package org.jap;
+package org.jap.examples;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

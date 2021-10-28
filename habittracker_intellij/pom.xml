@@ -64,7 +64,7 @@
                 <version>0.0.4</version>
                 <configuration>
                     <launcher>habittrackerdriver</launcher>
-                    <mainClass>org.jap.GuiDriver</mainClass>
+                    <mainClass>org.jap.examples.GuiDriver</mainClass>
                 </configuration>
             </plugin>
 

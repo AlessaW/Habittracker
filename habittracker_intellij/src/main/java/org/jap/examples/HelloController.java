@@ -1,4 +1,4 @@
-package org.jap;
+package org.jap.examples;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

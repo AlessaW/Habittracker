@@ -1,6 +1,6 @@
 package org.jap.ui;
 
-public enum UiType
+public enum EUiType
 {
     console,
     gui

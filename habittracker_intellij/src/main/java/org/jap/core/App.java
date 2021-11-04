@@ -4,8 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.ui.IUi;
 import org.jap.ui.UiFactory;
-import org.jap.ui.UiType;
-import org.jap.ui.console.ConsoleManager;
+import org.jap.ui.EUiType;
 
 public class App
 {
@@ -34,12 +33,12 @@ public class App
         logger.warn("Warn");
         logger.error("Error");
         
-        UiType uiType = UiType.console;
+        EUiType eUiType = EUiType.console;
         for (String arg : args)
         {
-            for (UiType type : UiType.values())
+            for (EUiType type : EUiType.values())
                 if (arg.equals(type.toString()))
-                    uiType = type;
+                    eUiType = type;
             // Add other Argument Checks
             
             logger.info(arg);
@@ -47,7 +46,7 @@ public class App
         
         try
         {
-            ui = UiFactory.getInstance(uiType);
+            ui = UiFactory.getInstance(eUiType);
         } catch (Exception e)
         {
             logger.error(e.getStackTrace());

@@ -1,11 +1,21 @@
 package org.jap.utils;
 
-import org.jap.ui.UiType;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
-public class EnumHelper
+public class EnumHelper<T> // Experimentell & WIP
 {
-//    public static boolean Contains<T>(String one)
-//    {
-//        Enum<T>.values();
-//    }
+    public boolean Contains( T e, String one) // Experimentell & WIP
+    {
+        try
+        {
+            Method m = e.getClass().getMethod("values");
+            m.invoke(m);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex)
+        {
+            System.out.println(""+ex);
+            ex.printStackTrace();
+        }
+        return false;
+    }
 }

@@ -5,19 +5,19 @@ import org.jap.ui.gui.GuiManager;
 
 public class UiFactory
 {
-    public static IUi getInstance(UiType uiType) throws Exception
+    public static IUi getInstance(EUiType type) throws Exception
     {
-        if (uiType.equals(UiType.console))
+        if (type.equals(EUiType.console))
         {
             return new ConsoleManager();
         }
-        else if (uiType.equals(UiType.gui))
+        else if (type.equals(EUiType.gui))
         {
             return new GuiManager();
         }
         else
         {
-            throw new Exception("Type " + uiType + " is not supported");
+            throw new Exception("Type " + type + " is not supported");
         }
     }
 }

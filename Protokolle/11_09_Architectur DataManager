@@ -1,0 +1,24 @@
+Decided points:
+- DataManager als eigene Klasse
+    - speichert Mood und Habit
+- Habit als Interface und Factory
+
+Was wir sicher brauchen:
+- GUI
+- Habits
+- Mood
+- DataManager zum speichern
+Verbindung zwischen allem :D -> AppManager (sorgt dafür, dass alle miteinander kommunizieren können)
+
+
+Was sinnvoll sein könnte:
+- Sequenzdiagramm, um den Ablauf des Programms zu klären
+
+
+
+Open Points:
+- DataManager
+    - single save oder alles speichern
+    - csv zum Speicher nehmen?
+    - Habit und Mood als ArrayList 
+- UML updaten und draw.io speichern

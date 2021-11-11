@@ -12,22 +12,22 @@ public class App
     
     private static IUi ui;
     
-    private static boolean loop = true;
+    private static boolean loop = false;
     
-    public static void main(String[] args)
-    {
+    private static String input = "";
+    private static String output = "";
+    
+    public static void main(String[] args) {
         init(args);
         
-        while(loop)
-        {
+        while(loop) {
             input();
             processing();
             output();
         }
     }
     
-    private static void init(String[] args)
-    {
+    private static void init(String[] args) {
         logger.debug("Debug");
         logger.info("Info");
         logger.warn("Warn");
@@ -51,20 +51,23 @@ public class App
         {
             logger.error(e.getStackTrace());
         }
+        
+        loop = true;
+        output = "Init Complete!";
+        logger.info(output);
+        
+        output();
     }
     
-    private static void input()
-    {
-        ui.getInput();
+    private static void input() {
+        input = ui.getInput();
     }
     
-    private static void processing()
-    {
-    
+    private static void processing() {
+        output = "Your Input is: "+input;
     }
     
-    private static void output()
-    {
-        ui.sendOutput("Test");
+    private static void output() {
+        ui.sendOutput(output);
     }
 }

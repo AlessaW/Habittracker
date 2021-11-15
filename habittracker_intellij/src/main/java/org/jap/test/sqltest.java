@@ -11,7 +11,7 @@ import org.jap.core.data.DBManager;
 public class sqltest {
     private static final Logger log = LogManager.getLogger(sqltest.class);
     
-    private static DBManager db = new DBManager("saves/testDB.sqlite");
+    private static final DBManager db = new DBManager("testDB.sqlite");
     
     public static void main(String[] args) {
         db.newMoodTable();

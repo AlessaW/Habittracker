@@ -24,7 +24,6 @@ dependency-reduced-pom.xml
 
 # Gradle:
 .idea/**/gradle.xml
-.idea/**/libraries
 
 # CMake
 cmake-build-debug/
@@ -57,5 +56,10 @@ crashlytics-build.properties
 fabric.properties
 /.idea/modules.xml
 /habittracker.iml
-/.idea/codeStyles/codeStyleConfig.xml
-/.idea/
+/.idea/codeStyles/
+/.idea/compiler.xml
+/.idea/encodings.xml
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/.idea/runConfigurations.xml
+/.idea/vcs.xml

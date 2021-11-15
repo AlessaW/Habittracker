@@ -48,15 +48,13 @@ public class DBZugriff {
         }
     }
 
-    public String change(String pSQL) {
+    public void change(String pSQL) {
         try {
             //SQL UPDATE, INSERT INTO, DELETE
             stmtSQL.executeUpdate(pSQL);
         } catch (SQLException err) {
             System.err.println("Aendern fehlgeschlagen");
-            return err.toString();
         }
-        return null;
     }
 
     public void close() {

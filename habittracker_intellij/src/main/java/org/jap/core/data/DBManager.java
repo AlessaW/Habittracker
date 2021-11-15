@@ -11,7 +11,7 @@ public class DBManager
 {
     private static final Logger log = LogManager.getLogger(DBManager.class);
     
-    DBZugriff db;
+    private final DBZugriff db;
     
     public DBManager(String DB) {
         db = new DBZugriff(DB);

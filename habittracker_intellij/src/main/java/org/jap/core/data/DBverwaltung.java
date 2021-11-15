@@ -6,14 +6,14 @@ import org.apache.logging.log4j.Logger;
 public class DBverwaltung {
     private static final Logger log = LogManager.getLogger(DBverwaltung.class);
     
-    DBZugriff db;
+    private final DBZugriff db;
     
-    DBverwaltung(String DB) {
+    public DBverwaltung(String DB) {
         db = new DBZugriff(DB);
         System.out.println("Datenbank verbunden: " + DB);
     }
     
-    void neueTabellen() {
+    public void neueTabellen() {
         db.change("CREATE TABLE \"Vokabelliste\" (\"ID\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"Frage\" TEXT NOT NULL , \"Antwort\" TEXT NOT NULL , \"Level\" INTEGER NOT NULL  DEFAULT 0, \"LLTime\" INTEGER, \"Kategorie\" TEXT, \"Beschreibung\" TEXT, \"Verknuepfung\" TEXT)");
     }
     

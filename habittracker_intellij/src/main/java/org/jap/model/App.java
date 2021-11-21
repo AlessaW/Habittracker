@@ -1,4 +1,4 @@
-package org.jap.core;
+package org.jap.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

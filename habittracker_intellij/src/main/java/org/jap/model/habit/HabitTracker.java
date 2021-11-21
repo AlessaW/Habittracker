@@ -1,4 +1,4 @@
-package org.jap.core.habit;
+package org.jap.model.habit;
 
 public class HabitTracker {
 }

@@ -1,4 +1,4 @@
-package org.jap.core.mood;
+package org.jap.model.mood;
 
 public class MoodTracker
 {

@@ -1,0 +1,35 @@
+package org.jap.model.mood;
+
+//Todo: enums für die Gefühle? Byte-Values um Daten zu sparen
+//Todo: x, y Werte -> sollen selber eingeben werden? Werte vorgeben? Default-Werte und dann noch die Möglichkeit, sie selber zu ändern?
+
+public enum MoodType {
+        HAPPY,
+        CONTENT,
+        IN_LOVE,
+        SATISFIED,
+        FULFILLED,
+        GRATEFUL,
+        ENERGETIC,
+
+
+        HUNGRY,
+        THIRSTY,
+        LONELY,
+        FIT,
+
+
+
+
+
+        SAD,
+        DEPRESSED,
+        DEAD,
+
+        ANXIOUS,
+        ANGRY,
+        FURIOUS,
+
+        RESTLESS,
+
+}

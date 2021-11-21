@@ -10,62 +10,80 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The Mood Object with all its glory and variables
+ */
 public class Mood
 {
     private static final Logger log = LogManager.getLogger(Mood.class);
-    String name = "";
-    String description = "";
-    Vector2d moodLocation = new Vector2d(0,0);
-    Color color;
-
+    
+    // Variables
+    private String name;
+    private String description;
+    private Vector2d moodLocation;
+    private Color color;
+    
+    // Constructor
+    /**
+     * Calculates the color from the location
+     * @param name         The name of the mood
+     * @param description  The description of the mood
+     * @param moodLocation XY-Coordinates in the moodDiagram
+     */
     public Mood(String name, String description, Vector2d moodLocation) {
         this.name = name;
         this.description = description;
         this.moodLocation = moodLocation;
-        calculateColor();
+        this.color = calculateColor(moodLocation);
     }
-
+    
+    /**
+     * @param name         The name of the mood
+     * @param description  The description of the mood
+     * @param moodLocation XY-Coordinates in the moodDiagram
+     * @param color        The Color the mood should have
+     */
     public Mood(String name, String description, Vector2d moodLocation, Color color) {
         this.name = name;
         this.description = description;
         this.moodLocation = moodLocation;
         this.color = color;
     }
-
+    
+    // Methods
     /**
      * calculating color from image coordinates
-     * @throws IOException
      */
-    private void calculateColor() {
-
+    private Color calculateColor(Vector2d diagramLocation) {
         try {
-            File file = new File("../../../../main/resources/images/colorImage.png");
+            File file = new File("src/main/resources/images/moodDiagram.png");
             BufferedImage image = ImageIO.read(file);
             // Getting pixel color by position x and y
-            int imagecolor = image.getRGB((int) moodLocation.getX(), (int) moodLocation.getY());
-            int blue = imagecolor & 0xff;
-            int green = (imagecolor & 0xff00) >> 8;
-            int red = (imagecolor & 0xff0000) >> 16;
-            this.color = new Color(red, green, blue);
+//        int blue = imagecolor & 0xff;
+//        int green = (imagecolor & 0xff00) >> 8;
+//        int red = (imagecolor & 0xff0000) >> 16;
+//        this.color = new java.awt.Color(red, green, blue);
+            int imageColor = image.getRGB((int) diagramLocation.getX(), (int) diagramLocation.getY());
+            return new Color(imageColor);
         } catch(IOException e){
             e.printStackTrace();
         }
-
+        return Color.BLACK;
     }
-
-
+    
+    
     private void setName(String name) {
         this.name = name;
     }
-
+    
     private void setDescription(String description) {
         this.description = description;
     }
-
+    
     private void setMoodLocation(Vector2d moodLocation) {
         this.moodLocation = moodLocation;
     }
-
+    
     private void setColor(Color color) {
         this.color = color;
     }

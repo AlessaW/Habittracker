@@ -10,4 +10,22 @@ import org.apache.logging.log4j.Logger;
 public class DataManager
 {
     private static final Logger log = LogManager.getLogger(DataManager.class);
+    
+    // Variables
+    //     Todo...
+    
+    // Methods
+    /**
+     * Saves all data to the disk
+     */
+    public void saveAll(){
+        // Todo: Save all data
+    }
+    
+    /**
+     * Loads all data from the disk
+     */
+    public void loadAll(){
+        // Todo: Load all data
+    }
 }

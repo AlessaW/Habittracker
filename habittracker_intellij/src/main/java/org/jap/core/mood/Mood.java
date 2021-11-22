@@ -1,11 +1,11 @@
 package org.jap.core.mood;
 
-import javafx.scene.paint.Color;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.vecmath.Vector2d;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class Mood
     Vector2d moodLocation = new Vector2d(0,0);
     Color color;
 
-    public Mood(String name, String description, Vector2d moodLocation) throws IOException {
+    public Mood(String name, String description, Vector2d moodLocation) {
         this.name = name;
         this.description = description;
         this.moodLocation = moodLocation;
@@ -36,15 +36,20 @@ public class Mood
      * calculating color from image coordinates
      * @throws IOException
      */
-    private void calculateColor() throws IOException {
+    private void calculateColor() {
 
-
-        File file = new File("imagefile.png");
-        BufferedImage image = ImageIO.read(file);
-        // Getting pixel color by position x and y
-        double imagecolor = image.getRGB((int)moodLocation.getX(), (int) moodLocation.getY());
-        //this.color = new Color(imagecolor);
-
+        try {
+            File file = new File("../../../../main/resources/images/colorImage.png");
+            BufferedImage image = ImageIO.read(file);
+            // Getting pixel color by position x and y
+            int imagecolor = image.getRGB((int) moodLocation.getX(), (int) moodLocation.getY());
+            int blue = imagecolor & 0xff;
+            int green = (imagecolor & 0xff00) >> 8;
+            int red = (imagecolor & 0xff0000) >> 16;
+            this.color = new Color(red, green, blue);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
 
     }
 

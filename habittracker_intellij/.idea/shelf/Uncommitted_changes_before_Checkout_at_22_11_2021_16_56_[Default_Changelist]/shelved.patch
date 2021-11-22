@@ -1,0 +1,18 @@
+Index: src/main/java/org/jap/model/mood/MoodType
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.jap.model.mood;\n\n//Todo: enums für die Gefühle? Byte-Values um Daten zu sparen\n//Todo: x, y Werte -> sollen selber eingeben werden? Werte vorgeben? Default-Werte und dann noch die Möglichkeit, sie selber zu ändern?\n\npublic enum MoodType {\n        HAPPY,\n        CONTENT,\n        IN_LOVE,\n        SATISFIED,\n        FULFILLED,\n        GRATEFUL,\n        ENERGETIC,\n\n\n        HUNGRY,\n        THIRSTY,\n        LONELY,\n        FIT,\n\n\n\n\n\n        SAD,\n        DEPRESSED,\n        DEAD,\n\n        ANXIOUS,\n        ANGRY,\n        FURIOUS,\n\n        RESTLESS,\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/jap/model/mood/MoodType b/src/main/java/org/jap/model/mood/MoodType
+--- a/src/main/java/org/jap/model/mood/MoodType	(revision e0c9b2acb6a6a94c46a6a807faf7934abc185b40)
++++ b/src/main/java/org/jap/model/mood/MoodType	(date 1637492150000)
+@@ -2,6 +2,7 @@
+ 
+ //Todo: enums für die Gefühle? Byte-Values um Daten zu sparen
+ //Todo: x, y Werte -> sollen selber eingeben werden? Werte vorgeben? Default-Werte und dann noch die Möglichkeit, sie selber zu ändern?
++//Todo: Farben: kann man ein Bild 10 auf 10 machen, dass dann die Werte der Koordinaten abbildet und an die Gui weitergibt?
+ 
+ public enum MoodType {
+         HAPPY,

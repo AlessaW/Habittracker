@@ -63,7 +63,7 @@ public class Mood
      */
     private Color calculateColor(Vector2d diagramLocation) {
         try {
-            File file = new File("src/main/resources/images/moodDiagram.png");
+            File file = new File("images/moodDiagram.png");
             BufferedImage image = ImageIO.read(file);
             // Getting pixel color by position x and y
 //        int blue = imagecolor & 0xff;

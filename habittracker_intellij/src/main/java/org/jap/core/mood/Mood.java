@@ -49,6 +49,13 @@ public class Mood
         this.moodLocation = moodLocation;
         this.color = color;
     }
+
+    public Mood(Mood mood){
+        this.name =mood.getName();
+        this.description = mood.getDescription();
+        this.moodLocation = mood.getMoodLocation();
+        this.color = mood.getColor();
+    }
     
     // Methods
     /**
@@ -86,5 +93,21 @@ public class Mood
     
     private void setColor(Color color) {
         this.color = color;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Vector2d getMoodLocation() {
+        return new Vector2d(moodLocation);
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

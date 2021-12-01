@@ -4,7 +4,6 @@ module gui {
     requires org.apache.logging.log4j;
     requires vecmath;
     requires java.sql;
-    requires sqlitejdbc.v056;
     requires java.desktop;
 
     opens org.jap to javafx.fxml;

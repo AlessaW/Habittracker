@@ -1,0 +1,27 @@
+General:
+- MVC als Modell geeignet?
+
+Views:
+- Stats: Balken, Kuchen, Graph
+- Habit
+- Moods
+- Habit und Moods gemeinsam
+- Listen
+
+
+Nutzeroberflächen Views (wirken auf Controller):
+- Habit erstellen/ bearbeiten/ löschen
+- Mood erstellen/ bearbeiten/ löschen
+- Stats anzeigen (Varianten s.o.)
+
+Model:
+- Habits (als Interface und Factory)
+- Moods
+- Reminder?
+- DataManager
+
+
+Noch unterzubringen:
+- Reminder
+- Datensicherung im Modell
+- Koordinatensystem: vectorklasse oder einfach nur zwei Variablen mit byte (vom Werteumfang her vollkommen ausreichend)

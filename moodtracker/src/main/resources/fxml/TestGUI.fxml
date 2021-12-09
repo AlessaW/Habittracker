@@ -1,0 +1,8 @@
+<BorderPlane>
+    <top>
+        <Label text="Page Title"/>
+    </top>
+    <center>
+        <Label text="Some Data Here"/>
+    </center>
+</BorderPlane>

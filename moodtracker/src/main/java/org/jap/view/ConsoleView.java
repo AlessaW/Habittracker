@@ -2,13 +2,16 @@ package org.jap.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jap.util.MiaUtils;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.Objects;
 
 /*
@@ -33,13 +36,18 @@ public class ConsoleView extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Programmstart
-        StackPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("src/main/resources/fxml/GUI_Console.fxml")));
-        Scene scene = new Scene(root, 300, 300);
-        
-//        Button btn = new Button("Hello World");
-//        root.getChildren().add(btn);
-        
-        stage.setTitle("Console JavaFX test");
+        log.info("Starting Console View");
+    
+        final String fxmlFile = "/fxml/GUI_Console.fxml"; // module-info: opens org.jap.controller to javafx.fxml; // package of the controller class
+        log.debug("Loading FXML for main view from: {}", fxmlFile);
+        final FXMLLoader loader = new FXMLLoader();
+        final Parent rootNode = loader.load(getClass().getResourceAsStream(fxmlFile));
+    
+        log.debug("Showing JFX scene");
+        final Scene scene = new Scene(rootNode, 1280, 720);
+        //scene.getStylesheets().add("/styles/styles.css");
+    
+        stage.setTitle("Hello JavaFX and Maven");
         stage.setScene(scene);
         stage.show();
     }
@@ -47,5 +55,6 @@ public class ConsoleView extends Application {
     @Override
     public void stop() {
         // ProgrammEnde
+        log.info("Program Closes");
     }
 }

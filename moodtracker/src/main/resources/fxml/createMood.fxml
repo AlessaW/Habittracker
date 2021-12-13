@@ -47,7 +47,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jap.controller.CreateMoodController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jap.controller.CreateMoodMenuController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -113,8 +113,8 @@
                   <Label prefHeight="17.0" prefWidth="75.0" text="activation" GridPane.rowIndex="3" />
                   <Slider fx:id="sliActivation" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label text="date" GridPane.rowIndex="4" />
-                  <DatePicker fx:id="datDate" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Button fx:id="btnOK" mnemonicParsing="false" text="ok" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <DatePicker fx:id="dtpDate" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Button fx:id="btnOk" mnemonicParsing="false" onAction="#btnOkAction" text="ok" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                </children>
             </GridPane>
       </children>

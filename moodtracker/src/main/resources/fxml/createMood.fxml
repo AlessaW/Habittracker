@@ -47,7 +47,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jap.controller.CreateMoodController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -105,16 +105,16 @@
               </rowConstraints>
                <children>
                   <Label text="name" />
+                  <TextField fx:id="txfName" GridPane.columnIndex="1" />
                   <Label prefWidth="87.0" text="description" GridPane.rowIndex="1" />
+                  <TextField fx:id="txfDescription" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="mood" GridPane.rowIndex="2" />
-                  <Slider GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Slider GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Slider fx:id="sliMood" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label prefHeight="17.0" prefWidth="75.0" text="activation" GridPane.rowIndex="3" />
-                  <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Slider fx:id="sliActivation" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label text="date" GridPane.rowIndex="4" />
-                  <Button mnemonicParsing="false" text="ok" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <DatePicker fx:id="datDate" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Button fx:id="btnOK" mnemonicParsing="false" text="ok" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                </children>
             </GridPane>
       </children>

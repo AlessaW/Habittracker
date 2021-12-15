@@ -15,6 +15,15 @@ public class GenericController {
         this.sceneManager = sceneManager;
     }
     
+    public void activate() { // Initial method after scene switch
+        String[] className = this.getClass().getName().split("\\.");
+        log.debug(className[className.length-1]+" Activated");
+    }
+    public void deactivate() { // Last method before scene switches
+        String[] className = this.getClass().getName().split("\\.");
+        log.debug(className[className.length-1]+" Deactivated");
+    }
+    
     protected SceneManager getSceneManager() {
         return sceneManager;
     }

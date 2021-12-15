@@ -16,6 +16,15 @@ public class StartupMenuController extends GenericController {
     private static final Logger log = LogManager.getLogger(StartupMenuController.class);
     
     // Methods
+    @Override
+    public void activate() {
+        super.activate();
+    }
+    @Override
+    public void deactivate() {
+        super.deactivate();
+    }
+    
     @FXML public void btnAddMoodAction() {   // Name im FXML File als Action Event angegeben
         // Todo: switch scene to createMood
         log.debug("AddMood Button Clicked");

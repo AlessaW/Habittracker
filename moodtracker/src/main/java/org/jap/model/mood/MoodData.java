@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 
 public class MoodData {
     private static final Logger log = LogManager.getLogger(MoodData.class);
+    //variable for auto incrementation of MoodID
+    private static int id = 0;
 
     private String name;
     private String description;
@@ -23,7 +25,8 @@ public class MoodData {
     private int activityLevel; //Todo: range from -10 to 10 useful?
     private int moodValue; //Todo: range from -10 to 10 useful?
 
-    public MoodData(String name, String description, int moodID, LocalDateTime timeStamp, int activityLevel, int moodValue) {
+    //construction for creating specific moodID
+    public MoodData(int moodID, String name, String description , LocalDateTime timeStamp, int activityLevel, int moodValue) {
         this.name = name;
         this.description = description;
         this.moodID = moodID;
@@ -31,6 +34,18 @@ public class MoodData {
         this.activityLevel = activityLevel;
         this.moodValue = moodValue;
     }
+
+    //standard Constructor with auto generated MoodID
+    public MoodData(String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) {
+        this.name = name;
+        this.description = description;
+        this.moodID = id;
+        id++;
+        this.timeStamp = timeStamp;
+        this.activityLevel = activityLevel;
+        this.moodValue = moodValue;
+    }
+
 
     public String getName() {
         return name;

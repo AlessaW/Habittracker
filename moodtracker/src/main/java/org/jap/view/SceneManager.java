@@ -18,6 +18,9 @@ public class SceneManager {
     private final Stage rootStage;
     
     private final Scene[] scenes = new Scene[States.values().length];
+    private final GenericController[] controllers = new GenericController[States.values().length];
+    
+    private States currentState;
     
     // Enum declaration
     /**
@@ -68,9 +71,8 @@ public class SceneManager {
             final FXMLLoader loader = new FXMLLoader(getClass().getResource(state.url));
             final Pane loadedPane = loader.load();
             scenes[state.ordinal()] = new Scene(loadedPane);
-            
-            GenericController controller = loader.getController();
-            controller.setSceneManager(this); // give the controller a reference to this instance of the SceneManager, so they can switch scenes
+            controllers[state.ordinal()] = loader.getController();
+            controllers[state.ordinal()].setSceneManager(this); // give the controller a reference to this instance of the SceneManager, so they can switch scenes
         }
         catch (LoadException e) {
             log.error("Load Exception: " + e.getMessage());
@@ -96,14 +98,21 @@ public class SceneManager {
      */
     public void switchScene(States state) {
         softLoadScene(state);
-        rootStage.setScene(scenes[state.ordinal()]);
+        if(currentState!=null)
+            controllers[currentState.ordinal()].deactivate();
+        currentState = state;
+        rootStage.setScene(scenes[currentState.ordinal()]);
+        controllers[currentState.ordinal()].activate();
     }
     
     /**
      * Closes the Application
+     * perhaps does some cleanup and necessary stuff first
      */
     public void exitApplication() {
         // do some important stuff here, if needed
+        controllers[currentState.ordinal()].deactivate();
+        
         rootStage.close();
     }
 }

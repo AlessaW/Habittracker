@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Handles the Collection of MoodData Objects
@@ -23,33 +23,55 @@ public class MoodManager {
         this.moods = new ArrayList<MoodData>();
     }
 
-    public Collection getMoods() {
+    public ArrayList<MoodData> getMoods() {
         return moods;
     }
 
+    /**
+     *
+     * @param name
+     * @param description
+     * @param timeStamp
+     * @param activityLevel
+     * @param moodValue
+     */
     public void createMood(String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
         MoodData result = new MoodData(name, description, timeStamp, activityLevel, moodValue);
         moods.add(result);
     }
 
-    public void modifyMood(MoodData mood, String attribute, String newValue){
+    /**
+     * changes the value of a given attribute of a given mood
+     * returns true if mood was changed successfully, false if not
+     * @param mood
+     * @param attribute
+     * @param newValue
+     * @return
+     */
+    public boolean modifyMood(MoodData mood, String attribute, String newValue){
 
         int index = moods.indexOf(mood);
         MoodData newMood = null;
 
         switch(attribute){
-            case "name": newMood = newMood = new MoodData(mood.getMoodID(), newValue, mood.getDescription(), mood.getTimeStamp(), mood.getActivityLevel(), mood.getMoodValue());
+            case "name": newMood = new MoodData(mood.getMoodID(), newValue, mood.getDescription(), mood.getTimeStamp(), mood.getActivityLevel(), mood.getMoodValue());
             case "description" : newMood = new MoodData(mood.getMoodID(), mood.getName(), newValue, mood.getTimeStamp(), mood.getActivityLevel(), mood.getMoodValue());
             case "timeStamp" :
-                //todo: parse String to LocalDateTime
-                //newMood = new MoodData(mood.getMoodID(), mood.getName(), mood.getDescription(), newValue , mood.getActivityLevel(), mood.getMoodValue());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                LocalDateTime dateTime = LocalDateTime.parse(newValue, formatter);
+                newMood = new MoodData(mood.getMoodID(), mood.getName(), mood.getDescription(), dateTime , mood.getActivityLevel(), mood.getMoodValue());
             case "activityLevel" : newMood = new MoodData(mood.getMoodID(), mood.getName(), mood.getDescription(), mood.getTimeStamp(), Integer.parseInt(newValue), mood.getMoodValue());
             case "moodValue" : newMood = new MoodData(mood.getMoodID(), mood.getName(), mood.getDescription(), mood.getTimeStamp(), mood.getActivityLevel(), Integer.parseInt(newValue));
         }
-        moods.remove(index);
         if(newMood != null){
+            moods.remove(index);
             moods.add(newMood);
+            return true;
         }
+        return false;
+    }
 
+    public void deleteMood(MoodData mood){
+        moods.remove(mood);
     }
 }

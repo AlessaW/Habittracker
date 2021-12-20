@@ -20,6 +20,9 @@
         <Logger name="org.jap.controller.CreateMoodMenuController" level="debug">
             <AppenderRef ref="A1"/>
         </Logger>
+        <Logger name="org.jap.test" level="debug">
+            <AppenderRef ref="A1"/>
+        </Logger>
         <Root level="info">
             <AppenderRef ref="STDOUT"/>
         </Root>

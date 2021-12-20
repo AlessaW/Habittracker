@@ -14,10 +14,7 @@
         <Logger name="org.examples.GuiDriver" level="debug">
             <AppenderRef ref="A1"/>
         </Logger>
-        <Logger name="org.jap.controller.StartupMenuController" level="debug">
-            <AppenderRef ref="A1"/>
-        </Logger>
-        <Logger name="org.jap.controller.CreateMoodMenuController" level="debug">
+        <Logger name="org.jap.controller" level="debug">
             <AppenderRef ref="A1"/>
         </Logger>
         <Root level="info">

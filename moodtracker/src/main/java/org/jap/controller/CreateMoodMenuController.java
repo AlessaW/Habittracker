@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
@@ -28,15 +29,41 @@ public class CreateMoodMenuController extends GenericController {
     @FXML private DatePicker dtpDate;
     
     // Methods
+    @Override
+    public void activate() {
+        super.activate();
+        resetInput();
+    }
+    @Override
+    public void deactivate() {
+        super.deactivate();
+    }
+    
+    private void resetInput() {
+        txfName.setText("");
+        txfDescription.setText("");
+        sliMood.setValue(0);
+        sliActivation.setValue(0);
+        dtpDate.setValue(LocalDate.now());
+    }
+    
     @FXML public void btnOkAction() {
-        // Things are happening now
         log.debug("Ok Button Clicked");
+        
+        String name = txfName.getText();
+        String description = txfDescription.getText();
+        int moodValue = Math.round((float) sliMood.getValue());
+        int activation = Math.round((float) sliActivation.getValue());
+        LocalDate date;
+        if (dtpDate.getValue() != null) date = dtpDate.getValue();
+        else date = LocalDate.now();
+        
         log.debug("User Input:" +
-                "\n  Name: "+txfName.getText()+
-                "\n  Description: "+txfDescription.getText()+
-                "\n  Mood: "+sliMood.getValue()+
-                "\n  Activation: "+sliActivation.getValue()+
-                "\n  Date: "+dtpDate.getValue().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)));
-        // Todo: stuff! you now?
+                "\n  Name: "+name+
+                "\n  Description: "+description+
+                "\n  Mood: "+moodValue+
+                "\n  Activation: "+activation+
+                "\n  Date: "+date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)));
+        // Todo: interaction with the Model
     }
 }

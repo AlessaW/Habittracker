@@ -42,6 +42,7 @@ public class MoodManager {
 
     /**
      * changes the value of a given attribute of a given mood
+     * the new value is given as a String, a LocalDateTime value has to be given in the pattern: "yyyy-MM-dd HH:mm"
      * returns true if mood was changed successfully, false if not
      * @param mood
      * @param attribute

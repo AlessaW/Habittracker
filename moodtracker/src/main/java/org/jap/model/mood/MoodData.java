@@ -18,12 +18,12 @@ public class MoodData {
     //variable for auto incrementation of MoodID
     private static int id = 0;
 
-    private String name;
-    private String description;
-    private int moodID;
-    private LocalDateTime timeStamp; //Todo: which time format is good? Sys-Time as a default value on object creation
-    private int activityLevel; //Todo: range from -10 to 10 useful?
-    private int moodValue; //Todo: range from -10 to 10 useful?
+    private final String name;
+    private final String description;
+    private final int moodID;
+    private final LocalDateTime timeStamp; //Todo: which time format is good? Sys-Time as a default value on object creation
+    private final int activityLevel; //Todo: range from -10 to 10 useful?
+    private final int moodValue; //Todo: range from -10 to 10 useful?
 
     //construction for creating specific moodID
     public MoodData(int moodID, String name, String description , LocalDateTime timeStamp, int activityLevel, int moodValue) {
@@ -39,8 +39,7 @@ public class MoodData {
     public MoodData(String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) {
         this.name = name;
         this.description = description;
-        this.moodID = id;
-        id++;
+        this.moodID = id++;
         this.timeStamp = timeStamp;
         this.activityLevel = activityLevel;
         this.moodValue = moodValue;

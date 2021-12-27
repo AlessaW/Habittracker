@@ -4,13 +4,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Handles the Collection of MoodData Objects
+ * Handles the List of MoodData Objects
  * When a field of a MoodData object is changed, it creates a new MoodData Object out of the new input and the data from the previous object
+ *
+ * Singleton Class
  *
  * Created by Jannika
  */
@@ -18,10 +19,18 @@ import java.util.List;
 public class MoodManager {
     private static final Logger log = LogManager.getLogger(MoodManager.class);
 
-    List<MoodData> moods;
+    private List<MoodData> moods;
 
-    public MoodManager() {
+    // todo: maybe add a init method for initiation of static variable for better control
+    private static MoodManager instance = new MoodManager();
+
+    private MoodManager() {
         this.moods = new ArrayList<MoodData>();
+
+    }
+
+    public static MoodManager getInstance(){
+        return instance;
     }
 
     public List<MoodData> getMoods() {

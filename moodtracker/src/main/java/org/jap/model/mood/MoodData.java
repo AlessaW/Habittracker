@@ -4,6 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 /**
  * MoodData is the class which holds all relevant fields and methods of a Mood.
@@ -68,5 +71,17 @@ public class MoodData {
 
     public int getMoodValue() {
         return moodValue;
+    }
+    
+    @Override
+    public String toString() {
+        return "MoodData{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", moodID=" + moodID +
+                ", timeStamp=" + timeStamp.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)) +
+                ", activityLevel=" + activityLevel +
+                ", moodValue=" + moodValue +
+                '}';
     }
 }

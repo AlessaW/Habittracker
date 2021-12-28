@@ -26,7 +26,6 @@ public class StartupMenuController extends GenericController {
     }
     
     @FXML public void btnAddMoodAction() {   // Name im FXML File als Action Event angegeben
-        // Todo: switch scene to createMood
         log.debug("AddMood Button Clicked");
         getSceneManager().switchScene(SceneManager.States.CREATE_MOOD);
     }

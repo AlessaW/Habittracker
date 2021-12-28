@@ -120,7 +120,7 @@
                   <Label text="time" GridPane.rowIndex="5" />
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <children>
-                        <Spinner fx:id="spnHour" editable="false" min="0" max="23" onCommitValue="#spnHourCommitValue" prefHeight="25.0" prefWidth="58.0" />
+                        <Spinner fx:id="spnHour" editable="false" min="0" max="23" prefHeight="25.0" prefWidth="58.0" />
                         <Label text=" : " />
                         <Spinner fx:id="spnMinute" editable="false" min="0" max="59" prefHeight="25.0" prefWidth="58.0" />
                      </children>

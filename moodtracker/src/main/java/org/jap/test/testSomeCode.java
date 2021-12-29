@@ -196,7 +196,7 @@ public class testSomeCode {
         try
         {
             // create a database connection
-            connection = DriverManager.getConnection("jdbc:sqlite:sample.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:target/sample.db");
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
         
@@ -231,7 +231,7 @@ public class testSomeCode {
                 System.err.println(e);
             }
         }/**/
-        DBverwaltung db = new DBverwaltung("testTable.db");
+        DBverwaltung db = new DBverwaltung("target/testTable.db");
         db.neueTabellen();
     }
 }

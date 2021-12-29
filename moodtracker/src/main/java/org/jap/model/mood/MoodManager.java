@@ -4,12 +4,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Handles the Collection of MoodData Objects
+ * Handles the List of MoodData Objects
  * When a field of a MoodData object is changed, it creates a new MoodData Object out of the new input and the data from the previous object
+ *
+ * Singleton Class
  *
  * Created by Jannika
  */
@@ -17,14 +19,22 @@ import java.util.ArrayList;
 public class MoodManager {
     private static final Logger log = LogManager.getLogger(MoodManager.class);
 
-    ArrayList<MoodData> moods;
+    private List<MoodData> moods;
 
-    public MoodManager() {
+    // todo: maybe add a init method for initiation of static variable for better control
+    private static MoodManager instance = new MoodManager();
+
+    private MoodManager() {
         this.moods = new ArrayList<MoodData>();
+
     }
 
-    public ArrayList<MoodData> getMoods() {
-        return moods;
+    public static MoodManager getInstance(){
+        return instance;
+    }
+
+    public List<MoodData> getMoods() {
+        return new ArrayList<MoodData>(moods);
     }
 
     /**
@@ -33,43 +43,48 @@ public class MoodManager {
      * @param description
      * @param timeStamp
      * @param activityLevel
-     * @param moodValue
+     * @param moodValue the positivity or negativity of a mood
      */
     public void createMood(String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
         MoodData result = new MoodData(name, description, timeStamp, activityLevel, moodValue);
-        moods.add(result);
+        addMood(result);
     }
 
     /**
-     * changes the value of a given attribute of a given mood
-     * the new value is given as a String, a LocalDateTime value has to be given in the pattern: "yyyy-MM-dd HH:mm"
-     * returns true if mood was changed successfully, false if not
+     * extra Method to add moods which were created with MoodFactory
+     * /todo: or should moodFactory add moods directly to MoodManager?
      * @param mood
-     * @param attribute
-     * @param newValue
-     * @return
      */
-    public boolean modifyMood(MoodData mood, String attribute, String newValue){
+    public void addMood(MoodData mood){
+        moods.add(mood);
+    }
 
-        int index = moods.indexOf(mood);
-        MoodData newMood = null;
 
-        switch(attribute){
-            case "name": newMood = new MoodData(mood.getMoodID(), newValue, mood.getDescription(), mood.getTimeStamp(), mood.getActivityLevel(), mood.getMoodValue());
-            case "description" : newMood = new MoodData(mood.getMoodID(), mood.getName(), newValue, mood.getTimeStamp(), mood.getActivityLevel(), mood.getMoodValue());
-            case "timeStamp" :
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                LocalDateTime dateTime = LocalDateTime.parse(newValue, formatter);
-                newMood = new MoodData(mood.getMoodID(), mood.getName(), mood.getDescription(), dateTime , mood.getActivityLevel(), mood.getMoodValue());
-            case "activityLevel" : newMood = new MoodData(mood.getMoodID(), mood.getName(), mood.getDescription(), mood.getTimeStamp(), Integer.parseInt(newValue), mood.getMoodValue());
-            case "moodValue" : newMood = new MoodData(mood.getMoodID(), mood.getName(), mood.getDescription(), mood.getTimeStamp(), mood.getActivityLevel(), Integer.parseInt(newValue));
-        }
-        if(newMood != null){
-            moods.remove(index);
-            moods.add(newMood);
-            return true;
-        }
-        return false;
+    public void changeName(MoodData mood, String name){
+        MoodData newMood = new MoodData(mood.getMoodID(), name,mood.getDescription(),mood.getTimeStamp(), mood.getActivityLevel(), mood.getMoodValue());
+        deleteMood(mood);
+        moods.add(newMood);
+    }
+
+    public void changeDescription(MoodData mood, String description){
+        MoodData newMood = new MoodData(mood.getMoodID(), mood.getName(), description,mood.getTimeStamp(), mood.getActivityLevel(), mood.getMoodValue());
+        deleteMood(mood);
+        moods.add(newMood);
+    }
+    public void changeTimeStamp(MoodData mood, LocalDateTime timeStamp){
+        MoodData newMood = new MoodData(mood.getMoodID(), mood.getName(),mood.getDescription(), timeStamp, mood.getActivityLevel(), mood.getMoodValue());
+        deleteMood(mood);
+        moods.add(newMood);
+    }
+    public void changeActivityLevel(MoodData mood, int activityLevel){
+        MoodData newMood = new MoodData(mood.getMoodID(), mood.getName(),mood.getDescription(),mood.getTimeStamp(), activityLevel, mood.getMoodValue());
+        deleteMood(mood);
+        moods.add(newMood);
+    }
+    public void changeMoodValue(MoodData mood, int moodValue){
+        MoodData newMood = new MoodData(mood.getMoodID(), mood.getName(),mood.getDescription(),mood.getTimeStamp(), mood.getActivityLevel(), moodValue);
+        deleteMood(mood);
+        moods.add(newMood);
     }
 
     public void deleteMood(MoodData mood){

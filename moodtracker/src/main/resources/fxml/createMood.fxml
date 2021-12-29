@@ -118,17 +118,17 @@
                   <Label text="date" GridPane.rowIndex="4" />
                   <DatePicker fx:id="dtpDate" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label text="time" GridPane.rowIndex="5" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <children>
+                        <Spinner fx:id="spnHour" editable="false" min="0" max="23" prefHeight="25.0" prefWidth="58.0" />
+                        <Label text=" : " />
+                        <Spinner fx:id="spnMinute" editable="false" min="0" max="59" prefHeight="25.0" prefWidth="58.0" />
+                     </children>
+                  </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                      <children>
                         <Button fx:id="btnOk" mnemonicParsing="false" onAction="#btnOkAction" text="ok" />
-                        <Button mnemonicParsing="false" text="cancel" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                     <children>
-                        <Spinner prefHeight="25.0" prefWidth="58.0" />
-                        <Label text=":" />
-                        <Spinner prefHeight="25.0" prefWidth="58.0" />
+                        <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#btnCancelAction" text="cancel" />
                      </children>
                   </HBox>
                </children>

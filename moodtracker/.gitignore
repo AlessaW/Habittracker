@@ -35,6 +35,7 @@ cmake-build-release/
 
 ## File-based project format:
 *.iws
+*.db
 
 ## Plugin-specific files:
 
@@ -55,6 +56,8 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+
+# everything else manually added
 /.idea/
 /.idea/compiler.xml
 /.idea/encodings.xml

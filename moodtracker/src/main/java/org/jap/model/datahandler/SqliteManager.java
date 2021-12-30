@@ -21,6 +21,14 @@ class SqliteManager implements SaveFileManager {
     // Variables
     private final SqliteAccess db;
     
+    private static final String TABLE_NAME = "MoodData";
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String DESCRIPTION = "description";
+    private static final String TIMESTAMP = "timestamp";
+    private static final String MOOD_VALUE = "moodValue";
+    private static final String ACTIVITY = "activity";
+    
     // Constructor
     /**
      * @param DB database name to connect to / to create
@@ -34,17 +42,15 @@ class SqliteManager implements SaveFileManager {
     // Methods
     private void initDB() {
         // create table for saved MoodData
-        String sql = """
-                CREATE TABLE "MoodData" (
-                    "id" INTEGER PRIMARY KEY,
-                    "name" TEXT NOT NULL,
-                    "description" TEXT NOT NULL,
-                    "timestamp" INTEGER NOT NULL,
-                    "moodValue" INTEGER NOT NULL,
-                    "activity" INTEGER NOT NULL
-                )
-            """
-        ;
+        String sql =
+                "CREATE TABLE "+toIdentifier(TABLE_NAME)+"("+
+                    toIdentifier(ID)            +" INTEGER PRIMARY KEY,"+
+                    toIdentifier(NAME)          +" TEXT NOT NULL,"+
+                    toIdentifier(DESCRIPTION)   +" TEXT NOT NULL,"+
+                    toIdentifier(TIMESTAMP)     +" TEXT NOT NULL,"+
+                    toIdentifier(MOOD_VALUE)    +" INTEGER NOT NULL,"+
+                    toIdentifier(ACTIVITY)      +" INTEGER NOT NULL"+
+                ")";
         log.trace(sql);
         String e = db.change(sql);
         if (e != null)
@@ -55,19 +61,19 @@ class SqliteManager implements SaveFileManager {
     public ArrayList<SimpleMood> loadMoods() {
         ArrayList<SimpleMood> list = new ArrayList<>();
         
-        String sql = "SELECT * FROM \"MoodData\"";
+        String sql = "SELECT * FROM "+toIdentifier(TABLE_NAME);
         log.trace(sql);
         ResultSet rs = db.read(sql);
         try {
             while (rs.next())
             {
                 SimpleMood m = new SimpleMood(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("description"),
-                    rs.getString("timestamp"),
-                    rs.getInt("moodValue"),
-                    rs.getInt("activity")
+                    rs.getInt(ID),
+                    rs.getString(NAME),
+                    rs.getString(DESCRIPTION),
+                    rs.getString(TIMESTAMP),
+                    rs.getInt(MOOD_VALUE),
+                    rs.getInt(ACTIVITY)
                 );
                 log.trace(m.toString());
                 list.add(m);
@@ -96,7 +102,7 @@ class SqliteManager implements SaveFileManager {
     
     @Override
     public void deleteMood(int id) {
-        String sql = "DELETE FROM \"MoodData\" WHERE \"id\"="+id;
+        String sql = "DELETE FROM "+toIdentifier(TABLE_NAME)+" WHERE "+toIdentifier(ID)+"="+id;
         log.trace(sql);
         String e = db.change(sql);
         if (e != null)
@@ -105,7 +111,7 @@ class SqliteManager implements SaveFileManager {
     
     @Override
     public void deleteAllMoods() {
-        String sql = "DROP TABLE \"MoodData\"";
+        String sql = "DROP TABLE "+toIdentifier(TABLE_NAME);
         log.trace(sql);
         String e = db.change(sql);
         if (e != null)
@@ -118,13 +124,18 @@ class SqliteManager implements SaveFileManager {
     public int getMaxID() {
         int maxID = 0;
         try {
-            String sql = "SELECT MAX(\"id\") FROM \"MoodData\"";
+            String sql = "SELECT MAX("+toIdentifier(ID)+") FROM "+toIdentifier(TABLE_NAME);
             log.trace(sql);
             maxID = db.read(sql).getInt(1);
         } catch (SQLException e) {
             log.trace(e.getMessage());
         }
         return maxID;
+    }
+    
+    @Override
+    public void close() {
+        db.closeDB();
     }
     
     private boolean moodExists(SimpleMood mood) {
@@ -134,7 +145,7 @@ class SqliteManager implements SaveFileManager {
     private boolean moodExists(int id) {
         int count = 0;
         try {
-            String sql = "SELECT COUNT(*) FROM \"MoodData\" WHERE \"id\" = "+id;
+            String sql = "SELECT COUNT(*) FROM "+toIdentifier(TABLE_NAME)+" WHERE "+toIdentifier(ID)+"="+id;
             log.trace(sql);
             count = db.read(sql).getInt(1);
         } catch (SQLException e) {
@@ -144,7 +155,7 @@ class SqliteManager implements SaveFileManager {
     }
     
     private void newMood(SimpleMood mood) {
-        String sql = "INSERT INTO \"MoodData\" VALUES (" +
+        String sql = "INSERT INTO "+toIdentifier(TABLE_NAME)+" VALUES (" +
                 mood.id()+","+
                 "'"+mood.name()+"',"+
                 "'"+mood.description()+"',"+
@@ -160,18 +171,22 @@ class SqliteManager implements SaveFileManager {
     }
     
     private void updateMood(SimpleMood mood) {
-        String sql = "UPDATE Vokabelliste SET" +
-            "\"name\"='"        +mood.name()+"',"+
-            "\"description\"='" +mood.description()+"',"+
-            "\"timestamp\"='"    +mood.timestamp()+"',"+
-            "\"moodValue\"="    +mood.moodValue()+","+
-            "\"activity\"="     +mood.activity()+" "+
+        String sql = "UPDATE "+toIdentifier(TABLE_NAME)+" SET" +
+            toIdentifier(NAME)          +"='" +mood.name()          +"',"+
+            toIdentifier(DESCRIPTION)   +"='" +mood.description()   +"',"+
+            toIdentifier(TIMESTAMP)     +"='" +mood.timestamp()     +"',"+
+            toIdentifier(MOOD_VALUE)    +"="  +mood.moodValue()     +","+
+            toIdentifier(ACTIVITY)      +"="  +mood.activity()      +" "+
             
-            "WHERE \"id\"="     +mood.id()
+            "WHERE "+toIdentifier(ID)   +"="  +mood.id()
         ;
         log.trace(sql);
         String e = db.change(sql);
         if (e != null)
             log.debug(e);
+    }
+    
+    private static String toIdentifier(String identifier) {
+        return "\""+identifier+"\"";
     }
 }

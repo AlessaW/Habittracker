@@ -127,6 +127,11 @@ class SqliteManager implements SaveFileManager {
         return maxID;
     }
     
+    @Override
+    public void close() {
+        db.closeDB();
+    }
+    
     private boolean moodExists(SimpleMood mood) {
         return moodExists(mood.id());
     }

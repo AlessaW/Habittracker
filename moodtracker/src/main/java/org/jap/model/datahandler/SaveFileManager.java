@@ -9,4 +9,5 @@ interface SaveFileManager {
     void deleteMood(int id);
     void deleteAllMoods();
     int getMaxID();
+    void close();
 }

@@ -90,16 +90,8 @@ class SqliteAccess {
     /**
      * Closes the Connection safely
      * it is recommended using this before deleting the last reference to an instance of this class
-     * @param save true if you want to save the changes before closing otherwise changes will be discarded
      */
-    public void closeDB(boolean save) {
-        if (save) {
-            change("COMMIT");
-            log.debug("Änderungen gespeichert");
-        } else {
-            change("ROLLBACK");
-            log.debug("Änderungen verworfen");
-        }
+    public void closeDB() {
         try {
             stmtSQL.close();
             db.close();

@@ -48,6 +48,10 @@ public class DataManager {
         saveFileManager.saveMood(toSimpleMood(mood));
     }
     
+    public void deleteMood(MoodData mood) {
+        saveFileManager.deleteMood(mood.getMoodID());
+    }
+    
     public void deleteAllMoods() {
         saveFileManager.deleteAllMoods();
     }

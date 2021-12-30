@@ -56,6 +56,10 @@ public class DataManager {
         saveFileManager.deleteAllMoods();
     }
     
+    public int getMaxID() {
+        return saveFileManager.getMaxID();
+    }
+    
     private SimpleMood toSimpleMood(MoodData m) {
         return new SimpleMood(m.getMoodID(), m.getName(), m.getDescription(), m.getTimeStamp().format(DateTimeFormatter.ISO_DATE_TIME), m.getMoodValue(), m.getActivityLevel());
     }

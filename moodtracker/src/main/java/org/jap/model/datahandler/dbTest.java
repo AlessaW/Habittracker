@@ -32,6 +32,8 @@ public class dbTest {
         data.saveMood(new MoodData(9,"asd","fgh", LocalDateTime.now(),20,(int) (Math.random()*21)));
         
         debugList();
+    
+        log.debug("MaxID: "+data.getMaxID());
     }
     
     private static void debugList() {

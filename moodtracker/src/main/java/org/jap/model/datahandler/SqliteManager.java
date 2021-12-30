@@ -114,6 +114,19 @@ class SqliteManager implements SaveFileManager {
         initDB();
     }
     
+    @Override
+    public int getMaxID() {
+        int maxID = 0;
+        try {
+            String sql = "SELECT MAX(\"id\") FROM \"MoodData\"";
+            log.trace(sql);
+            maxID = db.read(sql).getInt(1);
+        } catch (SQLException e) {
+            log.trace(e.getMessage());
+        }
+        return maxID;
+    }
+    
     private boolean moodExists(SimpleMood mood) {
         return moodExists(mood.id());
     }

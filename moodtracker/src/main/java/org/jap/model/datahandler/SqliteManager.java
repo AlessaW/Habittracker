@@ -21,6 +21,7 @@ class SqliteManager implements SaveFileManager {
     // Variables
     private final SqliteAccess db;
     
+    // Constant names for the database identifiers
     private static final String TABLE_NAME = "MoodData";
     private static final String ID = "id";
     private static final String NAME = "name";
@@ -40,6 +41,10 @@ class SqliteManager implements SaveFileManager {
     }
     
     // Methods
+    /**
+     * Initializes the database
+     * <br> - creates a table for the MoodData
+     */
     private void initDB() {
         // create table for saved MoodData
         String sql =
@@ -57,6 +62,10 @@ class SqliteManager implements SaveFileManager {
             log.trace(e);
     }
     
+    /**
+     * Loads all MoodData from the database
+     * @return the loaded moods as ArrayList of SimpleMood
+     */
     @Override
     public ArrayList<SimpleMood> loadMoods() {
         ArrayList<SimpleMood> list = new ArrayList<>();
@@ -82,6 +91,11 @@ class SqliteManager implements SaveFileManager {
         return list;
     }
     
+    /**
+     * Saves multiple moods to the database
+     * <br> - note that it overrides moods if the same id already exists in the database
+     * @param moods The list of moods to save as ArrayList of SimpleMood
+     */
     @Override
     public void saveMoods(ArrayList<SimpleMood> moods) {
         for (SimpleMood mood : moods) {
@@ -89,6 +103,11 @@ class SqliteManager implements SaveFileManager {
         }
     }
     
+    /**
+     * Saves one mood to the database
+     * <br> - note that it overrides moods if the same id already exists in the database
+     * @param mood The mood to save as SimpleMood
+     */
     @Override
     public void saveMood(SimpleMood mood) {
         boolean exists = moodExists(mood);
@@ -100,6 +119,10 @@ class SqliteManager implements SaveFileManager {
         }
     }
     
+    /**
+     * Deletes a mood from the database
+     * @param id the id of the mood to delete
+     */
     @Override
     public void deleteMood(int id) {
         String sql = "DELETE FROM "+toIdentifier(TABLE_NAME)+" WHERE "+toIdentifier(ID)+"="+id;
@@ -109,6 +132,10 @@ class SqliteManager implements SaveFileManager {
             log.debug(e);
     }
     
+    /**
+     * Deletes all moods from the database
+     * <br> this method cleans the MoodData table by deleting and recreating it
+     */
     @Override
     public void deleteAllMoods() {
         String sql = "DROP TABLE "+toIdentifier(TABLE_NAME);
@@ -120,6 +147,9 @@ class SqliteManager implements SaveFileManager {
         initDB();
     }
     
+    /**
+     * @return the highest id, stored in the database
+     */
     @Override
     public int getMaxID() {
         int maxID = 0;
@@ -133,15 +163,26 @@ class SqliteManager implements SaveFileManager {
         return maxID;
     }
     
+    /**
+     * closes the database connection safely - recommended!
+     */
     @Override
     public void close() {
         db.closeDB();
     }
     
+    /**
+     * @param mood the mood to check for
+     * @return true if the mood already exists otherwise false
+     */
     private boolean moodExists(SimpleMood mood) {
         return moodExists(mood.id());
     }
     
+    /**
+     * @param id the id of the mood to check for
+     * @return true if the mood already exists otherwise false
+     */
     private boolean moodExists(int id) {
         int count = 0;
         try {
@@ -154,6 +195,10 @@ class SqliteManager implements SaveFileManager {
         return count > 0;
     }
     
+    /**
+     * inserts a new mood in the database
+     * @param mood the mood as SimpleMood
+     */
     private void newMood(SimpleMood mood) {
         String sql = "INSERT INTO "+toIdentifier(TABLE_NAME)+" VALUES (" +
                 mood.id()+","+
@@ -170,6 +215,10 @@ class SqliteManager implements SaveFileManager {
             log.debug(e);
     }
     
+    /**
+     * Updates an existing mood, identified by its id, with new values
+     * @param mood the mood as SimpleMood
+     */
     private void updateMood(SimpleMood mood) {
         String sql = "UPDATE "+toIdentifier(TABLE_NAME)+" SET" +
             toIdentifier(NAME)          +"='" +mood.name()          +"',"+
@@ -186,6 +235,11 @@ class SqliteManager implements SaveFileManager {
             log.debug(e);
     }
     
+    /**
+     * Adds \" before and after the given String to prepare the identifier as SQLite command identifier
+     * @param identifier the identifier name
+     * @return the identifier in SQLite command format
+     */
     private static String toIdentifier(String identifier) {
         return "\""+identifier+"\"";
     }

@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 */
 
 /**
- *
+ * A Factory for the saveFileManager interface
  */
 public class SaveFileManagerFactory {
     private static final Logger log = LogManager.getLogger(SaveFileManagerFactory.class);
@@ -18,6 +18,11 @@ public class SaveFileManagerFactory {
 //        Json
     }
     
+    /**
+     * @param type     the type of saveFileManager to return
+     * @param fileName the name of the saveFile to open (the saveFileManager appends its file extension e.g. ".db")
+     * @return an instance of the selected saveFileManager
+     */
     public static SaveFileManager getSaveFileManager(SaveFileManagerType type, String fileName) {
         switch (type) {
             case Sqlite -> {return new SqliteManager(fileName);}

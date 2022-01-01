@@ -17,7 +17,6 @@ public class SceneManager {
     // Variables
     private final Stage rootStage;
     
-    private final Scene[] scenes = new Scene[States.values().length];
     private final GenericController[] controllers = new GenericController[States.values().length];
     
     private States currentState;
@@ -70,9 +69,9 @@ public class SceneManager {
         try {
             final FXMLLoader loader = new FXMLLoader(getClass().getResource(state.url));
             final Pane loadedPane = loader.load();
-            scenes[state.ordinal()] = new Scene(loadedPane);
+            final Scene scene = new Scene(loadedPane);
             controllers[state.ordinal()] = loader.getController();
-            controllers[state.ordinal()].setSceneManager(this); // give the controller a reference to this instance of the SceneManager, so they can switch scenes
+            controllers[state.ordinal()].initController(this,scene); // give the controller a reference to this instance of the SceneManager, so they can switch scenes
         }
         catch (LoadException e) {
             log.error("Load Exception: " + e.getMessage());
@@ -87,7 +86,7 @@ public class SceneManager {
      * @param state the window state to load the scene for
      */
     public void softLoadScene(States state) {
-        if (scenes[state.ordinal()] == null) {  // Lazy scene Loading
+        if (controllers[state.ordinal()] == null) {  // Lazy scene Loading
             loadScene(state);
         }
     }
@@ -99,10 +98,10 @@ public class SceneManager {
     public void switchScene(States state) {
         softLoadScene(state);
         if(currentState!=null)
-            controllers[currentState.ordinal()].deactivate();
+            getCurrentController().deactivate();
         currentState = state;
-        rootStage.setScene(scenes[currentState.ordinal()]);
-        controllers[currentState.ordinal()].activate();
+        rootStage.setScene(getCurrentController().getScene());
+        getCurrentController().activate();
     }
     
     /**
@@ -111,8 +110,12 @@ public class SceneManager {
      */
     public void exitApplication() {
         // do some important stuff here, if needed
-        controllers[currentState.ordinal()].deactivate();
+        getCurrentController().deactivate();
         
         rootStage.close();
+    }
+    
+    private GenericController getCurrentController() {
+        return controllers[currentState.ordinal()];
     }
 }

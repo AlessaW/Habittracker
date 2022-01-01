@@ -3,6 +3,8 @@ package org.jap.controller;
 import javafx.fxml.FXML;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jap.model.mood.MoodData;
+import org.jap.model.mood.MoodManager;
 import org.jap.view.SceneManager;
 
 /*
@@ -34,8 +36,13 @@ public class StartupMenuController extends GenericController {
         log.debug("EditMood Button Clicked");
     }
     @FXML public void btnViewStatsAction() {   // Name im FXML File als Action Event angegeben
-        // Todo: important stuff
         log.debug("ViewStats Button Clicked");
+        // Todo: important stuff
+        
+        log.debug("Saved "+MoodManager.getInstance().getMoods().size()+" Moods: ");
+        for (MoodData m : MoodManager.getInstance().getMoods()) {
+            log.debug(m.toString());
+        }
     }
     @FXML public void btnExitAction() {   // Name im FXML File als Action Event angegeben
         log.debug("Exit Button Clicked");

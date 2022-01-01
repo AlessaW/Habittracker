@@ -60,8 +60,20 @@ public class CreateMoodMenuController extends GenericController {
     private void resetInput() {
         txfName.setText("");
         txfDescription.setText("");
-        sliMood.setValue(0);
-        sliActivation.setValue(0);
+        sliMood.setMin(MoodData.MIN_MOODVALUE);
+        sliMood.setMax(MoodData.MAX_MOODVALUE);
+        sliMood.setValue(MoodData.DEFAULT_MOODVALUE);
+        sliMood.setMajorTickUnit(5);
+        sliMood.setShowTickMarks(true);
+        sliMood.setShowTickLabels(true);
+        sliMood.setSnapToTicks(true);
+        sliActivation.setMin(MoodData.MIN_ACTIVITYLEVEL);
+        sliActivation.setMax(MoodData.MAX_ACTIVITYLEVEL);
+        sliActivation.setValue(MoodData.DEFAULT_ACTIVITYLEVEL);
+        sliActivation.setMajorTickUnit(5);
+        sliActivation.setShowTickMarks(true);
+        sliActivation.setShowTickLabels(true);
+        sliActivation.setSnapToTicks(true);
         dtpDate.setValue(LocalDate.now());
         spnHour.getValueFactory().setValue(LocalTime.now().getHour());
         spnMinute.getValueFactory().setValue(LocalTime.now().getMinute());

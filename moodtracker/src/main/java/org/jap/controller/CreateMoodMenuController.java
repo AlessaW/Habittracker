@@ -28,7 +28,7 @@ import java.time.format.FormatStyle;
 public class CreateMoodMenuController extends GenericController {
     private static final Logger log = LogManager.getLogger(CreateMoodMenuController.class);
     
-    // Variables
+    // FXML Fields
     @FXML private TextField txfName;
     @FXML private TextField txfDescription;
     @FXML private Slider sliMood;
@@ -38,16 +38,25 @@ public class CreateMoodMenuController extends GenericController {
     @FXML private Spinner<Integer> spnMinute;
     
     // Methods
+    /**
+     * called when this controller is activated
+     */
     @Override
     public void activate() {
         super.activate();
         resetInput();
     }
+    /**
+     * called when this controller is deactivated
+     */
     @Override
     public void deactivate() {
         super.deactivate();
     }
     
+    /**
+     * resets the input of the gui controls
+     */
     private void resetInput() {
         txfName.setText("");
         txfDescription.setText("");
@@ -58,6 +67,9 @@ public class CreateMoodMenuController extends GenericController {
         spnMinute.getValueFactory().setValue(LocalTime.now().getMinute());
     }
     
+    /**
+     * Creates a new mood with the given inputs from the gui controls
+     */
     @FXML public void btnOkAction() {
         log.debug("Ok Button Clicked");
         
@@ -85,6 +97,9 @@ public class CreateMoodMenuController extends GenericController {
         getSceneManager().switchScene(SceneManager.States.STARTUP_MENU);
     }
     
+    /**
+     * returns the user back to the main menu
+     */
     @FXML public void btnCancelAction() {
         log.debug("Cancel Button Clicked");
         getSceneManager().switchScene(SceneManager.States.STARTUP_MENU);

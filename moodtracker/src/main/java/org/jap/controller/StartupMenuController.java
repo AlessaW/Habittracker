@@ -32,8 +32,10 @@ public class StartupMenuController extends GenericController {
         getSceneManager().switchScene(SceneManager.States.CREATE_MOOD);
     }
     @FXML public void btnEditMoodAction() {   // Name im FXML File als Action Event angegeben
-        // Todo: important stuff
         log.debug("EditMood Button Clicked");
+        // Todo: important stuff
+        
+        getSceneManager().switchScene(SceneManager.States.MOOD_LIST_VIEW);
     }
     @FXML public void btnViewStatsAction() {   // Name im FXML File als Action Event angegeben
         log.debug("ViewStats Button Clicked");

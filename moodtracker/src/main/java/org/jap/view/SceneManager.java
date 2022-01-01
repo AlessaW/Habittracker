@@ -29,6 +29,7 @@ public class SceneManager {
     public enum States {
         STARTUP_MENU("/fxml/startupMenu.fxml"),
         CREATE_MOOD("/fxml/createMood.fxml"),
+        MOOD_LIST_VIEW("/fxml/moodListView.fxml"),
 //        EDIT_MOOD("/fxml/editMood.fxml"),
 //        VIEW_STATS("/fxml/viewStats.fxml"),
         ;
@@ -115,6 +116,9 @@ public class SceneManager {
         rootStage.close();
     }
     
+    /**
+     * @return the controller for the currently active scene
+     */
     private GenericController getCurrentController() {
         return controllers[currentState.ordinal()];
     }

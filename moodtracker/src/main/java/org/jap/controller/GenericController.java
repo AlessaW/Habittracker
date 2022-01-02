@@ -1,6 +1,6 @@
 package org.jap.controller;
 
-import javafx.scene.Scene;
+import javafx.scene.Parent;
 import org.jap.view.SceneManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,10 +11,10 @@ public class GenericController {
     // Variables
     private SceneManager sceneManager;
     
-    private Scene scene;
+    private Parent scene;
     
     // Methods
-    public void initController(SceneManager sceneManager, Scene scene) {
+    public void initController(SceneManager sceneManager, Parent scene) {
         this.sceneManager = sceneManager;
         this.scene = scene;
     }
@@ -30,7 +30,7 @@ public class GenericController {
         return sceneManager;
     }
     
-    public Scene getScene() {
+    public Parent getScene() {
         return scene;
     }
 }

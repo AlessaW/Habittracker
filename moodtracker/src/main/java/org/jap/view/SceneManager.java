@@ -4,12 +4,13 @@ import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.LoadException;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.controller.GenericController;
+import org.jap.controller.MenuBarController;
 
 public class SceneManager {
     private static final Logger log = LogManager.getLogger(SceneManager.class);
@@ -18,6 +19,7 @@ public class SceneManager {
     private final Stage rootStage;
     
     private final GenericController[] controllers = new GenericController[States.values().length];
+    private MenuBarController menuBarController;
     
     private States currentState;
     
@@ -58,6 +60,23 @@ public class SceneManager {
     public SceneManager(Stage stage, States state) {
         rootStage = stage;
         
+        // load the Menu Bar
+        try {
+            final FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/rootMenu.fxml"));
+            final Parent loadedPane = loader.load();
+            final Scene scene = new Scene(loadedPane);
+            menuBarController = loader.getController();
+            menuBarController.initController(this,loadedPane);
+            rootStage.setScene(scene);
+            menuBarController.activate();
+        }
+        catch (LoadException e) {
+            log.error("Load Exception: " + e.getMessage());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         switchScene(state);
     }
     
@@ -66,13 +85,13 @@ public class SceneManager {
      * Loads the scene from file and overwrites the old scene of it's state
      * @param state the window state to load the scene for
      */
-    public void loadScene(States state) {
+    private void loadScene(States state) {
         try {
             final FXMLLoader loader = new FXMLLoader(getClass().getResource(state.url));
-            final Pane loadedPane = loader.load();
-            final Scene scene = new Scene(loadedPane);
+            final Parent loadedPane = loader.load();
             controllers[state.ordinal()] = loader.getController();
-            controllers[state.ordinal()].initController(this,scene); // give the controller a reference to this instance of the SceneManager, so they can switch scenes
+            // give the controller a reference to this instance of the SceneManager, so they can switch scenes; and store the scene in the controller
+            controllers[state.ordinal()].initController(this,loadedPane);
         }
         catch (LoadException e) {
             log.error("Load Exception: " + e.getMessage());
@@ -86,10 +105,12 @@ public class SceneManager {
      * Loads the scene only if it isn't yet loaded
      * @param state the window state to load the scene for
      */
-    public void softLoadScene(States state) {
+    private void softLoadScene(States state) {
         if (controllers[state.ordinal()] == null) {  // Lazy scene Loading
             loadScene(state);
-        }
+            log.trace("Loaded: "+state);
+        } else
+            log.trace(state+" is already loaded");
     }
     
     /**
@@ -101,7 +122,7 @@ public class SceneManager {
         if(currentState!=null)
             getCurrentController().deactivate();
         currentState = state;
-        rootStage.setScene(getCurrentController().getScene());
+        menuBarController.setScene(getCurrentController().getScene(),state);
         getCurrentController().activate();
     }
     
@@ -112,6 +133,7 @@ public class SceneManager {
     public void exitApplication() {
         // do some important stuff here, if needed
         getCurrentController().deactivate();
+        menuBarController.deactivate();
         
         rootStage.close();
     }

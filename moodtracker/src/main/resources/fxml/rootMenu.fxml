@@ -32,58 +32,49 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jap.controller.MenuBarController">
   <children>
     <MenuBar styleClass="menubar" stylesheets="@stylesheet.css" VBox.vgrow="NEVER">
       <menus>
             <Menu mnemonicParsing="false" text="General">
               <items>
-                <MenuItem mnemonicParsing="false" text="Settings" />
+                  <MenuItem mnemonicParsing="false" onAction="#mniGeneralMainMenu" text="Main Menu" />
+                <MenuItem mnemonicParsing="false" onAction="#mniGeneralSettings" text="Settings" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Quit" />
+                  <MenuItem mnemonicParsing="false" onAction="#mniGeneralQuit" text="Quit" />
               </items>
             </Menu>
         <Menu mnemonicParsing="false" text="Add">
           <items>
-            <MenuItem mnemonicParsing="false" text="Custom" />
-            <MenuItem mnemonicParsing="false" text="Predefined" />
+            <MenuItem mnemonicParsing="false" onAction="#mniAddCustom" text="Custom" />
+            <MenuItem mnemonicParsing="false" onAction="#mniAddPredefined" text="Predefined" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
           <items>
-                  <MenuItem mnemonicParsing="false" text="Edit Mood" />
+                  <MenuItem mnemonicParsing="false" onAction="#mniEditEditMood" text="Edit Mood" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Delete Mood" />
-            <MenuItem mnemonicParsing="false" text="Delete All" />
+            <MenuItem mnemonicParsing="false" onAction="#mniEditDeleteMood" text="Delete Mood" />
+            <MenuItem mnemonicParsing="false" onAction="#mniEditDeleteAll" text="Delete All" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" onAction="#mniEditUndo" text="Undo" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Views">
           <items>
-            <MenuItem mnemonicParsing="false" text="Stats" />
-                  <MenuItem mnemonicParsing="false" text="List" />
+            <MenuItem mnemonicParsing="false" onAction="#mniViewsStats" text="Stats" />
+                  <MenuItem mnemonicParsing="false" onAction="#mniViewsList" text="List" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" stylesheets="@stylesheet.css" VBox.vgrow="ALWAYS">
-      <children>
-        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-          <font>
-            <Font size="18.0" />
-          </font>
-        </Label>
-      </children>
-    </AnchorPane>
+    <AnchorPane fx:id="anpSceneRoot" maxHeight="-1.0" maxWidth="-1.0" styleClass="background" stylesheets="@stylesheet.css" VBox.vgrow="ALWAYS" />
   </children>
 </VBox>

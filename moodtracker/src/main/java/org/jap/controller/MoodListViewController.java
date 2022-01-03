@@ -3,7 +3,16 @@ package org.jap.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.util.Callback;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.mood.MoodData;
@@ -70,5 +79,46 @@ public class MoodListViewController extends GenericController{
     private void updateList() {
         originalList = MoodManager.getInstance().getMoods();
         moodDataList = FXCollections.observableArrayList(originalList);
+        
+        livMoodList.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(MoodData mood, boolean empty) {
+                super.updateItem(mood, empty);
+
+                if (mood == null || empty) {
+                    setText(null);
+                } else {
+                    // Here we can build the layout we want for each ListCell. Let's use a HBox as our root.
+                    HBox root = new HBox(10);
+                    root.setAlignment(Pos.CENTER_LEFT);
+                    root.setPadding(new Insets(5, 10, 5, 10));
+    
+                    // Within the root, we'll show the username on the left and our two buttons to the right
+                    root.getChildren().add(new Label(mood.getName()));
+    
+                    // I'll add another Region here to expand, pushing the buttons to the right
+                    Region region = new Region();
+                    HBox.setHgrow(region, Priority.ALWAYS);
+                    root.getChildren().add(region);
+    
+                    // Now for our buttons
+                    Button btnAddFriend = new Button("Edit");
+                    btnAddFriend.setOnAction(event -> {
+                        // Code to add friend
+                        log.debug("Edit Mood ID: " + mood.getMoodID());
+                    });
+                    Button btnRemove = new Button("Delete");
+                    btnRemove.setOnAction(event -> {
+                        // Code to remove friend
+                        log.debug("Delete Mood ID " + mood.getMoodID());
+                    });
+                    root.getChildren().addAll(btnAddFriend, btnRemove);
+    
+                    // Finally, set our cell to display the root HBox
+                    setText(null);
+                    setGraphic(root);
+                }
+            }
+        });
     }
 }

@@ -79,14 +79,16 @@ public class MoodListViewController extends GenericController{
     private void updateList() {
         originalList = MoodManager.getInstance().getMoods();
         moodDataList = FXCollections.observableArrayList(originalList);
+        if (moodDataList.size()<=0)
+            moodDataList.add(null);
         
         livMoodList.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(MoodData mood, boolean empty) {
                 super.updateItem(mood, empty);
-
+                
                 if (mood == null || empty) {
-                    setText(null);
+                    setText("Hier könnte ihre Werbung stehen!");
                 } else {
                     // Here we can build the layout we want for each ListCell. Let's use a HBox as our root.
                     HBox root = new HBox(10);
@@ -102,17 +104,29 @@ public class MoodListViewController extends GenericController{
                     root.getChildren().add(region);
     
                     // Now for our buttons
-                    Button btnAddFriend = new Button("Edit");
-                    btnAddFriend.setOnAction(event -> {
+                    Button btnEdit = new Button("Edit");
+                    btnEdit.setOnAction(event -> {
                         // Code to add friend
                         log.debug("Edit Mood ID: " + mood.getMoodID());
                     });
-                    Button btnRemove = new Button("Delete");
-                    btnRemove.setOnAction(event -> {
+                    Button btnDelete = new Button("Delete");
+                    btnDelete.setOnAction(event -> {
                         // Code to remove friend
                         log.debug("Delete Mood ID " + mood.getMoodID());
                     });
-                    root.getChildren().addAll(btnAddFriend, btnRemove);
+                    
+                    btnEdit.setVisible(false);
+                    btnDelete.setVisible(false);
+                    root.setOnMouseEntered(mouseEvent -> {
+                        btnEdit.setVisible(true);
+                        btnDelete.setVisible(true);
+                    });
+                    root.setOnMouseExited(mouseEvent -> {
+                        btnEdit.setVisible(false);
+                        btnDelete.setVisible(false);
+                    });
+                    
+                    root.getChildren().addAll(btnEdit, btnDelete);
     
                     // Finally, set our cell to display the root HBox
                     setText(null);

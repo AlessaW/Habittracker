@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<HBox fx:id="root" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jap.controller.MoodListItemController">
+   <children>
+      <HBox alignment="CENTER_LEFT" HBox.hgrow="SOMETIMES">
+         <children>
+            <Label fx:id="lblDate" prefHeight="17.0" prefWidth="100.0" text="Label">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblName" prefHeight="17.0" prefWidth="60.0" text="Label">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblDescription" prefHeight="17.0" prefWidth="50.0" text="LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" HBox.hgrow="NEVER">
+         <children>
+            <Button fx:id="btnEdit" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#btnEditAction" text="Edit">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnDelete" alignment="CENTER_RIGHT" cancelButton="true" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#btnDeleteAction" text="Delete" />
+         </children>
+         <padding>
+            <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+         </padding>
+      </HBox>
+   </children>
+</HBox>

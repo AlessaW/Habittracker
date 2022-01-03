@@ -74,7 +74,7 @@ public class SceneManager {
             log.error("Load Exception: " + e.getMessage());
         }
         catch (IOException e) {
-            e.printStackTrace();
+            log.error("IO Exception: " + e.getMessage());
         }
         
         switchScene(state);

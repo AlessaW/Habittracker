@@ -1,0 +1,144 @@
+/* VARIABLE DEFINITIONS: Only these 4 variables have to be adjusted, the rest is copy-paste */
+* {
+	/* menu */
+    -fx-menu-color: orange; 
+	-fx-menu-color-highlighted: #da6328;
+	/* dropdown */
+    -fx-dropmenu-color: #f7ce78;
+	-fx-dropmenu-color-highlighted: #c4930d;
+     /* font */
+    -fx-menu-font-color: black;
+    -fx-menu-font-color-highlighted: #FFFFFF;
+
+
+	/* buttons */
+	-fx-button-color: -fx-menu-color;
+	-fx-button-color-highlighted: -fx-menu-color-highlighted;
+	-fx-button-font-color: -fx-menu-font-color;
+	-fx-button-font-color-highlighted: -fx-menu-font-color-highlighted;
+
+	/*background*/
+	-fx-pane-background-color: #575485;
+	
+	   /* textfields */
+    -fx-textfield-background-color: white;
+}
+
+
+.button {
+    -fx-background-color: -fx-button-color;
+	-fx-border-width: 0px;
+	-fx-border-radius: 2px;
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 0, 0, 3, 3);
+    }
+.button:hover{
+	-fx-background-color: -fx-button-color-highlighted;
+	-fx-text-fill: -fx-button-font-color-highlighted;
+
+}
+
+.input{
+    -fx-background-color: -fx-textfield-background-color;
+    -fx-effect: innershadow(two-pass-box, black, 3, 1, 3, 3);
+}
+
+.background{
+	-fx-background-color: -fx-pane-background-color;
+}
+
+.label{
+	-fx-text-fill: -fx-button-font-color-highlighted
+}
+
+/* slider */
+.slider .track{
+    -fx-background-color: -fx-menu-color;
+	-fx-border-radius: 0;
+}
+
+.slider .thumb{
+    -fx-background-radius: 0.1;
+    -fx-background-color: -fx-menu-color;
+    -fx-pref-height: 15px;
+    -fx-pref-width: 7px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 0, 0, 3, 3);
+}
+
+
+
+
+/* MENU BAR + Top-level MENU BUTTONS */
+/*** The menu bar itself ***/    
+.menu-bar {
+    -fx-background-color: -fx-menu-color;
+}
+
+/*** Top-level menu itself (not selected / hovered) ***/
+.menu-bar > .container > .menu-button {
+    -fx-background-color: -fx-menu-color;
+}
+
+/*** Top-level menu's label (not selected / hovered) ***/
+.menu-bar > .container > .menu-button > .label {
+    -fx-text-fill: -fx-menu-font-color;
+}
+
+/*** Top-level menu's label (disabled) ***/
+.menu-bar > .container > .menu-button > .label:disabled {
+    -fx-opacity: 1.0;
+}
+
+/*** Top-level menu itself (selected / hovered) ***/
+.menu-bar > .container > .menu-button:hover,
+.menu-bar > .container > .menu-button:focused,
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: -fx-menu-color-highlighted;
+}
+
+/*** Top-level menu's label (selected / hovered) ***/
+.menu-bar > .container > .menu-button:hover > .label,
+.menu-bar > .container > .menu-button:focused > .label,
+.menu-bar > .container > .menu-button:showing > .label {
+    -fx-text-fill: -fx-menu-font-color-highlighted;
+}
+
+/* MENU ITEM (children of a MENU BUTTON) */
+/*** The item itself (not hovered / focused) ***/    
+.menu-item {
+    -fx-background-color: -fx-dropmenu-color; 
+}
+
+/*** The item's label (not hovered / focused) ***/   
+.menu-item .label {
+    -fx-text-fill: -fx-menu-font-color;
+}
+
+/*** The item's label (disabled) ***/   
+.menu-item .label:disabled {
+    -fx-opacity: 1.0;
+}    
+
+/*** The item itself (hovered / focused) ***/    
+.menu-item:focused, .menu-item:hovered {
+    -fx-background-color: -fx-dropmenu-color-highlighted; 
+}
+
+/*** The item's label (hovered / focused) ***/  
+.menu-item:focused .label, .menu-item:hovered .label {
+    -fx-text-fill: -fx-menu-font-color-highlighted;
+}
+
+/* CONTEXT MENU */
+/*** The context menu that contains a menu's menu items ***/  
+.context-menu {
+    -fx-background-color: -fx-dropmenu-color; 
+	-fx-border-radius: 10px;
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 0, 0, 3, 3);
+}
+.context-menu:hovered {
+    -fx-background-color: -fx-dropmenu-color-higlighted; 
+}
+.context-menu .separator:horizontal .line {
+    -fx-border-color: -fx-pane-background-color transparent transparent transparent;
+    -fx-border-insets: 1 0 0 0;
+}

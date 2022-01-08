@@ -29,6 +29,7 @@ public class SceneManager {
     
     // configuration constants
     public final static States DEFAULT_WINDOW_STATE = States.STARTUP_MENU;
+    public final static int HISTORY_LIMIT = 200;
     
     // Enum declaration
     /**
@@ -127,6 +128,9 @@ public class SceneManager {
     public void switchScene(States state) {
         if (state != currentState) {
             statesHistory.add(state);
+            if (statesHistory.size() > HISTORY_LIMIT) {
+                statesHistory.remove(0);
+            }
             softLoadScene(state);
             if (currentState != null)
                 getCurrentController().deactivate();

@@ -2,6 +2,7 @@ package org.jap.model.mood;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jap.model.datahandler.DataManager;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -19,14 +20,28 @@ import java.time.format.FormatStyle;
 public class MoodData {
     private static final Logger log = LogManager.getLogger(MoodData.class);
     //variable for auto incrementation of MoodID
-    private static int id = 0;
+    private static int id = 0; //maxValue+1 from Database
+
+    /**
+     * gets the maximumID from the database and sets the static id incremented by one
+     */
+    public static void getIDFromDatabase(DataManager dataManager){
+        id = dataManager.getMaxID()+1;
+    }
 
     private final String name;
     private final String description;
     private final int moodID;
-    private final LocalDateTime timeStamp; //Todo: which time format is good? Sys-Time as a default value on object creation
-    private final int activityLevel; //Todo: range from -10 to 10 useful?
-    private final int moodValue; //Todo: range from -10 to 10 useful?
+    private final LocalDateTime timeStamp;
+    private final int activityLevel;
+    private final int moodValue;
+
+    public static final int DEFAULT_MOODVALUE = 5;
+    public static final int DEFAULT_ACTIVITYLEVEL = 5;
+    public static final int MAX_MOODVALUE = 10;
+    public static final int MIN_MOODVALUE = 0;
+    public static final int MAX_ACTIVITYLEVEL = 10;
+    public static final int MIN_ACTIVITYLEVEL = 0;
 
     //construction for creating specific moodID
     public MoodData(int moodID, String name, String description , LocalDateTime timeStamp, int activityLevel, int moodValue) {

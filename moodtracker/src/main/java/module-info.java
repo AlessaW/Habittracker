@@ -4,6 +4,7 @@ module gui {
     requires org.apache.logging.log4j;
     requires org.json;
     requires java.sql;
+    requires org.xerial.sqlitejdbc;
 
 //    opens org.examples to javafx.fxml;    // uncomment if examples are needed
 //    exports org.examples;

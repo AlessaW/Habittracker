@@ -29,6 +29,7 @@ public class MenuBarController extends GenericController{
         log.trace("set Scene "+state+", list size now: "+list.size());
     }
     
+    // FXML Event Handler
     @FXML
     public void mniGeneralMainMenu() {
         log.trace("Clicked Menu Item: General > Main Menu");
@@ -62,13 +63,13 @@ public class MenuBarController extends GenericController{
     @FXML
     public void mniEditEditMood() {
         log.trace("Clicked Menu Item: Edit > Edit Mood");
-        //Todo
+        getSceneManager().switchScene(SceneManager.States.MOOD_LIST_VIEW);
     }
     
     @FXML
     public void mniEditDeleteMood() {
         log.trace("Clicked Menu Item: Edit > Delete Mood");
-        //Todo
+        getSceneManager().switchScene(SceneManager.States.MOOD_LIST_VIEW);
     }
     
     @FXML
@@ -81,6 +82,12 @@ public class MenuBarController extends GenericController{
     public void mniEditUndo() {
         log.trace("Clicked Menu Item: Edit > Undo");
         //Todo
+    }
+    
+    @FXML
+    public void mniViewsBack() {
+        log.trace("Clicked Menu Item: General > Back");
+        getSceneManager().returnToPreviousValidScene();
     }
     
     @FXML

@@ -69,6 +69,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Views">
           <items>
+                  <MenuItem mnemonicParsing="false" onAction="#mniViewsBack" text="Back" />
             <MenuItem mnemonicParsing="false" onAction="#mniViewsStats" text="Stats" />
                   <MenuItem mnemonicParsing="false" onAction="#mniViewsList" text="List" />
           </items>

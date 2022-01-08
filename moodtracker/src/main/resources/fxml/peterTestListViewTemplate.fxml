@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox fx:id="root" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jap.controller.MoodListItemController">
+<HBox fx:id="root" styleClass="background" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jap.controller.MoodListItemController">
    <children>
       <HBox alignment="CENTER_LEFT" HBox.hgrow="SOMETIMES">
          <children>

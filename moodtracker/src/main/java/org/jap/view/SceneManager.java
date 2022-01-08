@@ -9,8 +9,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jap.controller.CreateMoodMenuController;
 import org.jap.controller.GenericController;
 import org.jap.controller.MenuBarController;
+import org.jap.model.mood.MoodData;
 
 public class SceneManager {
     private static final Logger log = LogManager.getLogger(SceneManager.class);
@@ -32,7 +34,7 @@ public class SceneManager {
         STARTUP_MENU("/fxml/startupMenu.fxml"),
         CREATE_MOOD("/fxml/createMood.fxml"),
         MOOD_LIST_VIEW("/fxml/moodListView.fxml"),
-//        EDIT_MOOD("/fxml/editMood.fxml"),
+        EDIT_MOOD("/fxml/createMood.fxml"),
 //        VIEW_STATS("/fxml/viewStats.fxml"),
         ;
         
@@ -136,6 +138,15 @@ public class SceneManager {
         menuBarController.deactivate();
         
         rootStage.close();
+    }
+    
+    /**
+     * Method to give a mood to the controller
+     * @param mood the mood to be edited
+     */
+    public void editMood(MoodData mood) {
+        switchScene(States.EDIT_MOOD);
+        ((CreateMoodMenuController) controllers[States.EDIT_MOOD.ordinal()]).preloadMood(mood);
     }
     
     /**

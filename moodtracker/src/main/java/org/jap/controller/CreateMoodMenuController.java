@@ -1,10 +1,7 @@
 package org.jap.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.mood.MoodData;
@@ -36,6 +33,10 @@ public class CreateMoodMenuController extends GenericController {
     @FXML private DatePicker dtpDate;
     @FXML private Spinner<Integer> spnHour;
     @FXML private Spinner<Integer> spnMinute;
+    @FXML private Button btnOk;
+    @FXML private Button btnCancel;
+    
+    private MoodData mood;
     
     // Methods
     /**
@@ -69,6 +70,22 @@ public class CreateMoodMenuController extends GenericController {
         dtpDate.setValue(LocalDate.now());
         spnHour.getValueFactory().setValue(LocalTime.now().getHour());
         spnMinute.getValueFactory().setValue(LocalTime.now().getMinute());
+        
+//        btnOk.setText("Create");
+    }
+    
+    public void preloadMood(MoodData m) {
+        mood = m;
+    
+        txfName.setText(mood.getName());
+        txfDescription.setText(mood.getDescription());
+        sliMood.setValue(mood.getMoodValue());
+        sliActivation.setValue(mood.getActivityLevel());
+        dtpDate.setValue(mood.getTimeStamp().toLocalDate());
+        spnHour.getValueFactory().setValue(mood.getTimeStamp().toLocalTime().getHour());
+        spnMinute.getValueFactory().setValue(mood.getTimeStamp().toLocalTime().getMinute());
+        
+//        btnOk.setText("Change");
     }
     
     /**
@@ -77,6 +94,7 @@ public class CreateMoodMenuController extends GenericController {
     @FXML public void btnOkAction() {
         log.debug("Ok Button Clicked");
         
+        // Read all User Inputs
         String name = txfName.getText();
         String description = txfDescription.getText();
         int moodValue = Math.round((float) sliMood.getValue());
@@ -85,6 +103,7 @@ public class CreateMoodMenuController extends GenericController {
         if (dtpDate.getValue() != null) date = dtpDate.getValue();
         LocalDateTime dateTime = date.atTime(spnHour.getValue(), spnMinute.getValue());
         
+        // Debug Log
         log.debug("User Input:");
         log.debug("   Name: "+name);
         log.debug("   Description: "+description);
@@ -92,12 +111,28 @@ public class CreateMoodMenuController extends GenericController {
         log.debug("   Activation: "+activation);
         log.debug("   DateTime: "+dateTime.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)));
         
-        // Todo: interaction with the Model
-        MoodData createdMood = new MoodData(name,description,dateTime,activation,moodValue);
-        MoodManager.getInstance().addMood(createdMood);
-        log.debug("Created mood with MoodID: "+createdMood.getMoodID());
+        // Interaction with the model
+        if (mood == null) {
+            MoodData createdMood = new MoodData(name, description, dateTime, activation, moodValue);
+            MoodManager.getInstance().addMood(createdMood);
+            log.debug("Created mood with MoodID: "+createdMood.getMoodID());
+        } else {
+            if (!mood.getName().equals(name))
+                MoodManager.getInstance().changeName(mood,name);
+            if (!mood.getDescription().equals(description))
+                MoodManager.getInstance().changeDescription(mood,description);
+            if (mood.getMoodValue() != moodValue)
+                MoodManager.getInstance().changeMoodValue(mood,moodValue);
+            if (mood.getActivityLevel() != activation)
+                MoodManager.getInstance().changeActivityLevel(mood,activation);
+            if (!mood.getTimeStamp().equals(dateTime))
+                MoodManager.getInstance().changeTimeStamp(mood,dateTime);
+            
+            log.debug("Changed mood with MoodID: "+mood.getMoodID());
+        }
         log.debug("There are now "+MoodManager.getInstance().getMoods().size()+" moods saved");
         
+        // return to previous scene
         getSceneManager().switchScene(SceneManager.States.STARTUP_MENU);
     }
     

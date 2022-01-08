@@ -37,6 +37,7 @@ public class CreateMoodMenuController extends GenericController {
     @FXML private Button btnCancel;
     
     private MoodData mood;
+    private boolean editMode = false;
     
     // Methods
     /**
@@ -59,6 +60,8 @@ public class CreateMoodMenuController extends GenericController {
      * resets the input of the gui controls
      */
     private void resetInput() {
+        editMode = false;
+        
         txfName.setText("");
         txfDescription.setText("");
         sliMood.setMin(MoodData.MIN_MOODVALUE);
@@ -74,16 +77,22 @@ public class CreateMoodMenuController extends GenericController {
 //        btnOk.setText("Create");
     }
     
-    public void preloadMood(MoodData m) {
-        mood = m;
+    /**
+     * used for edit mode
+     * <br> loads a mood into the gui controls
+     * @param mood the mood to load
+     */
+    public void preloadMood(MoodData mood) {
+        this.mood = mood;
+        editMode = true;
     
-        txfName.setText(mood.getName());
-        txfDescription.setText(mood.getDescription());
-        sliMood.setValue(mood.getMoodValue());
-        sliActivation.setValue(mood.getActivityLevel());
-        dtpDate.setValue(mood.getTimeStamp().toLocalDate());
-        spnHour.getValueFactory().setValue(mood.getTimeStamp().toLocalTime().getHour());
-        spnMinute.getValueFactory().setValue(mood.getTimeStamp().toLocalTime().getMinute());
+        txfName.setText(this.mood.getName());
+        txfDescription.setText(this.mood.getDescription());
+        sliMood.setValue(this.mood.getMoodValue());
+        sliActivation.setValue(this.mood.getActivityLevel());
+        dtpDate.setValue(this.mood.getTimeStamp().toLocalDate());
+        spnHour.getValueFactory().setValue(this.mood.getTimeStamp().toLocalTime().getHour());
+        spnMinute.getValueFactory().setValue(this.mood.getTimeStamp().toLocalTime().getMinute());
         
 //        btnOk.setText("Change");
     }
@@ -112,7 +121,7 @@ public class CreateMoodMenuController extends GenericController {
         log.debug("   DateTime: "+dateTime.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)));
         
         // Interaction with the model
-        if (mood == null) {
+        if (!editMode) {
             MoodData createdMood = new MoodData(name, description, dateTime, activation, moodValue);
             MoodManager.getInstance().addMood(createdMood);
             log.debug("Created mood with MoodID: "+createdMood.getMoodID());
@@ -133,7 +142,7 @@ public class CreateMoodMenuController extends GenericController {
         log.debug("There are now "+MoodManager.getInstance().getMoods().size()+" moods saved");
         
         // return to previous scene
-        getSceneManager().switchScene(SceneManager.States.STARTUP_MENU);
+        getSceneManager().returnToPreviousValidScene();
     }
     
     /**
@@ -141,6 +150,6 @@ public class CreateMoodMenuController extends GenericController {
      */
     @FXML public void btnCancelAction() {
         log.debug("Cancel Button Clicked");
-        getSceneManager().switchScene(SceneManager.States.STARTUP_MENU);
+        getSceneManager().returnToPreviousValidScene();
     }
 }

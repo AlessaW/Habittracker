@@ -1,6 +1,7 @@
 package org.jap.view;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.LoadException;
@@ -24,6 +25,10 @@ public class SceneManager {
     private MenuBarController menuBarController;
     
     private States currentState;
+    private final ArrayList<States> statesHistory = new ArrayList<>();
+    
+    // configuration constants
+    public final static States DEFAULT_WINDOW_STATE = States.STARTUP_MENU;
     
     // Enum declaration
     /**
@@ -51,7 +56,7 @@ public class SceneManager {
      * @param stage the stage to set the scene up in
      */
     public SceneManager(Stage stage) {
-        this(stage, States.STARTUP_MENU); // Default window state
+        this(stage, DEFAULT_WINDOW_STATE); // Default window state
     }
     
     /**
@@ -120,12 +125,65 @@ public class SceneManager {
      * @param state the window state to load the scene for
      */
     public void switchScene(States state) {
-        softLoadScene(state);
-        if(currentState!=null)
-            getCurrentController().deactivate();
-        currentState = state;
-        menuBarController.setScene(getCurrentController().getScene(),state);
-        getCurrentController().activate();
+        if (state != currentState) {
+            statesHistory.add(state);
+            softLoadScene(state);
+            if (currentState != null)
+                getCurrentController().deactivate();
+            currentState = state;
+            menuBarController.setScene(getCurrentController().getScene(), state);
+            getCurrentController().activate();
+            debugStatesHistory();
+        } else {
+            log.debug("Scene is already presented");
+        }
+    }
+    
+    private void debugStatesHistory() {
+        log.debug("States History: ");
+        for (int i = 0; i<statesHistory.size(); i++) {
+            log.debug("["+i+"] "+statesHistory.get(i));
+        }
+    }
+    
+    public void returnToPreviousValidScene() {
+        States previousState = null;
+        int historyStep = 0;
+    
+        for (int i = statesHistory.size()-1; i>=0; i--) {
+            if (!statesHistory.get(i).equals(currentState) && isValidState(statesHistory.get(i)))
+            {
+                historyStep = i;
+                previousState = statesHistory.get(i);
+                break;
+            }
+        }
+        
+        if (previousState != null && previousState != currentState) {
+            statesHistory.subList(historyStep, statesHistory.size()).clear();
+            switchScene(previousState);
+        }
+    }
+    
+    /**
+     * @return the last valid state to return to
+     * <br> a state is valid if it makes sense to return to it from another state
+     * <br> e.g. EDIT_MOOD is invalid. if we return to it without setting a mood, it is unclear which mood to edit
+     * <br> instead of the invalid state OR if it is equal to the current state, it tries the next previous state
+     * <br> if no valid state is found it returns the default window state
+     */
+    public States getPreviousValidScene() {
+        States previousState = DEFAULT_WINDOW_STATE;
+        
+        for (int i = statesHistory.size()-1; i>0; i--) {
+            if (!statesHistory.get(i).equals(currentState) && isValidState(statesHistory.get(i)))
+            {
+                previousState = statesHistory.get(i);
+                break;
+            }
+        }
+        
+        return previousState;
     }
     
     /**
@@ -147,6 +205,19 @@ public class SceneManager {
     public void editMood(MoodData mood) {
         switchScene(States.EDIT_MOOD);
         ((CreateMoodMenuController) controllers[States.EDIT_MOOD.ordinal()]).preloadMood(mood);
+    }
+    
+    /**
+     * @param state the state to validate
+     * @return true if the state is a valid state to return to
+     * <br> a state is valid if it makes sense to return to it from another state
+     * <br> e.g. EDIT_MOOD is invalid. if we return to it without setting a mood, it is unclear which mood to edit
+     */
+    private boolean isValidState(States state) {
+        return ( // invalid states to not return to
+//            state != States.CREATE_MOOD && // may be valid because it gets reset every time its activated
+            state != States.EDIT_MOOD
+        );
     }
     
     /**

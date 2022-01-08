@@ -65,7 +65,6 @@ public class MoodListItemController {
     public void btnEditAction() {
         log.debug("Button Edit Pressed on ID: "+mood.getMoodID());
         sceneManager.editMood(mood); // Send a Copy of mood to Edit
-        listController.updateList();
     }
     
     @FXML

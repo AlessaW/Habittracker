@@ -40,11 +40,14 @@ public class MoodListViewController extends GenericController{
     // FXML Fields
     @FXML private ListView<MoodData> livMoodList;
     
+    // configuration constants
+    private static final ItemTemplate DEFAULT_ITEM_TEMPLATE = ItemTemplate.PETER_TEST;
+    
     // enum
     public enum ItemTemplate {
-        PETER_TEST("/fxml/peterTestListViewTemplate.fxml"),
         HBOX("/fxml/hBoxListViewTemplate.fxml"),
 //        VBOX("/fxml/vBox.fxml"),
+        PETER_TEST("/fxml/peterTestListViewTemplate.fxml"),
         ;
     
         public final String url;
@@ -64,7 +67,7 @@ public class MoodListViewController extends GenericController{
     public void initController(SceneManager sceneManager, Parent scene) {
         super.initController(sceneManager, scene);
         
-        setTemplate(ItemTemplate.PETER_TEST);
+        setTemplate(DEFAULT_ITEM_TEMPLATE);
         
         moodDataList = livMoodList.getItems();
         updateList();
@@ -93,7 +96,7 @@ public class MoodListViewController extends GenericController{
     @FXML
     public void btnBackAction() {
         log.debug("Back Button Clicked");
-        getSceneManager().switchScene(SceneManager.States.STARTUP_MENU);
+        getSceneManager().returnToPreviousValidScene();
     }
     
     /**

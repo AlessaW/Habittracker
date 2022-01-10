@@ -49,9 +49,10 @@ public class MoodManager {
      * @param activityLevel
      * @param moodValue the positivity or negativity of a mood
      */
-    public void createMood(String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
+    public MoodData createMood(String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
         MoodData result = new MoodData(name, description, timeStamp, activityLevel, moodValue);
         addMood(result);
+        return result;
     }
 
     /**
@@ -65,32 +66,19 @@ public class MoodManager {
     }
 
 
-    public void changeName(MoodData mood, String name){
-        MoodData newMood = new MoodData(mood.getMoodID(), name,mood.getDescription(),mood.getTimeStamp(), mood.getActivityLevel(), mood.getMoodValue());
-        deleteMood(mood);
+    public MoodData createMood(int MoodID, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
+        MoodData newMood = new MoodData(MoodID, name, description, timeStamp, activityLevel, moodValue);
         addMood(newMood);
+        return newMood;
     }
 
-    public void changeDescription(MoodData mood, String description){
-        MoodData newMood = new MoodData(mood.getMoodID(), mood.getName(), description,mood.getTimeStamp(), mood.getActivityLevel(), mood.getMoodValue());
+    public MoodData changeMood(MoodData mood, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
+        MoodData newMood = new MoodData(mood.getMoodID(), name, description, timeStamp, activityLevel, moodValue);
         deleteMood(mood);
         addMood(newMood);
+        return newMood;
     }
-    public void changeTimeStamp(MoodData mood, LocalDateTime timeStamp){
-        MoodData newMood = new MoodData(mood.getMoodID(), mood.getName(),mood.getDescription(), timeStamp, mood.getActivityLevel(), mood.getMoodValue());
-        deleteMood(mood);
-        addMood(newMood);
-    }
-    public void changeActivityLevel(MoodData mood, int activityLevel){
-        MoodData newMood = new MoodData(mood.getMoodID(), mood.getName(),mood.getDescription(),mood.getTimeStamp(), activityLevel, mood.getMoodValue());
-        deleteMood(mood);
-        addMood(newMood);
-    }
-    public void changeMoodValue(MoodData mood, int moodValue){
-        MoodData newMood = new MoodData(mood.getMoodID(), mood.getName(),mood.getDescription(),mood.getTimeStamp(), mood.getActivityLevel(), moodValue);
-        deleteMood(mood);
-        addMood(newMood);
-    }
+
 
     public void deleteMood(MoodData mood){
         moods.remove(mood);

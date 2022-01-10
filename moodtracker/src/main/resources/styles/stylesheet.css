@@ -1,28 +1,4 @@
-/* VARIABLE DEFINITIONS: Only these 4 variables have to be adjusted, the rest is copy-paste */
-* {
-	/* menu */
-    -fx-menu-color: orange; 
-	-fx-menu-color-highlighted: #da6328;
-	/* dropdown */
-    -fx-dropmenu-color: #f7ce78;
-	-fx-dropmenu-color-highlighted: #c4930d;
-     /* font */
-    -fx-menu-font-color: black;
-    -fx-menu-font-color-highlighted: #FFFFFF;
 
-
-	/* buttons */
-	-fx-button-color: -fx-menu-color;
-	-fx-button-color-highlighted: -fx-menu-color-highlighted;
-	-fx-button-font-color: -fx-menu-font-color;
-	-fx-button-font-color-highlighted: -fx-menu-font-color-highlighted;
-
-	/*background*/
-	-fx-pane-background-color: #575485;
-	
-	   /* textfields */
-    -fx-textfield-background-color: white;
-}
 
 
 .button {
@@ -37,33 +13,13 @@
 
 }
 
-.input{
-    -fx-background-color: -fx-textfield-background-color;
-    -fx-effect: innershadow(two-pass-box, black, 3, 1, 3, 3);
-}
-
 .background{
 	-fx-background-color: -fx-pane-background-color;
 }
 
 .label{
-	-fx-text-fill: -fx-button-font-color-highlighted
+	-fx-text-fill: -fx-button-font-color-highlighted;
 }
-
-/* slider */
-.slider .track{
-    -fx-background-color: -fx-menu-color;
-	-fx-border-radius: 0;
-}
-
-.slider .thumb{
-    -fx-background-radius: 0.1;
-    -fx-background-color: -fx-menu-color;
-    -fx-pref-height: 15px;
-    -fx-pref-width: 7px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 0, 0, 3, 3);
-}
-
 
 
 
@@ -142,3 +98,16 @@
     -fx-border-color: -fx-pane-background-color transparent transparent transparent;
     -fx-border-insets: 1 0 0 0;
 }
+
+.list-view .list-cell:even {
+    -fx-background-color: -fx-list-view-even;
+    -fx-text-fill: -fx-menu-font-color-highlighted;
+    }
+.list-view .list-cell:odd {
+    -fx-background-color: -fx-list-view-odd;
+    -fx-text-fill: -fx-menu-font-color-highlighted;
+    };
+
+.list-cell {
+        -fx-control-inner-background: -fx-list-view-even ;
+    }

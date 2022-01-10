@@ -1,0 +1,13 @@
+/* slider */
+.slider .track{
+    -fx-background-color: -fx-menu-color;
+	-fx-border-radius: 0;
+}
+
+.slider .thumb{
+    -fx-background-radius: 0.1;
+    -fx-background-color: -fx-menu-color;
+    -fx-pref-height: 15px;
+    -fx-pref-width: 7px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 0, 0, 3, 3);
+}

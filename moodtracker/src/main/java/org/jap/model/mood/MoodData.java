@@ -44,7 +44,7 @@ public class MoodData {
     public static final int MIN_ACTIVITYLEVEL = 0;
 
     //construction for creating specific moodID
-    public MoodData(int moodID, String name, String description , LocalDateTime timeStamp, int activityLevel, int moodValue) {
+    MoodData(int moodID, String name, String description , LocalDateTime timeStamp, int activityLevel, int moodValue) {
         this.name = name;
         this.description = description;
         this.moodID = moodID;
@@ -54,7 +54,7 @@ public class MoodData {
     }
 
     //standard Constructor with auto generated MoodID
-    public MoodData(String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) {
+    MoodData(String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) {
         this.name = name;
         this.description = description;
         this.moodID = id++;

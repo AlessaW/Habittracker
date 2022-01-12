@@ -11,4 +11,5 @@ module gui {
     opens org.jap.controller to javafx.fxml;    // javafx needs the controller classes
     opens org.jap.model.mood to org.json;
     exports org.jap.view;
+    exports org.jap.model.mood; // SceneManager needs MoodData
 }

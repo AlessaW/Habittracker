@@ -20,12 +20,13 @@ public class DataManager {
     // Variables
     private final SaveFileManager saveFileManager;
     
+    // Configuration Constants
     private static final String DEFAULT_FILE_NAME = "UserData";
     
     // Constructor
-    
     /**
      * Default Constructor of a DataManager
+     * <br><b>Do not use this for testing purposes!</b>
      */
     public DataManager() {
         this(DEFAULT_FILE_NAME);
@@ -33,12 +34,14 @@ public class DataManager {
     
     /**
      * Constructor of a DataManager
+     * <br><b>Use only this for testing purposes!</b>
      * @param fileName the database name to access
      */
     public DataManager(String fileName) {
         saveFileManager = SaveFileManagerFactory.getSaveFileManager(SaveFileManagerFactory.SaveFileManagerType.Sqlite,fileName);
     }
     
+    // Methods
     /**
      * Loads all MoodData from the file
      * @return the loaded moods as ArrayList of MoodData

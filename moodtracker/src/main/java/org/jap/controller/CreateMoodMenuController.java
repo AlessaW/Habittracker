@@ -122,22 +122,21 @@ public class CreateMoodMenuController extends GenericController {
         
         // Interaction with the model
         if (!editMode) {
-            MoodData createdMood = new MoodData(name, description, dateTime, activation, moodValue);
+            MoodData createdMood = MoodManager.getInstance().createMood(name, description, dateTime, activation, moodValue);
             MoodManager.getInstance().addMood(createdMood);
             log.debug("Created mood with MoodID: "+createdMood.getMoodID());
         } else {
-            if (!mood.getName().equals(name))
-                MoodManager.getInstance().changeName(mood,name);
-            if (!mood.getDescription().equals(description))
-                MoodManager.getInstance().changeDescription(mood,description);
-            if (mood.getMoodValue() != moodValue)
-                MoodManager.getInstance().changeMoodValue(mood,moodValue);
-            if (mood.getActivityLevel() != activation)
-                MoodManager.getInstance().changeActivityLevel(mood,activation);
-            if (!mood.getTimeStamp().equals(dateTime))
-                MoodManager.getInstance().changeTimeStamp(mood,dateTime);
-            
-            log.debug("Changed mood with MoodID: "+mood.getMoodID());
+            if (
+                (!mood.getName().equals(name)) ||
+                (!mood.getDescription().equals(description)) ||
+                (mood.getMoodValue() != moodValue) ||
+                (mood.getActivityLevel() != activation) ||
+                (!mood.getTimeStamp().equals(dateTime))
+            ) {
+                MoodManager.getInstance().changeMood(mood, name, description, dateTime, activation, moodValue);
+                log.debug("Changed mood with MoodID: "+mood.getMoodID());
+            } else
+                log.debug("No differing values of MoodID: "+mood.getMoodID());
         }
         log.debug("There are now "+MoodManager.getInstance().getMoods().size()+" moods saved");
         

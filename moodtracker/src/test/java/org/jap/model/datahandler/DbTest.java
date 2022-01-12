@@ -19,7 +19,7 @@ public class DbTest {
     @Test
     public void savingMoodsTest(){
 
-        DataManager data = new DataManager();
+        DataManager data = new DataManager("JUnitTestDB");
         data.deleteAllMoods();
 
         LocalDateTime time = LocalDateTime.now();
@@ -37,7 +37,7 @@ public class DbTest {
         Assert.assertEquals(15, mood.getActivityLevel());
         Assert.assertEquals(21, mood.getMoodValue());
 
-        ArrayList<MoodData> exampleList = new ArrayList<MoodData>();
+        ArrayList<MoodData> exampleList = new ArrayList<>();
         exampleList.add(MoodManager.getInstance().createMood("exampleMood", "", time, 5, -1));
         exampleList.add(MoodManager.getInstance().createMood("exampleMood2", "", time, 2, 1));
         exampleList.add(MoodManager.getInstance().createMood("exampleMood3", "", time, -3, -5));
@@ -52,7 +52,7 @@ public class DbTest {
 
     @Test
     public void testDeletingMoods(){
-        DataManager data = new DataManager();
+        DataManager data = new DataManager("JUnitTestDB");
         data.deleteAllMoods();
 
         Assert.assertEquals(data.loadMoods().size(), 0);

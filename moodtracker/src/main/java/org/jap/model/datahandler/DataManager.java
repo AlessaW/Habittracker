@@ -20,13 +20,22 @@ public class DataManager {
     // Variables
     private final SaveFileManager saveFileManager;
     
+    private static final String DEFAULT_FILE_NAME = "UserData";
+    
     // Constructor
     
     /**
-     *
+     * Default Constructor of a DataManager
      */
     public DataManager() {
-        String fileName = "UserData";
+        this(DEFAULT_FILE_NAME);
+    }
+    
+    /**
+     * Constructor of a DataManager
+     * @param fileName the database name to access
+     */
+    public DataManager(String fileName) {
         saveFileManager = SaveFileManagerFactory.getSaveFileManager(SaveFileManagerFactory.SaveFileManagerType.Sqlite,fileName);
     }
     

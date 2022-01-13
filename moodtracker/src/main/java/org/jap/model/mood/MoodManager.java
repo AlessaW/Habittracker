@@ -20,17 +20,17 @@ import java.util.List;
 public class MoodManager {
     private static final Logger log = LogManager.getLogger(MoodManager.class);
 
-    private DataManager dataManager;
+    private final DataManager dataManager;
 
-    private List<MoodData> moods;
+    private final List<MoodData> moods;
 
     // todo: maybe add a init method for initiation of static variable for better control
-    private static MoodManager instance = new MoodManager();
+    private static final MoodManager instance = new MoodManager();
 
     private MoodManager() {
         this.moods = new ArrayList<MoodData>();
         this.dataManager = new DataManager();
-        moods = dataManager.loadMoods();
+        dataManager.loadMoods();
     }
 
     public static MoodManager getInstance(){

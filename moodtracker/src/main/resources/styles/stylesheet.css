@@ -1,4 +1,10 @@
+.sidepane{
+-fx-background-color: -fx-pane-background-color;
+}
 
+.backgroundStats{
+-fx-background-color: -fx-pane-background-color-light;
+}
 
 
 .button {

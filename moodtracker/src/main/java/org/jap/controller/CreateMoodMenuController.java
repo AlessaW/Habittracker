@@ -77,7 +77,7 @@ public class CreateMoodMenuController extends GenericController {
         log.debug("   DateTime: "+dateTime.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)));
         
         // Todo: interaction with the Model
-        MoodData createdMood = MoodManager.getInstance().createMood(name,description,dateTime,activation,moodValue);
+        MoodData createdMood = new MoodData(name,description,dateTime,activation,moodValue);
         MoodManager.getInstance().addMood(createdMood);
         log.debug("Created mood with MoodID: "+createdMood.getMoodID());
         log.debug("There are now "+MoodManager.getInstance().getMoods().size()+" moods saved");

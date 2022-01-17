@@ -3,6 +3,7 @@ package org.jap.model.datahandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.mood.MoodData;
+import org.jap.model.mood.MoodManager;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,16 +20,28 @@ public class DataManager {
     // Variables
     private final SaveFileManager saveFileManager;
     
-    // Constructor
+    // Configuration Constants
+    private static final String DEFAULT_FILE_NAME = "UserData";
     
+    // Constructor
     /**
-     *
+     * Default Constructor of a DataManager
+     * <br><b>Do not use this for testing purposes!</b>
      */
     public DataManager() {
-        String fileName = "UserData";
+        this(DEFAULT_FILE_NAME);
+    }
+    
+    /**
+     * Constructor of a DataManager
+     * <br><b>Use only this for testing purposes!</b>
+     * @param fileName the database name to access
+     */
+    public DataManager(String fileName) {
         saveFileManager = SaveFileManagerFactory.getSaveFileManager(SaveFileManagerFactory.SaveFileManagerType.Sqlite,fileName);
     }
     
+    // Methods
     /**
      * Loads all MoodData from the file
      * @return the loaded moods as ArrayList of MoodData
@@ -112,6 +125,6 @@ public class DataManager {
      */
     private MoodData toMoodData(SimpleMood m) {
         LocalDateTime timestamp = LocalDateTime.parse(m.timestamp(), DateTimeFormatter.ISO_DATE_TIME);
-        return new MoodData(m.id(), m.name(), m.description(), timestamp, m.activity(), m.moodValue());
+        return MoodManager.getInstance().createMood(m.id(), m.name(), m.description(), timestamp, m.activity(), m.moodValue());
     }
 }

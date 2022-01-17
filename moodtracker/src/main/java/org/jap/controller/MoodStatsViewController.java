@@ -4,9 +4,8 @@ import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
-import javafx.scene.chart.LineChart;
 import javafx.scene.control.RadioButton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +32,8 @@ public class MoodStatsViewController extends GenericController{
     @FXML private RadioButton rBtnActivation;
     @FXML private RadioButton rBtnCombined;
     @FXML private LineChart<String, Integer> lineChart; //Todo: private observable List?
+    @FXML private CategoryAxis xAxis;
+    @FXML private NumberAxis yAxis;
 
     private StatsStates statState;
     private final static StatsStates DEFAULT_STATS_STATE = StatsStates.RBTN_COMBINED;
@@ -42,6 +43,9 @@ public class MoodStatsViewController extends GenericController{
     private XYChart.Series<String, Integer> moodValueSeries;
     private XYChart.Series<String, Integer> activationSeries;
     private XYChart.Series<String, Integer> combinedSeries;
+
+
+
 
     // Enum declaration
     /**
@@ -65,13 +69,24 @@ public class MoodStatsViewController extends GenericController{
     @Override
     public void initController(SceneManager sceneManager, Parent scene) {
         super.initController(sceneManager, scene);
+        moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
+        makeActivationSeries();
+        makeCombinedSeries();
+        makeMoodValueSeries();
 
-        switch(statState){
+
+/*        switch(statState){
             case RBTN_MOOD -> rBtnMood.setSelected(true);
-            case RBTN_ACTIVATION -> rBtnActivation.setSelected(true);
-            case RBTN_COMBINED -> rBtnCombined.setSelected(true);
-        }
+            case RBTN_ACTIVATION -> rBtnActivation.setSelected(false);
+            case RBTN_COMBINED -> rBtnCombined.setSelected(false);
+        }*/
 
+
+        lineChart.getData().addAll(combinedSeries, moodValueSeries,activationSeries);
+        moodValueSeries = new XYChart.Series<>();
+
+        moodValueSeries.getData().add(new XYChart.Data<>("Jul", 1));
+        moodValueSeries.getData().add(new XYChart.Data<>("Aug", 5));
         updateChart();
     }
 
@@ -87,6 +102,7 @@ public class MoodStatsViewController extends GenericController{
         log.debug("Radiobutton Activation clicked");
         statState = StatsStates.RBTN_ACTIVATION;
         lineChart.getData().add(activationSeries);
+        log.debug("Data Added");
     }
 
     @FXML
@@ -99,13 +115,12 @@ public class MoodStatsViewController extends GenericController{
     //Display Data Methods
 
     private void updateChart(){
-        //moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
-
-        ObservableList<XYChart.Series<String, Integer>> lineChartData = lineChart.getData(); //Liste aus Linien (Series), die dargestellt werden
+       //Liste aus Linien (Series), die dargestellt werden
 
     }
 
     private void makeMoodValueSeries(){
+        log.debug("MoodValueSeries made");
         moodValueSeries = new XYChart.Series<>();
         moodValueSeries.setName("Moods");
 
@@ -113,12 +128,14 @@ public class MoodStatsViewController extends GenericController{
             String time = mood.getTimeStamp().toString();
             Integer value = mood.getMoodValue();
             moodValueSeries.getData().add(new XYChart.Data<>(time, value));
+            log.debug("Mood");
         }
     }
 
     private void makeActivationSeries(){
         activationSeries = new XYChart.Series<>();
-        activationSeries.setName("Actication");
+        activationSeries.setName("Activation");
+        log.debug("Activation made");
 
         for (MoodData mood : moodDataList) {
             String time = mood.getTimeStamp().toString();

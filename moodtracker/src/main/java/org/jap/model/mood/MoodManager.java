@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.datahandler.DataManager;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,11 @@ public class MoodManager {
     }
 
 
-    public MoodData createMood(int MoodID, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
+    public MoodData createMood(int MoodID, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) throws IOException {
+        if(MoodID < 0 || MoodData.MIN_ACTIVITYLEVEL > activityLevel || activityLevel > MoodData.MAX_ACTIVITYLEVEL){
+            throw new IOException("argument/s invalid");
+        }
+
         MoodData newMood = new MoodData(MoodID, name, description, timeStamp, activityLevel, moodValue);
         addMood(newMood);
         return newMood;

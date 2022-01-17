@@ -24,6 +24,7 @@ public class MoodManager {
     private final DataManager dataManager;
 
     private final List<MoodData> moods;
+    private boolean isLoaded = false;
 
     // todo: maybe add a init method for initiation of static variable for better control
     private static final MoodManager instance = new MoodManager();
@@ -31,7 +32,6 @@ public class MoodManager {
     private MoodManager() {
         this.moods = new ArrayList<MoodData>();
         this.dataManager = new DataManager();
-        dataManager.loadMoods();
     }
 
     public static MoodManager getInstance(){
@@ -39,6 +39,10 @@ public class MoodManager {
     }
 
     public List<MoodData> getMoods() {
+        if (!isLoaded){
+            dataManager.loadMoods();
+            isLoaded = true;
+        }
         return new ArrayList<MoodData>(moods);
     }
 
@@ -68,12 +72,21 @@ public class MoodManager {
 
 
     public MoodData createMood(int MoodID, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) throws IOException {
-        if(MoodID < 0 || MoodData.MIN_ACTIVITYLEVEL > activityLevel || activityLevel > MoodData.MAX_ACTIVITYLEVEL){
+        if(MoodID < 0) {
+            log.error("id < 0: "+MoodID);
+            throw new IOException("argument/s invalid");
+        }
+        else if(MoodData.MIN_ACTIVITYLEVEL > activityLevel) {
+            log.error("MoodData.MIN_ACTIVITYLEVEL > activityLevel: "+activityLevel);
+            throw new IOException("argument/s invalid");
+        }
+        else if(activityLevel > MoodData.MAX_ACTIVITYLEVEL) {
+            log.error("activityLevel > MoodData.MAX_ACTIVITYLEVEL: "+activityLevel);
             throw new IOException("argument/s invalid");
         }
 
         MoodData newMood = new MoodData(MoodID, name, description, timeStamp, activityLevel, moodValue);
-        addMood(newMood);
+        moods.add(newMood);
         return newMood;
     }
 

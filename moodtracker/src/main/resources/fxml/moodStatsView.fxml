@@ -80,10 +80,10 @@
             </Pane>
             <LineChart fx:id="lineChart" layoutX="192.0" layoutY="66.0" prefHeight="275.0" prefWidth="420.0" stylesheets="@../styles/linechart.css">
               <xAxis>
-                <CategoryAxis side="BOTTOM" />
+                <CategoryAxis side="BOTTOM" fx:id="xAxis" />
               </xAxis>
               <yAxis>
-                <NumberAxis minorTickCount="1" side="LEFT" upperBound="9.0" />
+                <NumberAxis fx:id="yAxis" minorTickCount="1" side="LEFT" upperBound="9.0" />
               </yAxis>
             </LineChart>
       </children>

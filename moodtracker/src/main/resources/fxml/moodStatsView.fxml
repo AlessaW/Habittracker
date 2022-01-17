@@ -32,37 +32,51 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jap.controller.MoodStatsViewController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="background" stylesheets="@../styles/stylesheet.css" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="backgroundStats" VBox.vgrow="ALWAYS">
       <children>
-            <Pane prefHeight="400.0" prefWidth="170.0" styleClass="background" stylesheets="@../styles/stylesheet.css">
+            <Pane prefHeight="400.0" prefWidth="170.0">
                <children>
                   <VBox layoutX="23.0" layoutY="77.0" prefHeight="202.0" prefWidth="125.0" styleClass="background" stylesheets="@../styles/stylesheet.css">
                      <children>
-                        <RadioButton fx:id="rBtnMood" mnemonicParsing="false" stylesheets="@../styles/stylesheet.css" text="Mood">
+                        <RadioButton fx:id="rBtnMood" mnemonicParsing="false" onAction="#rBtnMoodAction" stylesheets="@../styles/stylesheet.css" text="Mood">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="viewSelectors" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="rBtnActivation" mnemonicParsing="false" onAction="#rBtnActivationAction" text="Activation" toggleGroup="$viewSelectors">
                            <VBox.margin>
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </RadioButton>
-                        <RadioButton fx:id="rBtnActivation" mnemonicParsing="false" text="Activation">
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </RadioButton>
-                        <RadioButton fx:id="rBtnCombined" mnemonicParsing="false" text="Combined" />
+                        <RadioButton fx:id="rBtnCombined" mnemonicParsing="false" onAction="#rBtnCombinedAction" text="Combined" toggleGroup="$viewSelectors" />
                      </children>
                   </VBox>
                </children>
+               <stylesheets>
+                  <URL value="@../styles/stylesheet.css" />
+                  <URL value="@../styles/colors.css" />
+               </stylesheets>
+               <styleClass>
+                  <String fx:value="background" />
+                  <String fx:value="backgroundStats" />
+               </styleClass>
             </Pane>
             <LineChart fx:id="lineChart" layoutX="192.0" layoutY="66.0" prefHeight="275.0" prefWidth="420.0" stylesheets="@../styles/linechart.css">
               <xAxis>
@@ -73,6 +87,10 @@
               </yAxis>
             </LineChart>
       </children>
+         <stylesheets>
+            <URL value="@../styles/stylesheet.css" />
+            <URL value="@../styles/colors.css" />
+         </stylesheets>
     </AnchorPane>
       <Pane prefHeight="400.0" prefWidth="470.0" styleClass="backgroundStats" stylesheets="@../styles/stylesheet.css" />
   </children>

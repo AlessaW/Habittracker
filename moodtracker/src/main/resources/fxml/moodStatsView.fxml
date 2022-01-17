@@ -43,13 +43,13 @@
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="background" stylesheets="@../styles/stylesheet.css" VBox.vgrow="ALWAYS">
       <children>
-            <Pane prefHeight="400.0" prefWidth="170.0">
+            <Pane prefHeight="400.0" prefWidth="170.0" styleClass="background" stylesheets="@../styles/stylesheet.css">
                <children>
-                  <VBox layoutX="23.0" layoutY="77.0" prefHeight="202.0" prefWidth="125.0">
+                  <VBox layoutX="23.0" layoutY="77.0" prefHeight="202.0" prefWidth="125.0" styleClass="background" stylesheets="@../styles/stylesheet.css">
                      <children>
-                        <RadioButton fx:id="rBtnMood" mnemonicParsing="false" text="Mood">
+                        <RadioButton fx:id="rBtnMood" mnemonicParsing="false" stylesheets="@../styles/stylesheet.css" text="Mood">
                            <VBox.margin>
                               <Insets bottom="5.0" />
                            </VBox.margin>
@@ -64,7 +64,7 @@
                   </VBox>
                </children>
             </Pane>
-            <LineChart layoutX="192.0" layoutY="66.0" prefHeight="275.0" prefWidth="420.0">
+            <LineChart fx:id="lineChart" layoutX="192.0" layoutY="66.0" prefHeight="275.0" prefWidth="420.0" stylesheets="@../styles/linechart.css">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -74,6 +74,6 @@
             </LineChart>
       </children>
     </AnchorPane>
-      <Pane prefHeight="400.0" prefWidth="470.0" />
+      <Pane prefHeight="400.0" prefWidth="470.0" styleClass="backgroundStats" stylesheets="@../styles/stylesheet.css" />
   </children>
 </VBox>

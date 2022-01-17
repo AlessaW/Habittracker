@@ -64,3 +64,4 @@ fabric.properties
 /.idea/misc.xml
 /.idea/uiDesigner.xml
 /.idea/vcs.xml
+/UserData.db

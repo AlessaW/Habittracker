@@ -34,7 +34,7 @@ public class MoodListViewController extends GenericController{
     private static final Logger log = LogManager.getLogger(MoodListViewController.class);
     
     // Variables
-    ObservableList<MoodData> moodDataList;
+    ObservableList<MoodData> moodDataList; //todo: maybe private?
     ItemTemplate currentTemplate = ItemTemplate.values()[0];
     
     // FXML Fields

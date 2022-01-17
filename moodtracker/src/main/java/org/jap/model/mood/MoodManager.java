@@ -29,9 +29,9 @@ public class MoodManager {
     private static final MoodManager instance = new MoodManager();
 
     private MoodManager() {
-        this.moods = new ArrayList<MoodData>();
         this.dataManager = new DataManager();
-        dataManager.loadMoods();
+        MoodData.getIDFromDatabase(dataManager);
+        this.moods = dataManager.loadMoods();
     }
 
     public static MoodManager getInstance(){
@@ -61,7 +61,7 @@ public class MoodManager {
      * /todo: or should moodFactory add moods directly to MoodManager?
      * @param mood
      */
-    public void addMood(MoodData mood){
+    private void addMood(MoodData mood){
         moods.add(mood);
         dataManager.saveMood(mood);
     }
@@ -73,7 +73,7 @@ public class MoodManager {
         }
 
         MoodData newMood = new MoodData(MoodID, name, description, timeStamp, activityLevel, moodValue);
-        addMood(newMood);
+        moods.add(newMood);
         return newMood;
     }
 

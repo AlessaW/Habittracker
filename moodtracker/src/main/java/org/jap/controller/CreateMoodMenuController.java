@@ -122,7 +122,6 @@ public class CreateMoodMenuController extends GenericController {
         // Interaction with the model
         if (!editMode) {
             MoodData createdMood = MoodManager.getInstance().createMood(name, description, dateTime, activation, moodValue);
-            MoodManager.getInstance().addMood(createdMood);
             log.debug("Created mood with MoodID: "+createdMood.getMoodID());
         } else {
             if (

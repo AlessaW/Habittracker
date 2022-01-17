@@ -67,8 +67,8 @@ public class MoodStatsViewController extends GenericController{
      * @param scene        scene is stored in the controller
      */
     @Override
-    public void initController(SceneManager sceneManager, Parent scene) {
-        super.initController(sceneManager, scene);
+    public void initController(SceneManager sceneManager, Parent scene) { //Todo: init schön machen
+        super.initController(sceneManager, scene);                          //Todo: sinnvolle Reihenfolge machen
         moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
         makeActivationSeries();
         makeCombinedSeries();
@@ -150,7 +150,7 @@ public class MoodStatsViewController extends GenericController{
 
         for (MoodData mood : moodDataList) {
             String time = mood.getTimeStamp().toString();
-            Integer combined = mood.getActivityLevel() + mood.getMoodValue(); //Todo: Sinnhaft, wie es berechnet werd?
+            Integer combined = (Math.abs(mood.getActivityLevel()) + Math.abs(mood.getMoodValue()))/2; //Todo: Sinnhaft, wie es berechnet wird?
             combinedSeries.getData().add(new XYChart.Data<>(time, combined));
         }
     }

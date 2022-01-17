@@ -3,8 +3,8 @@ package org.jap.model.datahandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.mood.MoodData;
-import org.jap.model.mood.MoodManager;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -125,6 +125,6 @@ public class DataManager {
      */
     private MoodData toMoodData(SimpleMood m) {
         LocalDateTime timestamp = LocalDateTime.parse(m.timestamp(), DateTimeFormatter.ISO_DATE_TIME);
-        return MoodManager.getInstance().createMood(m.id(), m.name(), m.description(), timestamp, m.activity(), m.moodValue());
+        return new MoodData(m.id(), m.name(), m.description(), timestamp, m.activity(), m.moodValue());
     }
 }

@@ -8,12 +8,14 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.mood.MoodData;
 import org.jap.model.mood.MoodManager;
 import org.jap.view.SceneManager;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 /**
@@ -32,11 +34,14 @@ public class MoodStatsViewController extends GenericController{
     @FXML private RadioButton rBtnCombined;
     @FXML private LineChart<String, Integer> lineChart; //Todo: private observable List?
 
-    private MoodData mood;
     private StatsStates statState;
     private final static StatsStates DEFAULT_STATS_STATE = StatsStates.RBTN_COMBINED;
 
-    private ObservableList<MoodData> moodDataList; //Todo: maybe not private? -> MoodManager könnte drauf zugreifen?
+    private List<MoodData> moodDataList; //Todo: maybe not private? -> MoodManager könnte drauf zugreifen?
+
+    private XYChart.Series<String, Integer> moodValueSeries;
+    private XYChart.Series<String, Integer> activationSeries;
+    private XYChart.Series<String, Integer> combinedSeries;
 
     // Enum declaration
     /**
@@ -46,7 +51,8 @@ public class MoodStatsViewController extends GenericController{
     public enum StatsStates {
         RBTN_MOOD,
         RBTN_ACTIVATION,
-        RBTN_COMBINED
+        RBTN_COMBINED,
+        TEST_STATE
     }
 
 
@@ -60,46 +66,77 @@ public class MoodStatsViewController extends GenericController{
     public void initController(SceneManager sceneManager, Parent scene) {
         super.initController(sceneManager, scene);
 
-
-        ObservableList<XYChart.Series<String, Integer>> lineChartData = lineChart.getData();
-        String time = mood.getTimeStamp().toString();
-        Integer value = mood.getMoodValue();
-        for (MoodData mood : moodDataList) {
-           // lineChartData.add(new XYChart.Series<>(time, value));
-           // lineChart.get
+        switch(statState){
+            case RBTN_MOOD -> rBtnMood.setSelected(true);
+            case RBTN_ACTIVATION -> rBtnActivation.setSelected(true);
+            case RBTN_COMBINED -> rBtnCombined.setSelected(true);
         }
+
         updateChart();
     }
 
-
     @FXML
-    public void rBtnMoodAction() {
+    public void rBtnMoodAction() { //Todo: doch besser checkbox?
         log.debug("Radiobutton Mood clicked");
         statState = StatsStates.RBTN_MOOD;
+        lineChart.getData().add(moodValueSeries);
     }
 
     @FXML
     public void rBtnActivationAction() {
         log.debug("Radiobutton Activation clicked");
         statState = StatsStates.RBTN_ACTIVATION;
+        lineChart.getData().add(activationSeries);
     }
 
     @FXML
     public void rBtnCombinedAction() {
         log.debug("Radiobutton Combined clicked");
         statState = StatsStates.RBTN_COMBINED;
+        lineChart.getData().add(combinedSeries);
     }
+
+    //Display Data Methods
 
     private void updateChart(){
-        moodDataList.clear();
-        moodDataList.addAll(MoodManager.getInstance().getMoods());
+        //moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
+
+        ObservableList<XYChart.Series<String, Integer>> lineChartData = lineChart.getData(); //Liste aus Linien (Series), die dargestellt werden
+
     }
 
+    private void makeMoodValueSeries(){
+        moodValueSeries = new XYChart.Series<>();
+        moodValueSeries.setName("Moods");
 
+        for (MoodData mood : moodDataList) {
+            String time = mood.getTimeStamp().toString();
+            Integer value = mood.getMoodValue();
+            moodValueSeries.getData().add(new XYChart.Data<>(time, value));
+        }
+    }
 
+    private void makeActivationSeries(){
+        activationSeries = new XYChart.Series<>();
+        activationSeries.setName("Actication");
 
+        for (MoodData mood : moodDataList) {
+            String time = mood.getTimeStamp().toString();
+            Integer activation = mood.getActivityLevel();
+            activationSeries.getData().add(new XYChart.Data<>(time, activation));
+        }
+    }
 
+    private void makeCombinedSeries(){
+        combinedSeries = new XYChart.Series<>();
+        combinedSeries.setName("Combined");
 
+        for (MoodData mood : moodDataList) {
+            String time = mood.getTimeStamp().toString();
+            Integer combined = mood.getActivityLevel() + mood.getMoodValue(); //Todo: Sinnhaft, wie es berechnet werd?
+            combinedSeries.getData().add(new XYChart.Data<>(time, combined));
+        }
+    }
 
 
 

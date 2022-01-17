@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.mood.MoodData;
 import org.jap.model.mood.MoodManager;
-import org.jap.view.SceneManager;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -123,7 +122,6 @@ public class CreateMoodMenuController extends GenericController {
         // Interaction with the model
         if (!editMode) {
             MoodData createdMood = MoodManager.getInstance().createMood(name, description, dateTime, activation, moodValue);
-            MoodManager.getInstance().addMood(createdMood);
             log.debug("Created mood with MoodID: "+createdMood.getMoodID());
         } else {
             if (

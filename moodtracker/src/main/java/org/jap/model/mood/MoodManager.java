@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.datahandler.DataManager;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +21,17 @@ import java.util.List;
 public class MoodManager {
     private static final Logger log = LogManager.getLogger(MoodManager.class);
 
-    private DataManager dataManager;
+    private final DataManager dataManager;
 
-    private List<MoodData> moods;
+    private final List<MoodData> moods;
 
     // todo: maybe add a init method for initiation of static variable for better control
-    private static MoodManager instance = new MoodManager();
+    private static final MoodManager instance = new MoodManager();
 
     private MoodManager() {
-        this.moods = new ArrayList<MoodData>();
         this.dataManager = new DataManager();
-        moods = dataManager.loadMoods();
+        MoodData.getIDFromDatabase(dataManager);
+        this.moods = dataManager.loadMoods();
     }
 
     public static MoodManager getInstance(){
@@ -60,15 +61,19 @@ public class MoodManager {
      * /todo: or should moodFactory add moods directly to MoodManager?
      * @param mood
      */
-    public void addMood(MoodData mood){
+    private void addMood(MoodData mood){
         moods.add(mood);
         dataManager.saveMood(mood);
     }
 
 
-    public MoodData createMood(int MoodID, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
+    public MoodData createMood(int MoodID, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) throws IOException {
+        if(MoodID < 0 || MoodData.MIN_ACTIVITYLEVEL > activityLevel || activityLevel > MoodData.MAX_ACTIVITYLEVEL){
+            throw new IOException("argument/s invalid");
+        }
+
         MoodData newMood = new MoodData(MoodID, name, description, timeStamp, activityLevel, moodValue);
-        addMood(newMood);
+        moods.add(newMood);
         return newMood;
     }
 

@@ -3,6 +3,7 @@ package org.jap.model.mood;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Optional;
@@ -26,5 +27,19 @@ public class MoodManagerTests {
         Assert.assertEquals(mood.getTimeStamp(), LocalDateTime.of(2021, Month.DECEMBER, 27, 10,40));
         Assert.assertEquals(mood.getActivityLevel(), 10);
         Assert.assertEquals(mood.getMoodValue(), -10);
+    }
+
+    @Test
+    public void testMoodCreationException() throws IOException {
+
+        LocalDateTime date = LocalDateTime.of(2021, Month.DECEMBER, 27, 10,40);
+        /*
+        Throwable throw = new IOException();
+
+        IOException exception = Assert.assertThrows("", IOException.class,
+                MoodManager.getInstance().createMood(-1,"Panic", "", date, 5, 0) );
+
+        Assert.assertThrows(new IOException(), MoodManager.getInstance().createMood(-1,"Panic", "", date, 5, 0));
+        */
     }
 }

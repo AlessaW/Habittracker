@@ -41,6 +41,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -48,50 +49,53 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="backgroundStats" VBox.vgrow="ALWAYS">
       <children>
-            <Pane prefHeight="400.0" prefWidth="170.0">
+            <HBox prefHeight="400.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox layoutX="23.0" layoutY="77.0" prefHeight="202.0" prefWidth="125.0" styleClass="background" stylesheets="@../styles/stylesheet.css">
+                  <Pane prefHeight="400.0" prefWidth="170.0">
                      <children>
-                        <RadioButton fx:id="rBtnMood" mnemonicParsing="false" onAction="#rBtnMoodAction" stylesheets="@../styles/stylesheet.css" text="Mood">
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                           <toggleGroup>
-                              <ToggleGroup fx:id="viewSelectors" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="rBtnActivation" mnemonicParsing="false" onAction="#rBtnActivationAction" text="Activation" toggleGroup="$viewSelectors">
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </RadioButton>
-                        <RadioButton fx:id="rBtnCombined" mnemonicParsing="false" onAction="#rBtnCombinedAction" text="Combined" toggleGroup="$viewSelectors" />
+                        <VBox layoutX="23.0" layoutY="77.0" prefHeight="202.0" prefWidth="125.0" styleClass="background" stylesheets="@../styles/stylesheet.css">
+                           <children>
+                              <RadioButton fx:id="rBtnMood" mnemonicParsing="false" onAction="#rBtnMoodAction" stylesheets="@../styles/stylesheet.css" text="Mood">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="viewSelectors" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="rBtnActivation" mnemonicParsing="false" onAction="#rBtnActivationAction" text="Activation" toggleGroup="$viewSelectors">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </RadioButton>
+                              <RadioButton fx:id="rBtnCombined" mnemonicParsing="false" onAction="#rBtnCombinedAction" text="Combined" toggleGroup="$viewSelectors" />
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
+                     <stylesheets>
+                        <URL value="@../styles/stylesheet.css" />
+                        <URL value="@../styles/colors.css" />
+                     </stylesheets>
+                     <styleClass>
+                        <String fx:value="background" />
+                        <String fx:value="backgroundStats" />
+                     </styleClass>
+                  </Pane>
+                  <LineChart fx:id="lineChart" prefHeight="275.0" prefWidth="420.0" stylesheets="@../styles/linechart.css">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis fx:id="yAxis" minorTickCount="1" side="LEFT" upperBound="9.0" />
+                    </yAxis>
+                  </LineChart>
                </children>
-               <stylesheets>
-                  <URL value="@../styles/stylesheet.css" />
-                  <URL value="@../styles/colors.css" />
-               </stylesheets>
-               <styleClass>
-                  <String fx:value="background" />
-                  <String fx:value="backgroundStats" />
-               </styleClass>
-            </Pane>
-            <LineChart fx:id="lineChart" layoutX="192.0" layoutY="66.0" prefHeight="275.0" prefWidth="420.0" stylesheets="@../styles/linechart.css">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" fx:id="xAxis" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis fx:id="yAxis" minorTickCount="1" side="LEFT" upperBound="9.0" />
-              </yAxis>
-            </LineChart>
+            </HBox>
       </children>
          <stylesheets>
             <URL value="@../styles/stylesheet.css" />
             <URL value="@../styles/colors.css" />
          </stylesheets>
     </AnchorPane>
-      <Pane prefHeight="400.0" prefWidth="470.0" styleClass="backgroundStats" stylesheets="@../styles/stylesheet.css" />
   </children>
 </VBox>

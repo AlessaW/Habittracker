@@ -130,7 +130,7 @@ public class MoodStatsViewController extends GenericController{
         moodValueSeries = new XYChart.Series<>();
         moodValueSeries.setName("Moods");
 
-        for (MoodData mood : moodDataList) {
+        for (MoodData mood : DataListProvider.moodDataList) {
             String time = mood.getTimeStamp().toString();
             Integer value = mood.getMoodValue();
             moodValueSeries.getData().add(new XYChart.Data<>(time, value));
@@ -143,7 +143,7 @@ public class MoodStatsViewController extends GenericController{
         activationSeries.setName("Activation");
         log.debug("Activation made");
 
-        for (MoodData mood : moodDataList) {
+        for (MoodData mood : DataListProvider.moodDataList) {
             String time = mood.getTimeStamp().toString();
             Integer activation = mood.getActivityLevel();
             activationSeries.getData().add(new XYChart.Data<>(time, activation));
@@ -154,7 +154,7 @@ public class MoodStatsViewController extends GenericController{
         combinedSeries = new XYChart.Series<>();
         combinedSeries.setName("Combined");
 
-        for (MoodData mood : moodDataList) {
+        for (MoodData mood : DataListProvider.moodDataList) {
             String time = mood.getTimeStamp().toString();
             Integer combined = (Math.abs(mood.getActivityLevel()) + Math.abs(mood.getMoodValue()))/2; //Todo: Sinnhaft, wie es berechnet wird?
             combinedSeries.getData().add(new XYChart.Data<>(time, combined));

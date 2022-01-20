@@ -10,7 +10,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
 public class StatsViewTestController {
-    @Override
+   /* @Override
     public void start(Stage stage) {
         //Defining the x axis
         CategoryAxis xAxis = new CategoryAxis();
@@ -52,6 +52,6 @@ public class StatsViewTestController {
         //Displaying the contents of the stage
         stage.show();
     }
-
+*/
 
     }

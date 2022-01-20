@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.CheckBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jap.model.datahandler.DataListProvider;
 import org.jap.model.mood.MoodData;
 import org.jap.model.mood.MoodManager;
 import org.jap.view.SceneManager;
@@ -36,11 +37,15 @@ public class MoodStatsViewController extends GenericController{
     private StatsStates statState;
     private final static StatsStates DEFAULT_STATS_STATE = StatsStates.CB_COMBINED;
 
-    private List<MoodData> moodDataList; //Todo: maybe not private? -> MoodManager könnte drauf zugreifen?
+     //Todo: maybe not private? -> MoodManager könnte drauf zugreifen?
 
     private XYChart.Series<String, Integer> moodValueSeries;
     private XYChart.Series<String, Integer> activationSeries;
     private XYChart.Series<String, Integer> combinedSeries;
+
+    private boolean moodVis = false;
+    private boolean activationVis = false;
+    private boolean combinedVis = false;
 
 
 
@@ -67,7 +72,7 @@ public class MoodStatsViewController extends GenericController{
     @Override
     public void initController(SceneManager sceneManager, Parent scene) { //Todo: init schön machen
         super.initController(sceneManager, scene);                          //Todo: sinnvolle Reihenfolge machen
-        moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
+        DataListProvider.moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
         makeActivationSeries();
         makeCombinedSeries();
         makeMoodValueSeries();
@@ -108,6 +113,9 @@ public class MoodStatsViewController extends GenericController{
         log.debug("Checkbox Combined clicked");
         statState = StatsStates.CB_COMBINED;
         lineChart.getData().add(combinedSeries);
+        log.debug("Data for Combined Added");
+        setSeriesVisible(combinedSeries, true);
+        log.debug("Combined set visible");
     }
 
     //Display Data Methods
@@ -153,6 +161,19 @@ public class MoodStatsViewController extends GenericController{
         }
     }
 
+    private void setSeriesVisible(XYChart.Series<?,?> s, boolean visible) {
+        s.getNode().setVisible(visible); // Toggle visibility of line
+        for (XYChart.Data<?,?> d : s.getData()) {
+            if (d.getNode() != null) {
+                d.getNode().setVisible(visible); // Toggle visibility of every node in the series
+            }
+        }
+    }
+
+    private void setDate(){
+        //Todo: set current date according to
+    }
+
 
 
     /**
@@ -164,12 +185,27 @@ public class MoodStatsViewController extends GenericController{
         //resetInput(); //Todo: hier muss Daten geladen werden
         //todo: reset date von der Zeitauswahl?
         //todo: filter zurücksetzen?
+
+        switch (statState) {
+            case CB_MOOD -> {
+                cbMood.setSelected(true);
+                cbMoodAction();
+            }
+            case CB_ACTIVATION -> {
+                cbActivation.setSelected(true);
+                cbActivationAction();
+            }
+            case CB_COMBINED -> {
+                cbCombined.setSelected(true);
+                cbActivationAction();
+            }
+        }
     }
     /**
      * called when this controller is deactivated
      */
     @Override
-    public void deactivate() {
+    public void deactivate(){
         super.deactivate();
     }
 

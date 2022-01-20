@@ -68,8 +68,14 @@ public class MoodManager {
 
 
     public MoodData createMood(int MoodID, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) throws IOException {
-        if(MoodID < 0 || MoodData.MIN_ACTIVITYLEVEL > activityLevel || activityLevel > MoodData.MAX_ACTIVITYLEVEL){
-            throw new IOException("argument/s invalid");
+        if(MoodID < 0){
+            throw new IOException("MoodID invalid");
+        }
+        if(MoodData.MIN_ACTIVITYLEVEL > activityLevel || activityLevel > MoodData.MAX_ACTIVITYLEVEL){
+            throw new IOException("activityLevel outside of defined range");
+        }
+        if(MoodData.MIN_MOODVALUE > moodValue || moodValue > MoodData.MAX_MOODVALUE){
+            throw new IOException("moodValue outside of defined range");
         }
 
         MoodData newMood = new MoodData(MoodID, name, description, timeStamp, activityLevel, moodValue);

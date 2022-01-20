@@ -3,11 +3,9 @@ package org.jap.controller;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.chart.*;
-import javafx.scene.control.*;
 import javafx.scene.control.CheckBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jap.model.datahandler.DataListProvider;
 import org.jap.model.mood.MoodData;
 import org.jap.model.mood.MoodManager;
 import org.jap.view.SceneManager;
@@ -43,6 +41,8 @@ public class MoodStatsViewController extends GenericController{
     private XYChart.Series<String, Integer> activationSeries;
     private XYChart.Series<String, Integer> combinedSeries;
 
+    public List<MoodData> moodDataList;
+
     private boolean moodVis = false;
     private boolean activationVis = false;
     private boolean combinedVis = false;
@@ -72,7 +72,7 @@ public class MoodStatsViewController extends GenericController{
     @Override
     public void initController(SceneManager sceneManager, Parent scene) { //Todo: init schön machen
         super.initController(sceneManager, scene);                          //Todo: sinnvolle Reihenfolge machen
-        DataListProvider.moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
+        moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
         makeActivationSeries();
         makeCombinedSeries();
         makeMoodValueSeries();

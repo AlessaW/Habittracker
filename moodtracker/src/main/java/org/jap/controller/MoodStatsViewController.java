@@ -1,19 +1,16 @@
 package org.jap.controller;
 
-import javafx.beans.Observable;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.CheckBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.mood.MoodData;
 import org.jap.model.mood.MoodManager;
 import org.jap.view.SceneManager;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -28,15 +25,16 @@ import java.util.List;
 public class MoodStatsViewController extends GenericController{
     private static final Logger log = LogManager.getLogger(MoodStatsViewController.class);
 
-    @FXML private RadioButton rBtnMood; //todo: Mehrfachauswahl ermöglich! -> Checkbox
-    @FXML private RadioButton rBtnActivation;
-    @FXML private RadioButton rBtnCombined;
+    @FXML private CheckBox cbMood;
+    @FXML private CheckBox cbActivation;
+    @FXML private CheckBox cbCombined;
     @FXML private LineChart<String, Integer> lineChart; //Todo: private observable List?
     @FXML private CategoryAxis xAxis;
     @FXML private NumberAxis yAxis;
 
+
     private StatsStates statState;
-    private final static StatsStates DEFAULT_STATS_STATE = StatsStates.RBTN_COMBINED;
+    private final static StatsStates DEFAULT_STATS_STATE = StatsStates.CB_COMBINED;
 
     private List<MoodData> moodDataList; //Todo: maybe not private? -> MoodManager könnte drauf zugreifen?
 
@@ -53,9 +51,9 @@ public class MoodStatsViewController extends GenericController{
      * Holds the path location for the fxml files
      */
     public enum StatsStates {
-        RBTN_MOOD,
-        RBTN_ACTIVATION,
-        RBTN_COMBINED,
+        CB_MOOD,
+        CB_ACTIVATION,
+        CB_COMBINED,
         TEST_STATE
     }
 
@@ -91,24 +89,24 @@ public class MoodStatsViewController extends GenericController{
     }
 
     @FXML
-    public void rBtnMoodAction() { //Todo: doch besser checkbox?
-        log.debug("Radiobutton Mood clicked");
-        statState = StatsStates.RBTN_MOOD;
+    public void cbMoodAction() { //Todo: doch besser checkbox?
+        log.debug("Checkbox Mood clicked");
+        statState = StatsStates.CB_MOOD;
         lineChart.getData().add(moodValueSeries);
     }
 
     @FXML
-    public void rBtnActivationAction() {
-        log.debug("Radiobutton Activation clicked");
-        statState = StatsStates.RBTN_ACTIVATION;
+    public void cbActivationAction() {
+        log.debug("Checkbox Activation clicked");
+        statState = StatsStates.CB_ACTIVATION;
         lineChart.getData().add(activationSeries);
         log.debug("Data Added");
     }
 
     @FXML
-    public void rBtnCombinedAction() {
-        log.debug("Radiobutton Combined clicked");
-        statState = StatsStates.RBTN_COMBINED;
+    public void cbCombinedAction() {
+        log.debug("Checkbox Combined clicked");
+        statState = StatsStates.CB_COMBINED;
         lineChart.getData().add(combinedSeries);
     }
 

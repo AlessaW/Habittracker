@@ -3,9 +3,11 @@ package org.jap.controller;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.chart.*;
+import javafx.scene.control.*;
 import javafx.scene.control.CheckBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jap.model.datahandler.DataListProvider;
 import org.jap.model.mood.MoodData;
 import org.jap.model.mood.MoodManager;
 import org.jap.view.SceneManager;
@@ -33,6 +35,7 @@ public class MoodStatsViewController extends GenericController{
 
 
     private StatsStates statState;
+    private TimeOption timeOption;
     private final static StatsStates DEFAULT_STATS_STATE = StatsStates.CB_COMBINED;
 
      //Todo: maybe not private? -> MoodManager könnte drauf zugreifen?
@@ -40,8 +43,6 @@ public class MoodStatsViewController extends GenericController{
     private XYChart.Series<String, Integer> moodValueSeries;
     private XYChart.Series<String, Integer> activationSeries;
     private XYChart.Series<String, Integer> combinedSeries;
-
-    public List<MoodData> moodDataList;
 
     private boolean moodVis = false;
     private boolean activationVis = false;
@@ -62,6 +63,11 @@ public class MoodStatsViewController extends GenericController{
         TEST_STATE
     }
 
+    public enum TimeOption{
+        DAY,
+        WEEK
+    }
+
 
     // Methods
     /**
@@ -72,7 +78,7 @@ public class MoodStatsViewController extends GenericController{
     @Override
     public void initController(SceneManager sceneManager, Parent scene) { //Todo: init schön machen
         super.initController(sceneManager, scene);                          //Todo: sinnvolle Reihenfolge machen
-        moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
+        DataListProvider.moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
         makeActivationSeries();
         makeCombinedSeries();
         makeMoodValueSeries();
@@ -83,6 +89,10 @@ public class MoodStatsViewController extends GenericController{
             case RBTN_ACTIVATION -> rBtnActivation.setSelected(false);
             case RBTN_COMBINED -> rBtnCombined.setSelected(false);
         }*/
+
+        switch(timeOption){
+
+        }
 
 
         lineChart.getData().addAll(combinedSeries, moodValueSeries,activationSeries);
@@ -130,7 +140,7 @@ public class MoodStatsViewController extends GenericController{
         moodValueSeries = new XYChart.Series<>();
         moodValueSeries.setName("Moods");
 
-        for (MoodData mood : moodDataList) {
+        for (MoodData mood : DataListProvider.moodDataList) {
             String time = mood.getTimeStamp().toString();
             Integer value = mood.getMoodValue();
             moodValueSeries.getData().add(new XYChart.Data<>(time, value));
@@ -143,7 +153,7 @@ public class MoodStatsViewController extends GenericController{
         activationSeries.setName("Activation");
         log.debug("Activation made");
 
-        for (MoodData mood : moodDataList) {
+        for (MoodData mood : DataListProvider.moodDataList) {
             String time = mood.getTimeStamp().toString();
             Integer activation = mood.getActivityLevel();
             activationSeries.getData().add(new XYChart.Data<>(time, activation));
@@ -154,7 +164,7 @@ public class MoodStatsViewController extends GenericController{
         combinedSeries = new XYChart.Series<>();
         combinedSeries.setName("Combined");
 
-        for (MoodData mood : moodDataList) {
+        for (MoodData mood : DataListProvider.moodDataList) {
             String time = mood.getTimeStamp().toString();
             Integer combined = (Math.abs(mood.getActivityLevel()) + Math.abs(mood.getMoodValue()))/2; //Todo: Sinnhaft, wie es berechnet wird?
             combinedSeries.getData().add(new XYChart.Data<>(time, combined));

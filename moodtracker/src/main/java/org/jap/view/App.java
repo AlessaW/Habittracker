@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jap.model.datahandler.DataListProvider;
 
 /*
     Created by Peter
@@ -31,6 +32,12 @@ public class App extends Application {
         log.info("Starting Startup View");
     
         SceneManager sceneManager = new SceneManager(stage);
+
+        //Start Threads for aggregating Data for different time displays
+        DataListProvider day = new DataListProvider(DataListProvider.StatTimeModus.DAY);
+        DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK);
+        DataListProvider month = new DataListProvider(DataListProvider.StatTimeModus.MONTH);
+        DataListProvider year = new DataListProvider(DataListProvider.StatTimeModus.YEAR);
 
 //        stage.setTitle("This is our wonderful Mood-Trekker-Application. Look at this fancy title!");
         stage.setTitle("Moodtracker");

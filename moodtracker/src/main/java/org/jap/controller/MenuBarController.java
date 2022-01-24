@@ -101,4 +101,10 @@ public class MenuBarController extends GenericController{
         log.trace("Clicked Menu Item: Views > List");
         getSceneManager().switchScene(SceneManager.States.MOOD_LIST_VIEW);
     }
+    
+    @FXML
+    public void mniViewsDebug() {
+        log.trace("Clicked Menu Item: Views > List");
+        getSceneManager().switchScene(SceneManager.States.DEBUG_VIEW);
+    }
 }

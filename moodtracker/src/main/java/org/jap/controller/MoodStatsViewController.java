@@ -10,8 +10,10 @@ import org.apache.logging.log4j.Logger;
 import org.jap.model.datahandler.DataListProvider;
 import org.jap.model.mood.MoodData;
 import org.jap.model.mood.MoodManager;
+import org.jap.view.App;
 import org.jap.view.SceneManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,11 +34,19 @@ public class MoodStatsViewController extends GenericController{
     @FXML private LineChart<String, Integer> lineChart; //Todo: private observable List?
     @FXML private CategoryAxis xAxis;
     @FXML private NumberAxis yAxis;
+    @FXML private Button btnDay;
+    @FXML private Button btnWeek;
+    @FXML private Button btnMonth;
+    @FXML private Button btnYear;
+    @FXML private DatePicker dtpDateFrom;
+    @FXML private DatePicker dtpDateTill;
 
 
     private StatsStates statState;
     private TimeOption timeOption;
     private final static StatsStates DEFAULT_STATS_STATE = StatsStates.CB_COMBINED;
+
+    private ArrayList<MoodData> timedList;
 
      //Todo: maybe not private? -> MoodManager könnte drauf zugreifen?
 
@@ -77,8 +87,9 @@ public class MoodStatsViewController extends GenericController{
      */
     @Override
     public void initController(SceneManager sceneManager, Parent scene) { //Todo: init schön machen
-        super.initController(sceneManager, scene);                          //Todo: sinnvolle Reihenfolge machen
-        DataListProvider.moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
+        super.initController(sceneManager, scene);//Todo: sinnvolle Reihenfolge machen
+      //  timedList = new ArrayList<MoodData>(getWeeklyList());
+     //   DataListProvider.moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
         makeActivationSeries();
         makeCombinedSeries();
         makeMoodValueSeries();
@@ -140,12 +151,12 @@ public class MoodStatsViewController extends GenericController{
         moodValueSeries = new XYChart.Series<>();
         moodValueSeries.setName("Moods");
 
-        for (MoodData mood : DataListProvider.moodDataList) {
+     /*   for (MoodData mood : DataListProvider.moodDataList) {
             String time = mood.getTimeStamp().toString();
             Integer value = mood.getMoodValue();
             moodValueSeries.getData().add(new XYChart.Data<>(time, value));
             log.debug("Mood");
-        }
+        }*/
     }
 
     private void makeActivationSeries(){
@@ -153,22 +164,22 @@ public class MoodStatsViewController extends GenericController{
         activationSeries.setName("Activation");
         log.debug("Activation made");
 
-        for (MoodData mood : DataListProvider.moodDataList) {
+/*        for (MoodData mood : DataListProvider.moodDataList) {
             String time = mood.getTimeStamp().toString();
             Integer activation = mood.getActivityLevel();
             activationSeries.getData().add(new XYChart.Data<>(time, activation));
-        }
+        }*/
     }
 
     private void makeCombinedSeries(){
         combinedSeries = new XYChart.Series<>();
         combinedSeries.setName("Combined");
-
-        for (MoodData mood : DataListProvider.moodDataList) {
+/*
+        for (MoodData mood : DataListProvider.getWeeklyList()) {
             String time = mood.getTimeStamp().toString();
             Integer combined = (Math.abs(mood.getActivityLevel()) + Math.abs(mood.getMoodValue()))/2; //Todo: Sinnhaft, wie es berechnet wird?
             combinedSeries.getData().add(new XYChart.Data<>(time, combined));
-        }
+        }*/
     }
 
     private void setSeriesVisible(XYChart.Series<?,?> s, boolean visible) {

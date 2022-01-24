@@ -17,8 +17,11 @@ import java.util.ListIterator;
 
 public class DataListProvider implements Runnable {
     private static final Logger log = LogManager.getLogger(DataListProvider.class);
-    public List<MoodData> moodDataList;
+    private MoodManager moodManager = new MoodManager();
+    private ArrayList<MoodData> moodDataList = moodManager.getMoods(); //Todo: muss noch auf MoodDataList zugreifen von MoodManager
     private StatTimeModus timeModus;
+
+    private ArrayList<MoodData> weeklyList;
 
     public DataListProvider(StatTimeModus timeModus) {
         this.timeModus = timeModus;
@@ -36,20 +39,20 @@ public class DataListProvider implements Runnable {
     public void run() {
 
         switch (timeModus) {
-            case DAY -> provideDayList();
-            case WEEK -> provideWeekList();
+            case DAY -> generateDayList();
+            case WEEK -> generateWeekList(moodDataList);
         //    case MONTH -> provideMonthList();
         //    case YEAR -> provideYearList();
         }
     }
 
-    private void provideDayList() {
+    private void generateDayList() {
         //Todo: Erstellung Liste für days
         //reduzieren auf stündlich -> Ansicht unten stündlich
         // Moodvalues nicht zusammenrechnen, sondern als einzelne Punkte lassen
     }
 
-    private ArrayList provideWeekList() {
+    private void generateWeekList(ArrayList<MoodData> moodDataList) {
         //Todo: Erstellung Liste für weeks
 
         int moodValueAgg = 0;
@@ -57,7 +60,7 @@ public class DataListProvider implements Runnable {
         int moodCounter = 0;
         int actCounter = 0;
 
-        ArrayList<MoodData> weeklyList = new ArrayList<>();
+        weeklyList = new ArrayList<MoodData>();
 
 
         for (MoodData m : moodDataList) {
@@ -79,13 +82,16 @@ public class DataListProvider implements Runnable {
                 weeklyList.add(new MoodData("", "", localDate.atStartOfDay(), (actLevelAgg/actCounter), (moodValueAgg/moodCounter)));
             }
         }
-        return weeklyList;
     }
 
     private void provideMonthList(){
     }
 
     private void provideYearList(){
+    }
+
+    public ArrayList<MoodData> getWeeklyList(){
+        return new ArrayList<MoodData>(weeklyList); //Todo: was wird da übergeben? vllt new Array wl.add()
     }
 }
 

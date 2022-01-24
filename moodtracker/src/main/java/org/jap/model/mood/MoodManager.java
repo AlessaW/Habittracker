@@ -28,7 +28,7 @@ public class MoodManager {
     // todo: maybe add a init method for initiation of static variable for better control
     private static final MoodManager instance = new MoodManager();
 
-    private MoodManager() {
+    public MoodManager() {
         this.dataManager = new DataManager();
         MoodData.getIDFromDatabase(dataManager);
         this.moods = dataManager.loadMoods();
@@ -38,7 +38,7 @@ public class MoodManager {
         return instance;
     }
 
-    public List<MoodData> getMoods() {
+    public ArrayList<MoodData> getMoods() {
         return new ArrayList<MoodData>(moods);
     }
 

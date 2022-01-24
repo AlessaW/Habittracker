@@ -3,16 +3,26 @@ package org.jap.model.datahandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.mood.MoodData;
+import org.jap.model.mood.MoodManager;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 /*
     Created by nika
 */
 
 public class DataListProvider implements Runnable {
+    private static final Logger log = LogManager.getLogger(DataListProvider.class);
     public List<MoodData> moodDataList;
+    private StatTimeModus timeModus;
+
+    public DataListProvider(StatTimeModus timeModus) {
+        this.timeModus = timeModus;
+    }
 
     public enum StatTimeModus{
         DAY,
@@ -21,14 +31,15 @@ public class DataListProvider implements Runnable {
         YEAR
     }
 
+
     @Override
     public void run() {
 
-        switch (StatTimeModus) {
-            case StatTimeModus.DAY -> provideDayList();
-            case StatTimeModus.WEEK -> provideWeekList();
-            case StatTimeModus.MONTH -> provideMonthList();
-            case StatTimeModus.YEAR -> provideYearList();
+        switch (timeModus) {
+            case DAY -> provideDayList();
+            case WEEK -> provideWeekList();
+        //    case MONTH -> provideMonthList();
+        //    case YEAR -> provideYearList();
         }
     }
 
@@ -38,29 +49,44 @@ public class DataListProvider implements Runnable {
         // Moodvalues nicht zusammenrechnen, sondern als einzelne Punkte lassen
     }
 
-    private void provideWeekList() {
+    private ArrayList provideWeekList() {
         //Todo: Erstellung Liste für weeks
-        //Zusammenrechnung Moodvalues
-        //stream machen?
-        // reduzieren auf einzelnen Datenpunkt pro Tag
-        // nur einen Tag zurückgeben
-        for (MoodData m:moodDataList) {
-            moodDataList.
-           //LocalDateTime timeStamp zu LocalDate
-            //if Localdate t1.equals(t2){
-                //add all moodValues
-                //add all activationlevels
-            //make new List mit allen neuen Werten
-            //return neue Liste
+
+        int moodValueAgg = 0;
+        int actLevelAgg = 0;
+        int moodCounter = 0;
+        int actCounter = 0;
+
+        ArrayList<MoodData> weeklyList = new ArrayList<>();
+
+
+        for (MoodData m : moodDataList) {
+            LocalDate localDate = m.getTimeStamp().toLocalDate();
+
+            ListIterator<MoodData> it = moodDataList.listIterator();
+
+            while (it.hasNext()) {
+                while(localDate.isEqual(it.next().getTimeStamp().toLocalDate())) {
+                    moodValueAgg = m.getMoodValue() + it.next().getMoodValue();
+                    log.debug("Moodvalue added weekly List" + moodValueAgg);
+                    actLevelAgg = m.getActivityLevel() + it.next().getActivityLevel();
+                    log.debug("ActivityValue added weekly List" + actLevelAgg);
+                    moodCounter++;
+                    log.debug(moodCounter);
+                    actCounter++;
+                    log.debug(actCounter);
+                }
+                weeklyList.add(new MoodData("", "", localDate.atStartOfDay(), (actLevelAgg/actCounter), (moodValueAgg/moodCounter)));
+            }
         }
+        return weeklyList;
     }
 
-    private void provideMonthList() {
+    private void provideMonthList(){
     }
 
-    private void provideYearList() {
+    private void provideYearList(){
     }
 }
 
-}
 

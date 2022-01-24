@@ -35,6 +35,7 @@ public class MoodStatsViewController extends GenericController{
 
 
     private StatsStates statState;
+    private TimeOption timeOption;
     private final static StatsStates DEFAULT_STATS_STATE = StatsStates.CB_COMBINED;
 
      //Todo: maybe not private? -> MoodManager könnte drauf zugreifen?
@@ -62,6 +63,11 @@ public class MoodStatsViewController extends GenericController{
         TEST_STATE
     }
 
+    public enum TimeOption{
+        DAY,
+        WEEK
+    }
+
 
     // Methods
     /**
@@ -72,7 +78,7 @@ public class MoodStatsViewController extends GenericController{
     @Override
     public void initController(SceneManager sceneManager, Parent scene) { //Todo: init schön machen
         super.initController(sceneManager, scene);                          //Todo: sinnvolle Reihenfolge machen
-        DataListProvider.moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
+       // DataListProvider.moodDataList = MoodManager.getInstance().getMoods();//Todo: weeklyList übergeben
         makeActivationSeries();
         makeCombinedSeries();
         makeMoodValueSeries();
@@ -83,6 +89,10 @@ public class MoodStatsViewController extends GenericController{
             case RBTN_ACTIVATION -> rBtnActivation.setSelected(false);
             case RBTN_COMBINED -> rBtnCombined.setSelected(false);
         }*/
+
+        switch(timeOption){
+
+        }
 
 
         lineChart.getData().addAll(combinedSeries, moodValueSeries,activationSeries);

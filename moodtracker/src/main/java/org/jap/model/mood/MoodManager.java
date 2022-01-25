@@ -69,7 +69,11 @@ public class MoodManager {
         moods.add(mood);
         dataManager.saveMood(mood);
     }
-
+    
+    public void addAllMoods(List<MoodData> newMoods) {
+        moods.addAll(newMoods);
+        dataManager.saveMoods(new ArrayList<>(newMoods));
+    }
 
     public MoodData createMood(int MoodID, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) throws IOException {
         if(MoodID < 0 || MoodData.MIN_ACTIVITYLEVEL > activityLevel || activityLevel > MoodData.MAX_ACTIVITYLEVEL){
@@ -81,11 +85,11 @@ public class MoodManager {
         return newMood;
     }
 
-    public MoodData changeMood(MoodData mood, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
+    public void changeMood(MoodData mood, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
         MoodData newMood = new MoodData(mood.getMoodID(), name, description, timeStamp, activityLevel, moodValue);
-        deleteMood(mood);
-        addMood(newMood);
-        return newMood;
+        moods.remove(mood);
+        moods.add(newMood);
+        dataManager.saveMood(newMood);
     }
 
 

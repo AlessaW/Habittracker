@@ -23,7 +23,6 @@ public class MoodManager {
     private static final Logger log = LogManager.getLogger(MoodManager.class);
 
     private final DataManager dataManager;
-    private final MemoryManager memoryManager;
 
     private final List<MoodData> moods;
 
@@ -40,9 +39,9 @@ public class MoodManager {
         this.moods = dataManager.loadMoods();
     }
 
-    public MoodManager(Szenario s){
-        this.memoryManager = new MemoryManager();
-        this.moods = memoryManager.loadMoods();
+    public MoodManager(Szenario s, ArrayList<MoodData> moods){
+        this.dataManager = new MemoryManager();
+        this.moods = moods;
     }
 
     public static MoodManager getInstance(){

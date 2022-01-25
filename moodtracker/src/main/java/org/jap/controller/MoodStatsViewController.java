@@ -16,6 +16,10 @@ import org.jap.view.SceneManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 /**
@@ -206,23 +210,12 @@ public class MoodStatsViewController extends GenericController{
     @Override
     public void activate() {
         super.activate();
+        Callable<ArrayList> week = new DataListProvider(DataListProvider.StatTimeModus.WEEK);
+        Callable<ArrayList> day = new DataListProvider(DataListProvider.StatTimeModus.DAY);
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Future<ArrayList> resultWeek = executor.submit(week);
+        Future<ArrayList> resultDay = executor.submit(day);
 
-
-
-        //resetInput(); //Todo: hier muss Daten geladen werden
-        //todo: reset date von der Zeitauswahl?
-        //todo: filter zurücksetzen?
-        //todo: hier executer starten
-        //todo: DLP neu machen
-
-        //Start Threads for aggregating Data for different time displays
-        DataListProvider day = new DataListProvider(DataListProvider.StatTimeModus.DAY);
-        DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK);
-        DataListProvider month = new DataListProvider(DataListProvider.StatTimeModus.MONTH);
-        DataListProvider year = new DataListProvider(DataListProvider.StatTimeModus.YEAR);
-        //Todo: day.run() start()
-        //Todo: SceneManager? neue Klasse mit Instanz im SceneManager?
-        //todo: konstruktor anpassen
 
         switch (statState) {
             case CB_MOOD -> {

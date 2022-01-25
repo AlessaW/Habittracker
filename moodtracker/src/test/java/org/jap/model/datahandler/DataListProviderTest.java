@@ -20,9 +20,11 @@ import java.util.List;
 public class DataListProviderTest {
     private static final Logger log = LogManager.getLogger(DataListProviderTest.class);
 
-    DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK, MoodManager.Szenario.TEST);
-    MoodManager moodManager = new MoodManager(MoodManager.Szenario.TEST);
     ArrayList<MoodData> moodDataList = new ArrayList<>();
+
+    DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK, MoodManager.Szenario.TEST);
+    MoodManager moodManager = new MoodManager(MoodManager.Szenario.TEST, moodDataList);
+
 
     //Todo: Test Excetptions wenn Thread nicht anläuft
 

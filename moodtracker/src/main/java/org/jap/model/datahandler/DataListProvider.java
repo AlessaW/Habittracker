@@ -51,7 +51,7 @@ public class DataListProvider implements Callable<ArrayList> {
 
     public DataListProvider(StatTimeModus timeModus, MoodManager.Szenario s) {
         this.timeModus = timeModus;
-        this.moodManager = new MoodManager(MoodManager.Szenario.TEST);
+        this.moodManager = new MoodManager(MoodManager.Szenario.TEST, moods);
     }//Todo: ist das richtig hier?
 
 

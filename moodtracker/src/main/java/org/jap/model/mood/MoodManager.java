@@ -97,6 +97,11 @@ public class MoodManager {
         moods.remove(mood);
         dataManager.deleteMood(mood);
     }
+    
+    public void deleteAllMoods() {
+        moods.clear();
+        dataManager.deleteAllMoods();
+    }
 
     /**
      * closes the dataManager

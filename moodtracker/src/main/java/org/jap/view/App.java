@@ -31,7 +31,7 @@ public class App extends Application {
         // Programmstart
         log.info("Starting Startup View");
         
-        stage.initStyle(StageStyle.UTILITY);
+//        stage.initStyle(StageStyle.UTILITY);
         
         SceneManager sceneManager = new SceneManager(stage);
 

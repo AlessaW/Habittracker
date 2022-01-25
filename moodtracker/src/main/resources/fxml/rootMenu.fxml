@@ -73,6 +73,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#mniViewsBack" text="Back" />
             <MenuItem mnemonicParsing="false" onAction="#mniViewsStats" text="Stats" />
                   <MenuItem mnemonicParsing="false" onAction="#mniViewsList" text="List" />
+                  <MenuItem mnemonicParsing="false" onAction="#mniViewsDebug" text="Debug" />
           </items>
         </Menu>
       </menus>
@@ -81,6 +82,6 @@
             <URL value="@../styles/colors.css" />
          </stylesheets>
     </MenuBar>
-    <AnchorPane fx:id="anpSceneRoot" maxHeight="-1.0" maxWidth="-1.0" styleClass="background" stylesheets="@stylesheet.css" VBox.vgrow="ALWAYS" />
+    <AnchorPane fx:id="anpSceneRoot" maxHeight="-1.0" maxWidth="-1.0" styleClass="background" stylesheets="@../styles/stylesheet.css" VBox.vgrow="ALWAYS" />
   </children>
 </VBox>

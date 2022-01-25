@@ -212,14 +212,14 @@ public class DebugViewController extends GenericController {
                 }
                 MoodManager.getInstance().createMood("Generated Mood Nr."+(i+1), "Mood Generated using Debug View", timestamp, activity, moodValue);
                 nextGeneration();
-                if (tbtToggleMe.isSelected()) { // artificial delay if togglebtn is on
-                    long delay = 10000 / amount;
-                    try {
-                        Thread.sleep(delay);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+//                if (tbtToggleMe.isSelected()) { // artificial delay if togglebtn is on
+//                    long delay = 10000 / amount;
+//                    try {
+//                        Thread.sleep(delay);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
                 prbFillMeUp.setProgress((double)i/amount);
             }
             prbFillMeUp.setProgress(100);

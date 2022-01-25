@@ -24,7 +24,7 @@ public class DebugViewController extends GenericController {
     
     // Variables
     
-    private static final int DEFAULT_AMOUNT = 100;
+    private static final int DEFAULT_AMOUNT = 50;
     private int amount = DEFAULT_AMOUNT;
     
     private int activity = MoodData.DEFAULT_ACTIVITYLEVEL;
@@ -62,54 +62,7 @@ public class DebugViewController extends GenericController {
     }
     
     // threads
-    private final Thread generatingThread = new Thread() {
-        @Override
-        public void run() {
-            if (amount>0) {
-                for (int i = 0; i<amount; i++) {
-                    LocalDateTime timestamp = LocalDateTime.now();
-                    switch (timeUnit) {
-                        case MINUTES -> timestamp = timestamp.plusMinutes(i);
-                        case HOURS -> timestamp = timestamp.plusHours(i);
-                        case DAYS -> timestamp = timestamp.plusDays(i);
-                        case WEEKS -> timestamp = timestamp.plusWeeks(i);
-                    }
-                    MoodManager.getInstance().createMood("Generated Mood Nr."+(i+1), "Mood Generated using Debug View", timestamp, activity, moodValue);
-                    nextGeneration();
-                    if (tbtToggleMe.isSelected()) { // artificial delay if togglebtn is on
-                        long delay = 10000 / amount;
-                        try {
-                            Thread.sleep(delay);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    prbFillMeUp.setProgress((double)i/amount);
-                }
-                prbFillMeUp.setProgress(100);
-            }
-
-//                    cmiDisabled.setSelected(true); // prevents accidental double click
-            priLoadingSnail.setVisible(false);
-            if (amount>1)
-                txaSomeText.appendText("Congrats. There are now "+amount+" more moods on your hard drive!\n");
-            else if (amount==1)
-                txaSomeText.appendText("Sure...\nTake it easy...\nOne by one...\nBreath in...\nBreath out...\nNow there are 6 more line in this text area...\n");
-            else if (amount==0)
-                txaSomeText.appendText("I give you 0 sweets. Are you happy now?\n");
-            else
-                txaSomeText.appendText("This text should not appear...\nYou broke my software! >:(\n");
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            prbFillMeUp.setProgress(0);
-            btnGenerate.setDisable(false);
-            txfAmount.setDisable(false);
-        }
-    };
+    private final Runnable generatingRunnable = this::generate;
     
     // Methods
     @FXML public void txfAmountAction() {
@@ -117,6 +70,11 @@ public class DebugViewController extends GenericController {
         txaSomeText.appendText("You think that's enough?\n");
         try {
             amount = Integer.parseInt(txfAmount.getText());
+            if (amount>1000) {
+                amount = 1000;
+                txfAmount.setText(amount+"");
+                txaSomeText.appendText("Dont't take it too far! I won't calculate more than a thousand at once!\n");
+            }
             txfAmount.setStyle("");
         } catch (NumberFormatException e) {
             log.debug("Amount Spinner: only integer values allowed");
@@ -132,62 +90,16 @@ public class DebugViewController extends GenericController {
             toldYou = true;
         }
         else {
-            txaSomeText.appendText("Well, that can take a while now...\n");
-    
+            txaSomeText.appendText("Well, that could take a while now...\n");
+            
             btnGenerate.setDisable(true);
             priLoadingSnail.setVisible(true);
             txfAmount.setDisable(true);
-    
-/*            if (amount>0) {
-                for (int i = 0; i<amount; i++) {
-                    LocalDateTime timestamp = LocalDateTime.now();
-                    switch (timeUnit) {
-                        case MINUTES -> timestamp = timestamp.plusMinutes(i);
-                        case HOURS -> timestamp = timestamp.plusHours(i);
-                        case DAYS -> timestamp = timestamp.plusDays(i);
-                        case WEEKS -> timestamp = timestamp.plusWeeks(i);
-                    }
-                    MoodManager.getInstance().createMood("Generated Mood Nr."+(i+1), "Mood Generated using Debug View", timestamp, activity, moodValue);
-                    nextGeneration();
-                    if (tbtToggleMe.isSelected()) { // artificial delay if togglebtn is on
-                        long delay = 10000 / amount;
-                        try {
-                            Thread.sleep(delay);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    prbFillMeUp.setProgress((double)i/amount);
-                }
-                prbFillMeUp.setProgress(100);
-            }
-
-//                    cmiDisabled.setSelected(true); // prevents accidental double click
-            priLoadingSnail.setVisible(false);
-            if (amount>1)
-                txaSomeText.appendText("Congrats. There are now "+amount+" more moods on your hard drive!\n");
-            else if (amount==1)
-                txaSomeText.appendText("Sure...\nTake it easy...\nOne by one...\nBreath in...\nBreath out...\nNow there are 6 more line in this text area...\n");
-            else if (amount==0)
-                txaSomeText.appendText("I give you 0 sweets. Are you happy now?\n");
-            else
-                txaSomeText.appendText("This text should not appear...\nYou broke my software! >:(\n");
-    
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            prbFillMeUp.setProgress(0);
-            btnGenerate.setDisable(false);
-            txfAmount.setDisable(false);*/
             
-            try {
-                generatingThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            generatingThread.start();
+            if (tbtToggleMe.isSelected())
+                new Thread(generatingRunnable).start();
+            else
+                generate();
         }
     }
     
@@ -286,6 +198,53 @@ public class DebugViewController extends GenericController {
     @Override
     public void activate() {
         super.activate();
+    }
+    
+    private synchronized void generate() {
+        if (amount>0) {
+            for (int i = 0; i<amount; i++) {
+                LocalDateTime timestamp = LocalDateTime.now();
+                switch (timeUnit) {
+                    case MINUTES -> timestamp = timestamp.plusMinutes(i);
+                    case HOURS -> timestamp = timestamp.plusHours(i);
+                    case DAYS -> timestamp = timestamp.plusDays(i);
+                    case WEEKS -> timestamp = timestamp.plusWeeks(i);
+                }
+                MoodManager.getInstance().createMood("Generated Mood Nr."+(i+1), "Mood Generated using Debug View", timestamp, activity, moodValue);
+                nextGeneration();
+                if (tbtToggleMe.isSelected()) { // artificial delay if togglebtn is on
+                    long delay = 10000 / amount;
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                prbFillMeUp.setProgress((double)i/amount);
+            }
+            prbFillMeUp.setProgress(100);
+        }
+
+//                    cmiDisabled.setSelected(true); // prevents accidental double click
+        priLoadingSnail.setVisible(false);
+        if (amount>1)
+            txaSomeText.appendText("Congrats. There are now "+amount+" more moods on your hard drive!\n");
+        else if (amount==1)
+            txaSomeText.appendText("Sure...\nTake it easy...\nOne by one...\nBreath in...\nBreath out...\nNow there are 6 more line in this text area...\n");
+        else if (amount==0)
+            txaSomeText.appendText("I give you 0 sweets. Are you happy now?\n");
+        else
+            txaSomeText.appendText("This text should not appear...\nYou broke my software! >:(\n");
+        if (tbtToggleMe.isSelected()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        prbFillMeUp.setProgress(0);
+        btnGenerate.setDisable(false);
+        txfAmount.setDisable(false);
     }
     
     private void nextGeneration() {

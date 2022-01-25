@@ -11,6 +11,8 @@ import org.jap.model.mood.MoodManager;
 import org.jap.view.SceneManager;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
     Created by Peter
@@ -206,6 +208,8 @@ public class DebugViewController extends GenericController {
     
     private synchronized void generate() {
         if (amount>0) {
+            List<MoodData> moods = new ArrayList<>();
+            
             for (int i = 0; i<amount; i++) {
                 LocalDateTime timestamp = LocalDateTime.now();
                 switch (timeUnit) {
@@ -214,7 +218,7 @@ public class DebugViewController extends GenericController {
                     case DAYS -> timestamp = timestamp.plusDays(i);
                     case WEEKS -> timestamp = timestamp.plusWeeks(i);
                 }
-                MoodManager.getInstance().createMood("Generated Mood Nr."+(i+1), "Mood Generated using Debug View", timestamp, activity, moodValue);
+                moods.add(new MoodData("Generated Mood Nr."+(i+1), "Mood Generated using Debug View", timestamp, activity, moodValue));
                 nextGeneration();
 //                if (tbtToggleMe.isSelected()) { // artificial delay if togglebtn is on
 //                    long delay = 10000 / amount;
@@ -224,8 +228,9 @@ public class DebugViewController extends GenericController {
 //                        e.printStackTrace();
 //                    }
 //                }
-                prbFillMeUp.setProgress((double)i/amount);
+                prbFillMeUp.setProgress((double)i/amount/2);
             }
+            MoodManager.getInstance().addAllMoods(moods);
             prbFillMeUp.setProgress(100);
         }
 

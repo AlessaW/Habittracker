@@ -105,6 +105,7 @@ public class DebugViewController extends GenericController {
     
     @FXML public void mniMagicAction() {
         MoodManager.getInstance().getMoods().forEach(MoodManager.getInstance()::deleteMood);
+        txaSomeText.appendText("All moods magically disappeared from the Database :(\n");
         log.debug("All moods magically disappeared from the Database :(");
     }
     
@@ -119,11 +120,11 @@ public class DebugViewController extends GenericController {
     
     @FXML public void tbtToggleMeAction() {
         if (tbtToggleMe.isSelected()) {
-            tbtToggleMe.setText(":)");
+            tbtToggleMe.setText("Threaded: On");
             txaSomeText.appendText(":)\n");
         }
         else {
-            tbtToggleMe.setText(":(");
+            tbtToggleMe.setText("Threaded: Off");
             txaSomeText.appendText(":(\n");
         }
     }
@@ -192,6 +193,9 @@ public class DebugViewController extends GenericController {
             case DAYS -> rdbDays.setSelected(true);
             case WEEKS -> rdbWeeks.setSelected(true);
         }
+        tbtToggleMe.setSelected(true); // threaded mode is now default
+        tbtToggleMe.setText("Threaded: On");
+        
         txaSomeText.appendText("Welcome! :)\n");
     }
     

@@ -1,9 +1,9 @@
 # Nachdenkzettel - GIT
 
 ## 1. Was genau sind die Gründe um Gitlab zu verwenden?
-Versionskontrolle, Sicherung von vorangegangenen Änderungen, strukturierte Zusammenarbeit
-
-
+ - Versionskontrolle
+ - Sicherung von vorangegangenen Änderungen
+ - strukturierte Zusammenarbeit
 
 
 ## 2. Welche Daten gehören (nicht) ins Repo?
@@ -48,16 +48,14 @@ service zu nutzen, um Overhead und Infrastrukturersparnisse zu haben.
 
 ## 5. Verwenden Sie Branches im Projekt oder arbeiten alle Teammitglieder auf dem Master Branch?
    ## Zeigen Sie Vor- und Nachteile der Verfahren
-Für Branching: man hat einen Main, auf den nur getestete Features kommen.
+**Für Branching**: man hat einen Main, auf den nur getestete Features kommen.
 man hat eine funktionierende Version des Projekts und man zerschießt sich das Projekt nicht dauernd mit Merge-Konflikten
 
-Gegen Branching: für kleine Projekte zu großer Aufwand
+**Gegen Branching**: für kleine Projekte zu großer Aufwand
    
 
-## 6. Wie veröffentlichen Sie Ihre Änderungen auf dem globalen Repository? Wie oft checken Sie Ihre
-##  Änderungen im globalen Repo ein? Was ist besser: Nach jeder Änderung, nach einigen Änderungen,
-##  wenn Sie ein zusammenhängendes Stück fertig haben, wenn Sie eine Änderung machen die viele
-##  Kollegen betrifft, einmal am Tag, einmal die Woche. Wieso?
+## 6. Wie veröffentlichen Sie Ihre Änderungen auf dem globalen Repository? 
+###Wie oft checken Sie Ihre Änderungen im globalen Repo ein? <br> Was ist besser: Nach jeder Änderung, nach einigen Änderungen, wenn Sie ein zusammenhängendes Stück fertig haben, wenn Sie eine Änderung machen die viele Kollegen betrifft, einmal am Tag, einmal die Woche. <br> Wieso?
 Committen kann mehrfach passieren, um eine Sichererung zu haben. Pushen thematisch und zusammenhängend und wenn es
 läuft, damit man den anderen nix zerschießt. Man muss die Abhängigkeiten innerhalb des Projektes berücksichtigen
 und eine sinnvolle Balance zwischen Datensicherung und Nachvollziehbarkeit / Schaden für andere finden.
@@ -70,8 +68,7 @@ und eine sinnvolle Balance zwischen Datensicherung und Nachvollziehbarkeit / Sch
 Abhängig davon, ob die hochzuladende Datei auf dem aktuellen Repo basiert. Rebase oder Merge-Aufforderung von git
 
 
-## 8. Hausaufgabe für jedes Team: Es muss eine chain-story (Kettengeschichte) erzählt werden bei der 
-## ALLE Teammitglieder jeweils immer einen Satz erfinden und dann einchecken. Ich will von ALLEN
-## Teammitgliedern Sätze im Repo finden! Danach sagen Sie uns wie es ging. Haben Sie über externe
-## Kanäle kommuniziert (Slack?). Anderweitig abgesprochen?
+## 8. Chain Story
+**Haben Sie über externe Kanäle kommuniziert (Slack?). Anderweitig abgesprochen?**
+
 Einfach über git? Und issues :D

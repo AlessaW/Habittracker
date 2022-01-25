@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
     Created by Peter
@@ -92,18 +93,6 @@ class SqliteManager implements SaveFileManager {
     }
     
     /**
-     * Saves multiple moods to the database
-     * <br> - note that it overrides moods if the same id already exists in the database
-     * @param moods The list of moods to save as ArrayList of SimpleMood
-     */
-    @Override
-    public void saveMoods(ArrayList<SimpleMood> moods) {
-        for (SimpleMood mood : moods) {
-            saveMood(mood);
-        }
-    }
-    
-    /**
      * Saves one mood to the database
      * <br> - note that it overrides moods if the same id already exists in the database
      * @param mood The mood to save as SimpleMood
@@ -117,6 +106,35 @@ class SqliteManager implements SaveFileManager {
         } else {
             newMood(mood);
         }
+    }
+    
+    /**
+     * Saves multiple moods to the database
+     * <br> - note that it overrides moods if the same id already exists in the database
+     * @param moods The list of moods to save as ArrayList of SimpleMood
+     */
+    @Override
+    public void saveMoods(List<SimpleMood> moods) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("INSERT INTO ").append(toIdentifier(TABLE_NAME)).append(" VALUES ");
+        for (int i=0; i<moods.size();i++) {
+            SimpleMood mood = moods.get(i);
+            sql.append("(")
+                    .append(mood.id()).append(",").append("'")
+                    .append(mood.name()).append("',")
+                    .append("'").append(mood.description()).append("',")
+                    .append("'").append(mood.timestamp()).append("',")
+                    .append(mood.moodValue()).append(",")
+                    .append(mood.activity()).append(")");
+            if (i<moods.size()-1)
+                sql.append(",");
+            else
+                sql.append(";");
+        }
+        log.trace(sql.toString());
+        String e = db.change(sql.toString());
+        if (e != null)
+            log.debug(e);
     }
     
     /**

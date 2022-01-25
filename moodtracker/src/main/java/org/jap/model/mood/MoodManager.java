@@ -72,7 +72,7 @@ public class MoodManager {
     
     public void addAllMoods(List<MoodData> newMoods) {
         moods.addAll(newMoods);
-        dataManager.saveMoods(new ArrayList<>(newMoods));
+        dataManager.saveMoods(newMoods);
     }
 
     public MoodData createMood(int MoodID, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) throws IOException {

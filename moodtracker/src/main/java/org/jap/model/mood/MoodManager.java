@@ -1,5 +1,7 @@
 package org.jap.model.mood;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.datahandler.DataManager;
@@ -23,7 +25,8 @@ public class MoodManager {
 
     private final DataManager dataManager;
 
-    private final List<MoodData> moods;
+    private final ObservableList<MoodData> moods;
+    private final ObservableList<MoodData> roMoods;
 
     // todo: maybe add a init method for initiation of static variable for better control
     private static final MoodManager instance = new MoodManager();
@@ -31,15 +34,16 @@ public class MoodManager {
     private MoodManager() {
         this.dataManager = new DataManager();
         MoodData.getIDFromDatabase(dataManager);
-        this.moods = dataManager.loadMoods();
+        this.moods = FXCollections.observableList(dataManager.loadMoods());
+        this.roMoods = FXCollections.unmodifiableObservableList(moods);
     }
 
     public static MoodManager getInstance(){
         return instance;
     }
 
-    public List<MoodData> getMoods() {
-        return new ArrayList<MoodData>(moods);
+    public ObservableList<MoodData> getMoods() {
+        return roMoods;
     }
 
     /**

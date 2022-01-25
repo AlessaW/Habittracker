@@ -1,6 +1,6 @@
 package org.jap.controller;
 
-import javafx.collections.ObservableList;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.LoadException;
@@ -28,8 +28,8 @@ public class MoodListViewController extends GenericController{
     private static final Logger log = LogManager.getLogger(MoodListViewController.class);
     
     // Variables
-    ObservableList<MoodData> moodDataList;
     ItemTemplate currentTemplate = ItemTemplate.values()[0];
+    ListChangeListener<MoodData> moodsChanged = change -> { updateList(); };
     
     // FXML Fields
     @FXML private ListView<MoodData> livMoodList;
@@ -37,7 +37,7 @@ public class MoodListViewController extends GenericController{
     // configuration constants
     private static final ItemTemplate DEFAULT_ITEM_TEMPLATE = ItemTemplate.PETER_TEST;
     
-    // enum
+    // Inner Classes
     public enum ItemTemplate {
         HBOX("/fxml/hBoxListViewTemplate.fxml"),
 //        VBOX("/fxml/vBox.fxml"),
@@ -63,7 +63,6 @@ public class MoodListViewController extends GenericController{
         
         setTemplate(DEFAULT_ITEM_TEMPLATE);
         
-        moodDataList = livMoodList.getItems();
         updateList();
     }
     
@@ -74,6 +73,7 @@ public class MoodListViewController extends GenericController{
     public void activate() {
         super.activate();
         updateList();
+        MoodManager.getInstance().getMoods().addListener(moodsChanged);
     }
     
     /**
@@ -82,6 +82,7 @@ public class MoodListViewController extends GenericController{
     @Override
     public void deactivate() {
         super.deactivate();
+        MoodManager.getInstance().getMoods().removeListener(moodsChanged);
     }
     
     /**
@@ -97,12 +98,12 @@ public class MoodListViewController extends GenericController{
      * updates the observable list with the new data
      */
     public void updateList() {
-        moodDataList.clear();
+        livMoodList.getItems().clear();
         List<MoodData> moods = MoodManager.getInstance().getMoods().stream()
                 .sorted(Comparator.comparing(MoodData::getTimeStamp))
                 .limit(500)
                 .toList();
-        moodDataList.addAll(moods);
+        livMoodList.getItems().addAll(moods);
     }
     
     private void setTemplate(ItemTemplate t) {

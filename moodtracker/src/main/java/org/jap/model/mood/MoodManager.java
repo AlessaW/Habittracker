@@ -3,6 +3,7 @@ package org.jap.model.mood;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.datahandler.DataManager;
+import org.jap.model.datahandler.MemoryManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -22,8 +23,13 @@ public class MoodManager {
     private static final Logger log = LogManager.getLogger(MoodManager.class);
 
     private final DataManager dataManager;
+    private final MemoryManager memoryManager;
 
     private final List<MoodData> moods;
+
+    public enum Szenario{
+        TEST
+    }
 
     // todo: maybe add a init method for initiation of static variable for better control
     private static final MoodManager instance = new MoodManager();
@@ -32,6 +38,11 @@ public class MoodManager {
         this.dataManager = new DataManager();
         MoodData.getIDFromDatabase(dataManager);
         this.moods = dataManager.loadMoods();
+    }
+
+    public MoodManager(Szenario s){
+        this.memoryManager = new MemoryManager();
+        this.moods = memoryManager.loadMoods();
     }
 
     public static MoodManager getInstance(){

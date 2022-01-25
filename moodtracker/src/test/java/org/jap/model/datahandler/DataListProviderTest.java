@@ -20,7 +20,9 @@ import java.util.List;
 public class DataListProviderTest {
     private static final Logger log = LogManager.getLogger(DataListProviderTest.class);
 
-    DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK);
+    DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK, MoodManager.Szenario.TEST);
+    MoodManager moodManager = new MoodManager(MoodManager.Szenario.TEST);
+    ArrayList<MoodData> moodDataList = new ArrayList<>();
 
     //Todo: Test Excetptions wenn Thread nicht anläuft
 
@@ -29,19 +31,18 @@ public class DataListProviderTest {
 
 
     @Test
-    public void testWeekSingleDays() {
-        DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK);
-        week.run();
+    public void testWeekSingleDays() throws Exception{
 
-        List<MoodData> moodDataList = new ArrayList<>();
         ArrayList<MoodData> expectedResult = new ArrayList<>();
-        MoodManager moodManager = new MoodManager();
-
         moodDataList.add(moodManager.createMood("Happy", "desc", LocalDateTime.of(2021, Month.DECEMBER, 27, 10,40), 5, 5));
-        expectedResult.add(moodManager.createMood("", "", LocalDate.of(2021, Month.DECEMBER, 27).atStartOfDay(), 5, 5));
-         //Todo: Moods hinzufügen, damit ich berechnen kann, ob der richtige Wert rauskommt
+        expectedResult.add(moodManager.createMood("", "", LocalDate.of(2021, Month.DECEMBER, 27).atStartOfDay(), 5, 5));//Todo: Moodmanager direkt übergeben
 
-        Assert.assertEquals(expectedResult, week.getWeeklyList());
+        DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK);
+        week.call();
+
+        //Todo: Moods hinzufügen, damit ich berechnen kann, ob der richtige Wert rauskommt
+
+        Assert.assertEquals(expectedResult, week.getList());
         //sum testen
         //Anzahl testen
     }

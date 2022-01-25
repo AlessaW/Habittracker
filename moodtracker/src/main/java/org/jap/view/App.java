@@ -33,14 +33,6 @@ public class App extends Application {
     
         SceneManager sceneManager = new SceneManager(stage);
 
-        //Start Threads for aggregating Data for different time displays
-        DataListProvider day = new DataListProvider(DataListProvider.StatTimeModus.DAY);
-        DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK);
-        DataListProvider month = new DataListProvider(DataListProvider.StatTimeModus.MONTH);
-        DataListProvider year = new DataListProvider(DataListProvider.StatTimeModus.YEAR);
-        //Todo: day.run() start()
-        //Todo: SceneManager? neue Klasse mit Instanz im SceneManager?
-
 //        stage.setTitle("This is our wonderful Mood-Trekker-Application. Look at this fancy title!");
         stage.setTitle("Moodtracker");
         stage.setResizable(false);

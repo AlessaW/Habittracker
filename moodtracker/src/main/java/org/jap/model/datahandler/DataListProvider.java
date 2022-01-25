@@ -6,25 +6,29 @@ import org.jap.model.mood.MoodData;
 import org.jap.model.mood.MoodManager;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.Callable;
 
 /*
     Created by nika
 */
 
-public class DataListProvider implements Runnable {
-    private static final Logger log = LogManager.getLogger(DataListProvider.class);
-    private MoodManager moodManager = new MoodManager();
-    private ArrayList<MoodData> moodDataList = moodManager.getMoods(); //Todo: muss noch auf MoodDataList zugreifen von MoodManager
-    private StatTimeModus timeModus;
+public class DataListProvider implements Callable<ArrayList> {
 
-    private ArrayList<MoodData> weeklyList;
+    private ArrayList generatedList;
 
-    public DataListProvider(StatTimeModus timeModus) {
-        this.timeModus = timeModus;
+
+    @Override
+    public ArrayList call() throws Exception {
+
+        switch (timeModus) {
+            case DAY -> generateDayList();
+            case WEEK -> generateWeekList();
+            //    case MONTH -> provideMonthList();
+            //    case YEAR -> provideYearList();
+        }
+        return generatedList;
     }
 
     public enum StatTimeModus{
@@ -34,17 +38,22 @@ public class DataListProvider implements Runnable {
         YEAR
     }
 
+    private static final Logger log = LogManager.getLogger(DataListProvider.class);
+    private MoodManager moodManager;
+    private ArrayList<MoodData> moodDataList = moodManager.getInstance().getMoods(); //Todo: muss noch auf MoodDataList zugreifen von MoodManager , immer nur holen wenn man sie braucht
+    private StatTimeModus timeModus;
 
-    @Override
-    public void run() {
+    private ArrayList<MoodData> weeklyList;
 
-        switch (timeModus) {
-            case DAY -> generateDayList();
-            case WEEK -> generateWeekList(moodDataList);
-        //    case MONTH -> provideMonthList();
-        //    case YEAR -> provideYearList();
-        }
-    }
+    public DataListProvider(StatTimeModus timeModus) {
+        this.timeModus = timeModus;
+    }//Todo: ist das richtig hier?
+
+    public DataListProvider(StatTimeModus timeModus, MoodManager.Szenario s) {
+        this.timeModus = timeModus;
+        this.moodManager = new MoodManager(MoodManager.Szenario.TEST);
+    }//Todo: ist das richtig hier?
+
 
     private void generateDayList() {
         //Todo: Erstellung Liste für days
@@ -52,7 +61,7 @@ public class DataListProvider implements Runnable {
         // Moodvalues nicht zusammenrechnen, sondern als einzelne Punkte lassen
     }
 
-    private void generateWeekList(ArrayList<MoodData> moodDataList) {
+    private void generateWeekList() {
         //Todo: Erstellung Liste für weeks
 
         int moodValueAgg = 0;
@@ -82,6 +91,7 @@ public class DataListProvider implements Runnable {
                 weeklyList.add(new MoodData("", "", localDate.atStartOfDay(), (actLevelAgg/actCounter), (moodValueAgg/moodCounter)));
             }
         }
+        generatedList = weeklyList;
     }
 
     private void provideMonthList(){
@@ -90,8 +100,8 @@ public class DataListProvider implements Runnable {
     private void provideYearList(){
     }
 
-    public ArrayList<MoodData> getWeeklyList(){
-        return new ArrayList<MoodData>(weeklyList); //Todo: was wird da übergeben? vllt new Array wl.add()
+    public ArrayList<MoodData> getList(){
+        return generatedList; //Todo: was wird da übergeben? vllt new Array wl.add()
     }
 }
 

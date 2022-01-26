@@ -70,7 +70,9 @@ public class MoodManager {
         dataManager.saveMood(mood);
     }
     
-    public void addAllMoods(List<MoodData> newMoods) {
+    public void addAllMoods(List<MoodData> list) {
+        List<MoodData> newMoods = new ArrayList<>();
+        list.forEach(m -> newMoods.add(new MoodData(m.getName(),m.getDescription(),m.getTimeStamp(),m.getActivityLevel(),m.getMoodValue()))); // Create new MoodData Objects to ensure encapsulation
         moods.addAll(newMoods);
         dataManager.saveMoods(newMoods);
     }

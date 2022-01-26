@@ -13,13 +13,14 @@ import org.jap.view.SceneManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /*
     Created by Peter
 */
 
 /**
- *
+ * Controller for the DebugView
  */
 public class DebugViewController extends GenericController {
     private static final Logger log = LogManager.getLogger(DebugViewController.class);
@@ -106,9 +107,17 @@ public class DebugViewController extends GenericController {
     }
     
     @FXML public void mniMagicAction() {
-        MoodManager.getInstance().getMoods().forEach(MoodManager.getInstance()::deleteMood);
-        txaSomeText.appendText("All moods magically disappeared from the Database :(\n");
-        log.debug("All moods magically disappeared from the Database :(");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to format your system?");
+        Optional<ButtonType> result = alert.showAndWait()
+                .filter(response -> response == ButtonType.OK);
+        if (result.isPresent()) {
+            MoodManager.getInstance().deleteAllMoods();
+            txaSomeText.appendText("All moods magically disappeared from the Database ^w^\n");
+            log.debug("User requested magical vanishing of all the moods.");
+        } else {
+            txaSomeText.appendText("You don't wanna see my magic tricks?\n");
+            log.debug("Note to myself: User isn't interested in magic tricks!");
+        }
     }
     
     @FXML public void cmiDisabledAction() {
@@ -218,7 +227,7 @@ public class DebugViewController extends GenericController {
                     case DAYS -> timestamp = timestamp.plusDays(i);
                     case WEEKS -> timestamp = timestamp.plusWeeks(i);
                 }
-                moods.add(new MoodData("Generated Mood Nr."+(i+1), "Mood Generated using Debug View", timestamp, activity, moodValue));
+                moods.add(new MoodData("Generated Mood Nr."+(i+1), "Mood Generated using Debug View", timestamp, activity, moodValue, false));
                 nextGeneration();
 //                if (tbtToggleMe.isSelected()) { // artificial delay if togglebtn is on
 //                    long delay = 10000 / amount;

@@ -29,7 +29,7 @@ public class MoodListViewController extends GenericController{
     
     // Variables
     ItemTemplate currentTemplate = ItemTemplate.values()[0];
-    ListChangeListener<MoodData> moodsChanged = change -> { updateList(); };
+    ListChangeListener<MoodData> moodsChanged = change -> updateList();
     
     // FXML Fields
     @FXML private ListView<MoodData> livMoodList;
@@ -99,9 +99,10 @@ public class MoodListViewController extends GenericController{
      */
     public void updateList() {
         livMoodList.getItems().clear();
+        livMoodList.setFixedCellSize(40);
         List<MoodData> moods = MoodManager.getInstance().getMoods().stream()
                 .sorted(Comparator.comparing(MoodData::getTimeStamp))
-                .limit(500)
+//                .limit(500) // maybe we should add a limit...
                 .toList();
         livMoodList.getItems().addAll(moods);
     }

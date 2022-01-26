@@ -3,10 +3,15 @@ package org.jap.controller;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jap.model.mood.MoodManager;
 import org.jap.view.SceneManager;
+
+import java.util.Optional;
 
 /*
     Created by Peter
@@ -75,7 +80,12 @@ public class MenuBarController extends GenericController{
     @FXML
     public void mniEditDeleteAll() {
         log.trace("Clicked Menu Item: Edit > Delete All");
-        //Todo
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete ALL Moods?");
+        Optional<ButtonType> result = alert.showAndWait()
+                .filter(response -> response == ButtonType.OK);
+        if (result.isPresent()) {
+            MoodManager.getInstance().deleteAllMoods();
+        }
     }
     
     @FXML

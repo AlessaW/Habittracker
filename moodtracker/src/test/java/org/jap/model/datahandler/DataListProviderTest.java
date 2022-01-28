@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.mood.MoodData;
 import org.jap.model.mood.MoodManager;
+import org.jap.util.DataListProviderException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,125 +21,132 @@ import java.util.OptionalDouble;
 */
 
 public class DataListProviderTest {
-    private class MockMoodManager extends MoodManager{
+    private class MockMoodManager extends MoodManager {
         ArrayList<MoodData> moodDataList = new ArrayList<MoodData>();
 
         @Override
-        public ArrayList<MoodData> getMoods(){
-
-            moodDataList.add(new MoodData("Happy", "desc", LocalDateTime.of(2021, Month.DECEMBER, 27, 10,40), 5, 5));
+        public ArrayList<MoodData> getMoods() {
+            moodDataList.clear();
+            moodDataList.add(new MoodData("Happy", "desc", LocalDateTime.of(2021, Month.DECEMBER, 27, 10, 40), 5, 5));
             moodDataList.add(new MoodData("sad", "desc", LocalDateTime.of(2021, Month.DECEMBER, 28, 11, 40), 0, 0));
             moodDataList.add(new MoodData("conent", "desc", LocalDateTime.of(2021, Month.DECEMBER, 29, 11, 40), 3, 3));
+
+            moodDataList.add(new MoodData("Test", "desc", LocalDateTime.of(2022, Month.JANUARY, 1, 11, 40), 5, 5));
+            moodDataList.add(new MoodData("sad", "desc", LocalDateTime.of(2021, Month.JUNE, 28, 11, 40), 0, 0));
+            moodDataList.add(new MoodData("content", "desc", LocalDateTime.of(2021, Month.JUNE, 29, 11, 47), 3, 3));
+
+            moodDataList.add(new MoodData("Happy", "desc", LocalDateTime.of(2021, Month.JUNE, 27, 10, 40), 5, 5));
+            moodDataList.add(new MoodData("sad", "desc", LocalDateTime.of(2021, Month.JUNE, 27, 11, 40), 5, 5));
+            moodDataList.add(new MoodData("content", "desc", LocalDateTime.of(2021, Month.JUNE, 27, 11, 47), 5, 5));
+
+            for (MoodData m : moodDataList
+            ) {
+                System.out.println(m.getTimeStamp());
+            }
+
             return moodDataList;
         }
 
-        @Override
+  /*      @Override
         protected void addMood(MoodData mood){
             moodDataList.add(mood);
         }
 
         public void deleteAll(){
             moodDataList.clear();
-        }
+        }*/
     }
 
     private static final Logger log = LogManager.getLogger(DataListProviderTest.class);
-    MockMoodManager mockMoodManager = new MockMoodManager();
-
-
-    DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK);
-
-
 
     //Todo: Test Excetptions wenn Thread nicht anläuft
 
     @Test
-    public void testWeekSingleDays() throws Exception{
-
-            ArrayList expectedResult = new ArrayList<>();
-            Pair pair1 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 27).atStartOfDay(), new Pair<>(5.0, 5.0));
-            Pair pair2 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 28).atStartOfDay(), new Pair<>(0.0, 0.0));
-            Pair pair3 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 29).atStartOfDay(), new Pair<>(3.0, 3.0));
-            expectedResult.add(0, pair1);
-            expectedResult.add(1, pair2);
-            expectedResult.add(2, pair3);
-
-
-        DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK, mockMoodManager);
-        week.call();
-
-        //Todo: Moods hinzufügen, damit ich berechnen kann, ob der richtige Wert rauskommt
-
-        Assert.assertEquals(expectedResult, week.getList());
-        //sum testen
-        //Anzahl testen
+    public void testWeekMoodList_singleDays() throws Exception {
+        //Todo: MoodList testen
     }
 
     @Test
-    public void testWeekMultipleEntriesPerDay() throws Exception {
-        DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK, mockMoodManager);
+    public void testWeekActivityList_singleDays() throws Exception {
+        //Todo: ActivityList testen
+    }
 
-        mockMoodManager.moodDataList.clear();
-
-
-        mockMoodManager.createMood("Happy", "desc", LocalDateTime.of(2021, Month.JUNE, 27, 10,40), 5, 5);
-        mockMoodManager.createMood("sad", "desc", LocalDateTime.of(2021, Month.JUNE, 27, 11, 40), 5, 5);
-        mockMoodManager.createMood("content", "desc", LocalDateTime.of(2021, Month.JUNE, 27, 11, 47), 5, 5);
-        mockMoodManager.createMood("sad", "desc", LocalDateTime.of(2021, Month.JUNE, 28, 11, 40), 0, 0);
-        mockMoodManager.createMood("content", "desc", LocalDateTime.of(2021, Month.JUNE, 29, 11, 47), 3, 3);
-
-
-        week.call();
+    @Test
+    public void testWeekSingleDays() throws Exception, DataListProviderException {
+        MockMoodManager mockMoodManager = new MockMoodManager();
 
         ArrayList expectedResult = new ArrayList<>();
+        Pair pair4 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 27).atStartOfDay(), new Pair<>(5.0, 5.0));
+        Pair pair5 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 28).atStartOfDay(), new Pair<>(0.0, 0.0));
+        Pair pair6 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 29).atStartOfDay(), new Pair<>(3.0, 3.0));
+
         Pair pair1 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.JUNE, 27).atStartOfDay(), new Pair<>(5.0, 5.0));
         Pair pair2 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.JUNE, 28).atStartOfDay(), new Pair<>(0.0, 0.0));
         Pair pair3 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.JUNE, 29).atStartOfDay(), new Pair<>(3.0, 3.0));
+
+        Pair pair7 = new Pair<LocalDateTime, Pair>(LocalDate.of(2022, Month.JANUARY, 1).atStartOfDay(), new Pair(5.0, 5.0));
+
+        expectedResult.add(0, pair1);
+        expectedResult.add(1, pair2);
+        expectedResult.add(2, pair3);
+        expectedResult.add(3, pair4);
+        expectedResult.add(4, pair5);
+        expectedResult.add(5, pair6);
+        expectedResult.add(6, pair7);
+
+
+        DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK, mockMoodManager);
+        week.call();
+
+        Assert.assertEquals(expectedResult, week.getList());
+    }
+
+    @Test
+    public void testWeekMultipleEntriesPerDay() throws Exception, DataListProviderException {
+     /*   MockMoodManager mockMoodManager = new MockMoodManager();
+
+        ArrayList expectedResult = new ArrayList<>();
+
         expectedResult.add(0, pair1);
         expectedResult.add(1, pair2);
         expectedResult.add(2, pair3);
 
-        Assert.assertEquals(expectedResult, week.getList());
+        DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK, mockMoodManager);
+        week.call();
+
+        Assert.assertEquals(expectedResult, week.getList());*/
     }
 
     @Test
-    public void testMixedEntries() throws Exception {
+    public void testMixedEntries() throws Exception, DataListProviderException {
+        MockMoodManager mockMoodManager = new MockMoodManager();
         DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK, mockMoodManager);
-        mockMoodManager.deleteAll();
-
-
-        mockMoodManager.createMood("Happy", "desc", LocalDateTime.of(2021, Month.DECEMBER, 29, 10,40), 5, 5);
-        mockMoodManager.createMood("sad", "desc", LocalDateTime.of(2021, Month.DECEMBER, 27, 11, 40), 5, 5);
-        mockMoodManager.createMood("hi", "", LocalDateTime.of(1997, Month.MAY, 23, 11, 34), 2, 3);
-        mockMoodManager.createMood("Test", "desc", LocalDateTime.of(2022, Month.JANUARY, 1, 11, 40), 5, 5);
-        mockMoodManager.createMood("content", "desc", LocalDateTime.of(2021, Month.DECEMBER, 28, 11, 47), 5, 5);
 
         week.call();
 
-        log.debug(mockMoodManager.getMoods());
-
-
         ArrayList expectedResult = new ArrayList<>();
+        Pair pair4 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 27).atStartOfDay(), new Pair<>(5.0, 5.0));
+        Pair pair5 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 28).atStartOfDay(), new Pair<>(0.0, 0.0));
+        Pair pair6 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 29).atStartOfDay(), new Pair<>(3.0, 3.0));
 
-        Pair pair1 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 27).atStartOfDay(), new Pair<>(5.0, 5.0));
-        Pair pair2 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 28).atStartOfDay(), new Pair<>(0.0, 0.0));
-        Pair pair3 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.DECEMBER, 29).atStartOfDay(), new Pair<>(3.0, 3.0));
-        Pair pair4 = new Pair<LocalDateTime, Pair>(LocalDate.of(2022, Month.JANUARY, 1).atStartOfDay(), new Pair<>(5.0, 5.0));
-        Pair pair5 = new Pair<LocalDateTime, Pair>(LocalDate.of(1997, Month.MAY, 23).atStartOfDay(), new Pair<>(2,3));
-        expectedResult.add(0, pair5);
-        expectedResult.add(1, pair1);
-        expectedResult.add(2, pair2);
-        expectedResult.add(3, pair3);
-        expectedResult.add(4, pair4);
+        Pair pair1 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.JUNE, 27).atStartOfDay(), new Pair<>(5.0, 5.0));
+        Pair pair2 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.JUNE, 28).atStartOfDay(), new Pair<>(0.0, 0.0));
+        Pair pair3 = new Pair<LocalDateTime, Pair>(LocalDate.of(2021, Month.JUNE, 29).atStartOfDay(), new Pair<>(3.0, 3.0));
+
+        Pair pair7 = new Pair<LocalDateTime, Pair>(LocalDate.of(2022, Month.JANUARY, 1).atStartOfDay(), new Pair(5.0, 5.0));
+
+        expectedResult.add(0, pair1);
+        expectedResult.add(1, pair2);
+        expectedResult.add(2, pair3);
+        expectedResult.add(3, pair4);
+        expectedResult.add(4, pair5);
+        expectedResult.add(5, pair6);
+        expectedResult.add(6, pair7);
 
         Assert.assertEquals(expectedResult, week.getList());
     }
 
-
-    //Test weekly
-    //single days
-    //multiple data entries on one day
-    //fail: konnte nich ausgeführt werden
-    //keine Data vorhanden
+    //Todo: fail: konnte nich ausgeführt werden
+    //Todo: keine Data vorhanden
 
 }

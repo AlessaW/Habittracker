@@ -245,5 +245,4 @@ public class MoodStatsViewController extends GenericController{
         moodDataList.clear();
         moodDataList.addAll(MoodManager.getInstance().getMoods());
     }
-
 }

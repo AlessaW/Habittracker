@@ -35,7 +35,7 @@ public class DataListProvider implements Callable<ArrayList> {
         return generatedList;
     }
 
-    public enum StatTimeModus{
+    public enum StatTimeModus {
         DAY,
         WEEK,
         MONTH,
@@ -66,32 +66,42 @@ public class DataListProvider implements Callable<ArrayList> {
     }
 
     private void generateWeekList() {
+           var groupedByDay =
+                moodDataList
+                        .stream()
+                        .parallel()
+                        .sorted(Comparator.comparing(MoodData::getTimeStamp))
+                        .collect(Collectors.groupingBy(it -> it.getTimeStamp().toLocalDate().atStartOfDay()))
+                        .entrySet()
+                        .stream()
+                        .map((entry) -> {
+                            var it = entry.getValue();
+                            var avgMood = it.stream().mapToInt(MoodData::getMoodValue).average().getAsDouble();
+                            var avgActivation = it.stream().mapToInt(MoodData::getActivityLevel).average().getAsDouble();
+                            return new Pair<>(entry.getKey(), new Pair<>(avgMood, avgActivation));
+                        });
 
-            var groupedByDay =
-                    moodDataList
-                            .stream()
-                            .parallel()
-                            .collect(Collectors.groupingBy(it -> it.getTimeStamp().toLocalDate().atStartOfDay()))
-                            .entrySet()
-                            .stream()
-                            .map((entry) -> {
-                                var it = entry.getValue();
-                                var avgMood = it.stream().mapToInt(MoodData::getMoodValue).average().getAsDouble();
-                                var avgActivation = it.stream().mapToInt(MoodData::getActivityLevel).average().getAsDouble();
-                                return new Pair<>(entry.getKey(), new Pair<>(avgMood, avgActivation));
-                               });                            ;
+        generatedList = new ArrayList<>(groupedByDay.toList());
 
-            generatedList = new ArrayList<>(groupedByDay.toList());
     }
 
-    private void provideMonthList(){
+    private void provideMonthList() {
     }
 
-    private void provideYearList(){
+    private void provideYearList() {
     }
 
-    public ArrayList<MoodData> getList(){
-        return generatedList; //Todo: was wird da übergeben? vllt new Array wl.add()
+    public ArrayList<MoodData> getList() {
+
+        return reverseList(generatedList);
+    }
+
+    private ArrayList reverseList(ArrayList list){
+        for (int k = 0, j = list.size() - 1; k < j; k++)
+        {
+            list.add(k, list.remove(j));
+        }
+        return list;
     }
 }
 

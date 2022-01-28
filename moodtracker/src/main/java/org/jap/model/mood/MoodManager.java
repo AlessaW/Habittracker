@@ -71,7 +71,7 @@ public class MoodManager {
      * /todo: or should moodFactory add moods directly to MoodManager?
      * @param mood
      */
-    private void addMood(MoodData mood){
+    protected void addMood(MoodData mood){
         moods.add(mood);
         dataManager.saveMood(mood);
     }

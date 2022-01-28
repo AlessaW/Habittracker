@@ -39,7 +39,7 @@ public class MoodManager {
         this.moods = dataManager.loadMoods();
     }
 
-    public MoodManager(Szenario s, ArrayList<MoodData> moods){
+    public MoodManager(ArrayList<MoodData> moods){
         this.dataManager = new MemoryManager();
         this.moods = moods;
     }

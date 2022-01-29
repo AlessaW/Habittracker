@@ -146,6 +146,16 @@ public class MoodStatsViewController extends GenericController{
         log.debug("Combined set visible");
     }
 
+    @FXML
+    public void setBtnWeek(){
+        log.debug("Button Week clicked");
+    }
+
+    @FXML
+    public void setBtnDay(){
+        log.debug("Button Day clicked");
+    }
+
     //Display Data Methods
 
     private void updateChart(){

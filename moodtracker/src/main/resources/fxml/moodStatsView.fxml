@@ -70,7 +70,7 @@
                            <children>
                               <HBox prefHeight="35.0" prefWidth="157.0">
                                  <children>
-                                    <Button fx:id="btnDay" mnemonicParsing="false" text="Day">
+                                    <Button fx:id="btnDay" mnemonicParsing="false" onAction="#setBtnDay" text="Day">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -81,7 +81,7 @@
                                           <Insets right="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="btnWeek" mnemonicParsing="false" text="Week">
+                                    <Button fx:id="btnWeek" mnemonicParsing="false" onAction="#setBtnWeek" onMouseClicked="#setBtnWeek" text="Week">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>

@@ -1,9 +1,6 @@
 package org.jap.controller;
 
-import javafx.beans.InvalidationListener;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.LoadException;
@@ -15,10 +12,7 @@ import org.jap.model.mood.MoodData;
 import org.jap.model.mood.MoodManager;
 import org.jap.view.SceneManager;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,8 +28,8 @@ public class MoodListViewController extends GenericController{
     private static final Logger log = LogManager.getLogger(MoodListViewController.class);
     
     // Variables
-    ObservableList<MoodData> moodDataList; //todo: maybe private?
     ItemTemplate currentTemplate = ItemTemplate.values()[0];
+    ListChangeListener<MoodData> moodsChanged = change -> updateList();
     
     // FXML Fields
     @FXML private ListView<MoodData> livMoodList;
@@ -43,7 +37,7 @@ public class MoodListViewController extends GenericController{
     // configuration constants
     private static final ItemTemplate DEFAULT_ITEM_TEMPLATE = ItemTemplate.PETER_TEST;
     
-    // enum
+    // Inner Classes
     public enum ItemTemplate {
         HBOX("/fxml/hBoxListViewTemplate.fxml"),
 //        VBOX("/fxml/vBox.fxml"),
@@ -69,7 +63,6 @@ public class MoodListViewController extends GenericController{
         
         setTemplate(DEFAULT_ITEM_TEMPLATE);
         
-        moodDataList = livMoodList.getItems();
         updateList();
     }
     
@@ -80,6 +73,7 @@ public class MoodListViewController extends GenericController{
     public void activate() {
         super.activate();
         updateList();
+        MoodManager.getInstance().getMoods().addListener(moodsChanged);
     }
     
     /**
@@ -88,6 +82,7 @@ public class MoodListViewController extends GenericController{
     @Override
     public void deactivate() {
         super.deactivate();
+        MoodManager.getInstance().getMoods().removeListener(moodsChanged);
     }
     
     /**
@@ -103,8 +98,13 @@ public class MoodListViewController extends GenericController{
      * updates the observable list with the new data
      */
     public void updateList() {
-        moodDataList.clear();
-        moodDataList.addAll(MoodManager.getInstance().getMoods());
+        livMoodList.getItems().clear();
+        livMoodList.setFixedCellSize(40);
+        List<MoodData> moods = MoodManager.getInstance().getMoods().stream()
+                .sorted(Comparator.comparing(MoodData::getTimeStamp))
+//                .limit(500) // maybe we should add a limit...
+                .toList();
+        livMoodList.getItems().addAll(moods);
     }
     
     private void setTemplate(ItemTemplate t) {

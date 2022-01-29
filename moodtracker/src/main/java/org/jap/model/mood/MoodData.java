@@ -57,14 +57,13 @@ public class MoodData {
 
     //standard Constructor with auto generated MoodID
     public MoodData(String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) {
-        this.name = name;
-        this.description = description;
-        this.moodID = id++;
-        this.timeStamp = timeStamp;
-        this.activityLevel = activityLevel;
-        this.moodValue = moodValue;
+        this(name, description, timeStamp, activityLevel, moodValue, true);
     }
-
+    
+    //constructor to create a mood with or without generated id
+    public MoodData(String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue, boolean generateID) {
+        this(generateID ? id++ : -1, name, description, timeStamp, activityLevel, moodValue); // without generated id, id will be set -1. The id -1 identifies a MoodData object without id
+    }
 
     public String getName() {
         return name;

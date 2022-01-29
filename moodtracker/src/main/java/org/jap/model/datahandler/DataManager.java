@@ -4,10 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.mood.MoodData;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manages saving and deleting of MoodData objects
@@ -46,8 +46,8 @@ public class DataManager {
      * Loads all MoodData from the file
      * @return the loaded moods as ArrayList of MoodData
      */
-    public ArrayList<MoodData>loadMoods() {
-        ArrayList<MoodData> moods = new ArrayList<>();
+    public List<MoodData>loadMoods() {
+        List<MoodData> moods = new ArrayList<>();
         
         for (SimpleMood m : saveFileManager.loadMoods()) {
             moods.add(toMoodData(m));
@@ -61,8 +61,8 @@ public class DataManager {
      * <br> - note that it overrides moods if the same id already exists in the file
      * @param moods The list of moods to save as ArrayList of MoodData
      */
-    public void saveMoods(ArrayList<MoodData> moods) {
-        ArrayList<SimpleMood> simpleMoods = new ArrayList<>();
+    public void saveMoods(List<MoodData> moods) {
+        List<SimpleMood> simpleMoods = new ArrayList<>();
         
         for (MoodData m : moods) {
             simpleMoods.add(toSimpleMood(m));

@@ -1,5 +1,7 @@
 package org.jap.model.datahandler;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,10 +24,10 @@ import java.util.OptionalDouble;
 
 public class DataListProviderTest {
     private class MockMoodManager extends MoodManager {
-        ArrayList<MoodData> moodDataList = new ArrayList<MoodData>();
+        ObservableList<MoodData> moodDataList = FXCollections.observableList(new ArrayList<>());
 
         @Override
-        public ArrayList<MoodData> getMoods() {
+        public ObservableList<MoodData> getMoods() {
             moodDataList.clear();
             moodDataList.add(new MoodData("Happy", "desc", LocalDateTime.of(2021, Month.DECEMBER, 27, 10, 40), 5, 5));
             moodDataList.add(new MoodData("sad", "desc", LocalDateTime.of(2021, Month.DECEMBER, 28, 11, 40), 0, 0));

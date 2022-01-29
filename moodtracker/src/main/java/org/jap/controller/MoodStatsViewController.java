@@ -46,11 +46,9 @@ public class MoodStatsViewController extends GenericController{
     @FXML private Button btnYear;
     @FXML private DatePicker dtpDateFrom;
     @FXML private DatePicker dtpDateTill;
-
-
-    private StatsStates statState;
+    
+    
     private TimeOption timeOption;
-    private final static StatsStates DEFAULT_STATS_STATE = StatsStates.CB_COMBINED;
 
     private ArrayList<MoodData> timedList;
     private ObservableList<MoodData> moodDataList;
@@ -60,12 +58,6 @@ public class MoodStatsViewController extends GenericController{
     private XYChart.Series<String, Integer> moodValueSeries;
     private XYChart.Series<String, Integer> activationSeries;
     private XYChart.Series<String, Integer> combinedSeries;
-
-    private boolean moodVis = false;
-    private boolean activationVis = false;
-    private boolean combinedVis = false;
-
-
 
 
     // Enum declaration
@@ -97,6 +89,8 @@ public class MoodStatsViewController extends GenericController{
         super.initController(sceneManager, scene);//Todo: sinnvolle Reihenfolge machen
       //  timedList = new ArrayList<MoodData>(getWeeklyList());
      //   DataListProvider.moodDataList = MoodManager.getInstance().getMoods(); //Kopie der Moodliste
+    
+        updateChart();
         makeActivationSeries();
         makeCombinedSeries();
         makeMoodValueSeries();
@@ -108,41 +102,37 @@ public class MoodStatsViewController extends GenericController{
             case RBTN_COMBINED -> rBtnCombined.setSelected(false);
         }*/
 
-        switch(timeOption){
+//        switch(timeOption){
+//
+//        }
 
-        }
 
-
-        lineChart.getData().addAll(combinedSeries, moodValueSeries,activationSeries);
-        moodValueSeries = new XYChart.Series<>();
-
-        moodValueSeries.getData().add(new XYChart.Data<>("Jul", 1));
-        moodValueSeries.getData().add(new XYChart.Data<>("Aug", 5));
-        updateChart();
+        lineChart.getData().addAll(combinedSeries, moodValueSeries, activationSeries);
+//        moodValueSeries = new XYChart.Series<>();
+//
+//        moodValueSeries.getData().add(new XYChart.Data<>("Jul", 1));
+//        moodValueSeries.getData().add(new XYChart.Data<>("Aug", 5));
+    
     }
 
     @FXML
     public void cbMoodAction() { //Todo: doch besser checkbox?
         log.debug("Checkbox Mood clicked");
-        statState = StatsStates.CB_MOOD;
-        lineChart.getData().add(moodValueSeries);
+        setSeriesVisible(moodValueSeries, cbMood.isSelected());
+        log.debug("Mood set visible");
     }
 
     @FXML
     public void cbActivationAction() {
         log.debug("Checkbox Activation clicked");
-        statState = StatsStates.CB_ACTIVATION;
-        lineChart.getData().add(activationSeries);
-        log.debug("Data Added");
+        setSeriesVisible(activationSeries, cbCombined.isSelected());
+        log.debug("Activation set visible");
     }
 
     @FXML
     public void cbCombinedAction() {
         log.debug("Checkbox Combined clicked");
-        statState = StatsStates.CB_COMBINED;
-        lineChart.getData().add(combinedSeries);
-        log.debug("Data for Combined Added");
-        setSeriesVisible(combinedSeries, true);
+        setSeriesVisible(combinedSeries, cbCombined.isSelected());
         log.debug("Combined set visible");
     }
 
@@ -202,35 +192,21 @@ public class MoodStatsViewController extends GenericController{
         //Todo: set current date according to
     }
 
-
-
     /**
      * called when this controller is activated
      */
     @Override
     public void activate() {
         super.activate();
-        Callable<ArrayList> week = new DataListProvider(DataListProvider.StatTimeModus.WEEK);
-        Callable<ArrayList> day = new DataListProvider(DataListProvider.StatTimeModus.DAY);
-        ExecutorService executor = Executors.newCachedThreadPool();
-        Future<ArrayList> resultWeek = executor.submit(week);
-        Future<ArrayList> resultDay = executor.submit(day);
-
-
-        switch (statState) {
-            case CB_MOOD -> {
-                cbMood.setSelected(true);
-                cbMoodAction();
-            }
-            case CB_ACTIVATION -> {
-                cbActivation.setSelected(true);
-                cbActivationAction();
-            }
-            case CB_COMBINED -> {
-                cbCombined.setSelected(true);
-                cbActivationAction();
-            }
-        }
+        
+        updateList();
+        
+        cbMood.setSelected(false);
+        cbActivation.setSelected(false);
+        cbCombined.setSelected(true);
+        cbMoodAction();
+        cbActivationAction();
+        cbCombinedAction();
     }
     /**
      * called when this controller is deactivated
@@ -242,7 +218,10 @@ public class MoodStatsViewController extends GenericController{
 
 
     public void updateList() {
-        moodDataList.clear();
-        moodDataList.addAll(MoodManager.getInstance().getMoods());
+        Callable<ArrayList> week = new DataListProvider(DataListProvider.StatTimeModus.WEEK, MoodManager.getInstance());
+        Callable<ArrayList> day = new DataListProvider(DataListProvider.StatTimeModus.DAY, MoodManager.getInstance());
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Future<ArrayList> resultWeek = executor.submit(week);
+        Future<ArrayList> resultDay = executor.submit(day);
     }
 }

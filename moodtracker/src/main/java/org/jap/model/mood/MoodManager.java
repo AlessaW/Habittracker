@@ -1,5 +1,7 @@
 package org.jap.model.mood;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.datahandler.DataManager;
@@ -23,7 +25,8 @@ public class MoodManager {
 
     private final DataManager dataManager;
 
-    private final List<MoodData> moods;
+    private final ObservableList<MoodData> moods;
+    private final ObservableList<MoodData> roMoods;
 
     public enum Szenario{
         TEST
@@ -35,15 +38,16 @@ public class MoodManager {
     public MoodManager() {
         this.dataManager = new DataManager();
         MoodData.getIDFromDatabase(dataManager);
-        this.moods = dataManager.loadMoods();
+        this.moods = FXCollections.observableList(dataManager.loadMoods());
+        this.roMoods = FXCollections.unmodifiableObservableList(moods);
     }
 
     public static MoodManager getInstance(){
         return instance;
     }
 
-    public ArrayList<MoodData> getMoods() {
-        return new ArrayList<MoodData>(moods);
+    public ObservableList<MoodData> getMoods() {
+        return roMoods;
     }
 
     /**
@@ -69,7 +73,13 @@ public class MoodManager {
         moods.add(mood);
         dataManager.saveMood(mood);
     }
-
+    
+    public void addAllMoods(List<MoodData> list) {
+        ArrayList<MoodData> newMoods = new ArrayList<>();
+        list.forEach(m -> newMoods.add(new MoodData(m.getName(),m.getDescription(),m.getTimeStamp(),m.getActivityLevel(),m.getMoodValue()))); // Create new MoodData Objects to ensure encapsulation
+        moods.addAll(newMoods);
+        dataManager.saveMoods(newMoods);
+    }
 
     public MoodData createMood(int MoodID, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue) throws IOException {
         if(MoodID < 0 || MoodData.MIN_ACTIVITYLEVEL > activityLevel || activityLevel > MoodData.MAX_ACTIVITYLEVEL){
@@ -81,17 +91,22 @@ public class MoodManager {
         return newMood;
     }
 
-    public MoodData changeMood(MoodData mood, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
+    public void changeMood(MoodData mood, String name, String description, LocalDateTime timeStamp, int activityLevel, int moodValue){
         MoodData newMood = new MoodData(mood.getMoodID(), name, description, timeStamp, activityLevel, moodValue);
-        deleteMood(mood);
-        addMood(newMood);
-        return newMood;
+        moods.remove(mood);
+        moods.add(newMood);
+        dataManager.saveMood(newMood);
     }
 
 
     public void deleteMood(MoodData mood){
         moods.remove(mood);
         dataManager.deleteMood(mood);
+    }
+    
+    public void deleteAllMoods() {
+        moods.clear();
+        dataManager.deleteAllMoods();
     }
 
     /**

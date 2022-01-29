@@ -1,6 +1,5 @@
 package org.jap.model.datahandler;
 
-import javafx.scene.control.cell.MapValueFactory;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,22 +7,27 @@ import org.jap.model.mood.MoodData;
 import org.jap.model.mood.MoodManager;
 import org.jap.util.DataListProviderException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /*
     Created by nika
 */
 
 public class DataListProvider implements Callable<ArrayList> {
-
+    
+    private static final Logger log = LogManager.getLogger(DataListProvider.class);
+    
     private ArrayList generatedList;
     private ArrayList generatedMoodList;
     private ArrayList<Pair<LocalDateTime, Double>> generatedActivityList;
+    
+    private final StatTimeModus timeModus;
+    private ArrayList<MoodData> moodDataList;  //Todo: muss noch auf MoodDataList zugreifen von MoodManager , immer nur holen wenn man sie braucht
 
 
     @Override
@@ -49,10 +53,6 @@ public class DataListProvider implements Callable<ArrayList> {
         YEAR
     }
 
-    private static final Logger log = LogManager.getLogger(DataListProvider.class);
-    private MoodManager moodManager;
-    private ArrayList<MoodData> moodDataList;  //Todo: muss noch auf MoodDataList zugreifen von MoodManager , immer nur holen wenn man sie braucht
-    private StatTimeModus timeModus;
 
 
     public DataListProvider(StatTimeModus timeModus) {
@@ -61,8 +61,7 @@ public class DataListProvider implements Callable<ArrayList> {
 
     public DataListProvider(StatTimeModus timeModus, MoodManager moodManager) {
         this.timeModus = timeModus;
-        this.moodManager = moodManager;
-        this.moodDataList = moodManager.getMoods();
+        this.moodDataList = new ArrayList<>(moodManager.getMoods());
     }//Todo: ist das richtig hier?
 
 
@@ -184,5 +183,3 @@ public class DataListProvider implements Callable<ArrayList> {
         return generatedActivityList;
     }
 }
-
-

@@ -42,6 +42,8 @@ public class SceneManager {
         MOOD_LIST_VIEW("/fxml/moodListView.fxml"),
         EDIT_MOOD("/fxml/createMood.fxml"),
         MOOD_STATS_VIEW("/fxml/moodStatsView.fxml"),
+        DEBUG_VIEW("/fxml/debugView.fxml"),
+//        VIEW_STATS("/fxml/viewStats.fxml"),
         ;
         
         public final String url;

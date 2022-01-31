@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /*
     Created by Peter
@@ -36,6 +37,9 @@ public class DebugViewController extends GenericController {
     private Selection timeUnit = Selection.MINUTES;
     private boolean toldYou = false;
     
+    private final AtomicInteger atomicInteger = new AtomicInteger(0);
+    private final int loopAmount = 100_000_000;
+    
     // FXML Fields
     @FXML private AnchorPane root;
     @FXML private TextField txfAmount;
@@ -46,6 +50,7 @@ public class DebugViewController extends GenericController {
     @FXML private ProgressIndicator priLoadingSnail;
     @FXML private ProgressBar prbFillMeUp;
     @FXML private ColorPicker clpCoolor;
+    @FXML private Button btnSyncAE;
     @FXML private TextArea txaSomeText;
     @FXML private CheckBox chbA;
     @FXML private CheckBox chbB;
@@ -146,6 +151,49 @@ public class DebugViewController extends GenericController {
         txaSomeText.appendText("Go ahead. Try some more colors!\n");
     }
     
+    @FXML public void btnSyncAEAction() {
+        Thread t1 = new Thread(() -> {
+            Platform.runLater(() -> txaSomeText.appendText("t1 started"+"\n"));
+            final int r = (int) (Math.random()*loopAmount);
+            for (int i = 0; i<loopAmount; i++) {
+                atomicInteger.incrementAndGet();
+                if (i == r) {
+                    Platform.runLater(() -> txaSomeText.appendText("Sample Output1 at "+ r +": "+atomicInteger+"\n"));
+                }
+            }
+            Platform.runLater(() -> txaSomeText.appendText("t1 ended"+"\n"));
+        });
+        
+        Thread t2 = new Thread(() -> {
+            Platform.runLater(() -> txaSomeText.appendText("t2 started"+"\n"));
+            final int r = (int) (Math.random()*loopAmount);
+            for (int i = 0; i<loopAmount; i++) {
+                atomicInteger.decrementAndGet();
+                if (i == r) {
+                    Platform.runLater(() -> txaSomeText.appendText("Sample Output2 at "+ r +": "+atomicInteger+"\n"));
+                }
+            }
+            Platform.runLater(() -> txaSomeText.appendText("t2 ended"+"\n"));
+        });
+        
+        Thread t3 = new Thread(() -> {
+            Platform.runLater(() -> txaSomeText.appendText("t3 started"+"\n"));
+            try {
+                t1.join();
+                Platform.runLater(() -> txaSomeText.appendText("Sample Output3: "+atomicInteger+"\n"));
+                t2.join();
+            } catch (InterruptedException e) {
+                log.error(e.fillInStackTrace());
+            }
+            Platform.runLater(() -> txaSomeText.appendText("Final Output: "+atomicInteger+"\n"));
+            Platform.runLater(() -> txaSomeText.appendText("t3 ended"+"\n"));
+        });
+        
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+    
     @FXML public void chbAAction() {
         if (chbA.isSelected())
             txaSomeText.appendText("A Choice!\n");
@@ -201,6 +249,8 @@ public class DebugViewController extends GenericController {
             case WEEKS -> rdbWeeks.setSelected(true);
         }
         tbtToggleMe.setSelected(true); // fancy mode is now default
+        
+        btnSyncAE.setTooltip(new Tooltip(btnSyncAE.getText()+"\n\nExecutes some sample code with 3 threads and \nsynchronized write access to a shared variable"));
         
         txaSomeText.appendText("Welcome! :)\n");
     }

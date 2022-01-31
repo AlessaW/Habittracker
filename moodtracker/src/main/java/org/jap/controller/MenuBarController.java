@@ -103,7 +103,7 @@ public class MenuBarController extends GenericController{
     @FXML
     public void mniViewsStats() {
         log.trace("Clicked Menu Item: Views > Stats");
-        //Todo
+        getSceneManager().switchScene(SceneManager.States.MOOD_STATS_VIEW);
     }
     
     @FXML

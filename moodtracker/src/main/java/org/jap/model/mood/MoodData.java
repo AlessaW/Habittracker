@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jap.model.datahandler.DataManager;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -42,6 +43,7 @@ public class MoodData {
     public static final int MIN_MOODVALUE = 0;
     public static final int MAX_ACTIVITYLEVEL = 10;
     public static final int MIN_ACTIVITYLEVEL = 0;
+
 
     //construction for creating specific moodID
     public MoodData(int moodID, String name, String description , LocalDateTime timeStamp, int activityLevel, int moodValue) {

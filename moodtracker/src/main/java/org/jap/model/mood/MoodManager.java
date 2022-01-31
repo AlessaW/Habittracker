@@ -28,10 +28,14 @@ public class MoodManager {
     private final ObservableList<MoodData> moods;
     private final ObservableList<MoodData> roMoods;
 
+    public enum Szenario{
+        TEST
+    }
+
     // todo: maybe add a init method for initiation of static variable for better control
     private static final MoodManager instance = new MoodManager();
 
-    private MoodManager() {
+    public MoodManager() {
         this.dataManager = new DataManager();
         MoodData.getIDFromDatabase(dataManager);
         this.moods = FXCollections.observableList(dataManager.loadMoods());
@@ -65,13 +69,13 @@ public class MoodManager {
      * /todo: or should moodFactory add moods directly to MoodManager?
      * @param mood
      */
-    private void addMood(MoodData mood){
+    protected void addMood(MoodData mood){
         moods.add(mood);
         dataManager.saveMood(mood);
     }
     
     public void addAllMoods(List<MoodData> list) {
-        List<MoodData> newMoods = new ArrayList<>();
+        ArrayList<MoodData> newMoods = new ArrayList<>();
         list.forEach(m -> newMoods.add(new MoodData(m.getName(),m.getDescription(),m.getTimeStamp(),m.getActivityLevel(),m.getMoodValue()))); // Create new MoodData Objects to ensure encapsulation
         moods.addAll(newMoods);
         dataManager.saveMoods(newMoods);

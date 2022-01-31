@@ -59,12 +59,12 @@ public class StartupMenuController extends GenericController {
      */
     @FXML public void btnViewStatsAction() {   // Name im FXML File als Action Event angegeben
         log.debug("ViewStats Button Clicked");
-        // Todo: important stuff
+        getSceneManager().switchScene(SceneManager.States.MOOD_STATS_VIEW);
         
-        log.debug("Saved "+MoodManager.getInstance().getMoods().size()+" Moods: ");
+      /*  log.debug("Saved "+MoodManager.getInstance().getMoods().size()+" Moods: ");
         for (MoodData m : MoodManager.getInstance().getMoods()) {
             log.debug(m.toString());
-        }
+        }*/
     }
     
     /**

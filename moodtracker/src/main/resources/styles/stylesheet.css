@@ -12,11 +12,17 @@
 	-fx-border-width: 0px;
 	-fx-border-radius: 2px;
 	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 0, 0, 3, 3);
+	-fx-padding: 5px;
     }
 .button:hover{
 	-fx-background-color: -fx-button-color-highlighted;
 	-fx-text-fill: -fx-button-font-color-highlighted;
 
+}
+
+.button:active{
+	-fx-background-color: -fx-button-color-highlighted;
+	-fx-text-fill: -fx-button-font-color-highlighted;
 }
 
 .background{

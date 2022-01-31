@@ -1,5 +1,6 @@
 package org.jap.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -26,7 +27,6 @@ public class DebugViewController extends GenericController {
     private static final Logger log = LogManager.getLogger(DebugViewController.class);
     
     // Variables
-    
     private static final int DEFAULT_AMOUNT = 50;
     private int amount = DEFAULT_AMOUNT;
     
@@ -95,14 +95,10 @@ public class DebugViewController extends GenericController {
         else {
             txaSomeText.appendText("Well, that could take a while now...\n");
             
-            btnGenerate.setDisable(true);
+            getSceneManager().setDisable(true);
             priLoadingSnail.setVisible(true);
-            txfAmount.setDisable(true);
             
-            if (tbtToggleMe.isSelected())
-                new Thread(generatingRunnable).start();
-            else
-                generate();
+            new Thread(generatingRunnable).start();
         }
     }
     
@@ -131,11 +127,11 @@ public class DebugViewController extends GenericController {
     
     @FXML public void tbtToggleMeAction() {
         if (tbtToggleMe.isSelected()) {
-            tbtToggleMe.setText("Threaded: On");
+            tbtToggleMe.setText(":)");
             txaSomeText.appendText(":)\n");
         }
         else {
-            tbtToggleMe.setText("Threaded: Off");
+            tbtToggleMe.setText(":(");
             txaSomeText.appendText(":(\n");
         }
     }
@@ -204,8 +200,7 @@ public class DebugViewController extends GenericController {
             case DAYS -> rdbDays.setSelected(true);
             case WEEKS -> rdbWeeks.setSelected(true);
         }
-        tbtToggleMe.setSelected(true); // threaded mode is now default
-        tbtToggleMe.setText("Threaded: On");
+        tbtToggleMe.setSelected(true); // fancy mode is now default
         
         txaSomeText.appendText("Welcome! :)\n");
     }
@@ -216,10 +211,11 @@ public class DebugViewController extends GenericController {
     }
     
     private synchronized void generate() {
-        if (amount>0) {
+        final int finalAmount = amount;
+        if (finalAmount>0) {
             List<MoodData> moods = new ArrayList<>();
             
-            for (int i = 0; i<amount; i++) {
+            for (int i = 0; i<finalAmount; i++) {
                 LocalDateTime timestamp = LocalDateTime.now();
                 switch (timeUnit) {
                     case MINUTES -> timestamp = timestamp.plusMinutes(i);
@@ -229,40 +225,45 @@ public class DebugViewController extends GenericController {
                 }
                 moods.add(new MoodData("Generated Mood Nr."+(i+1), "Mood Generated using Debug View", timestamp, activity, moodValue, false));
                 nextGeneration();
-//                if (tbtToggleMe.isSelected()) { // artificial delay if togglebtn is on
-//                    long delay = 10000 / amount;
-//                    try {
-//                        Thread.sleep(delay);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-                prbFillMeUp.setProgress((double)i/amount/2);
+                if (tbtToggleMe.isSelected()) { // artificial delay if togglebtn is on
+                    long delay = 5000 / finalAmount;
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                final int finalI = i;
+                Platform.runLater(() -> prbFillMeUp.setProgress((double) (finalI+1)/finalAmount));
             }
-            MoodManager.getInstance().addAllMoods(moods);
-            prbFillMeUp.setProgress(100);
+            
+            // Finished Generating Moods
+            Platform.runLater(() -> {
+                MoodManager.getInstance().addAllMoods(moods);
+                prbFillMeUp.setProgress(100);
+            });
         }
-
-//                    cmiDisabled.setSelected(true); // prevents accidental double click
-        priLoadingSnail.setVisible(false);
-        if (amount>1)
-            txaSomeText.appendText("Congrats. There are now "+amount+" more moods on your hard drive!\n");
-        else if (amount==1)
-            txaSomeText.appendText("Sure...\nTake it easy...\nOne by one...\nBreath in...\nBreath out...\nNow there are 6 more line in this text area...\n");
-        else if (amount==0)
-            txaSomeText.appendText("I give you 0 sweets. Are you happy now?\n");
+        
+        Platform.runLater(() -> priLoadingSnail.setVisible(false));
+        if (finalAmount>1)
+            Platform.runLater(() -> txaSomeText.appendText("Congrats. There are now "+finalAmount+" more moods on your hard drive!\n"));
+        else if (finalAmount==1)
+            Platform.runLater(() -> txaSomeText.appendText("Sure...\nTake it easy...\nOne by one...\nBreath in...\nBreath out...\nNow there are 6 more line in this text area...\n"));
+        else if (finalAmount==0)
+            Platform.runLater(() -> txaSomeText.appendText("I give you 0 sweets. Are you happy now?\n"));
         else
-            txaSomeText.appendText("This text should not appear...\nYou broke my software! >:(\n");
+            Platform.runLater(() -> txaSomeText.appendText("This text should not appear...\nYou broke my software! >:(\n"));
         if (tbtToggleMe.isSelected()) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(250);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error(e.fillInStackTrace());
             }
         }
-        prbFillMeUp.setProgress(0);
-        btnGenerate.setDisable(false);
-        txfAmount.setDisable(false);
+        Platform.runLater(() -> {
+            prbFillMeUp.setProgress(0);
+            getSceneManager().setDisable(false);
+        });
     }
     
     private void nextGeneration() {

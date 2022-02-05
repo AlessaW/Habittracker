@@ -32,7 +32,6 @@ public class MoodManager {
         TEST
     }
 
-    // todo: maybe add a init method for initiation of static variable for better control
     private static final MoodManager instance = new MoodManager();
 
     public MoodManager() {
@@ -66,7 +65,6 @@ public class MoodManager {
 
     /**
      * extra Method to add moods which were created with MoodFactory
-     * /todo: or should moodFactory add moods directly to MoodManager?
      * @param mood
      */
     protected void addMood(MoodData mood){

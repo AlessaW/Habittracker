@@ -214,6 +214,14 @@ public class SceneManager {
     }
     
     /**
+     * Disables the whole scene including the menu bar, so the user can't break something while some other critical things are running in the background
+     * @param b true if everything should be disabled
+     */
+    public void setDisable(boolean b) {
+        menuBarController.setDisable(b);
+    }
+    
+    /**
      * @param state the state to validate
      * @return true if the state is a valid state to return to
      * <br> a state is valid if it makes sense to return to it from another state

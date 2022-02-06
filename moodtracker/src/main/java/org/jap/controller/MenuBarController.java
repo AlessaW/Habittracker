@@ -23,15 +23,29 @@ import java.util.Optional;
 public class MenuBarController extends GenericController{
     private static final Logger log = LogManager.getLogger(MenuBarController.class);
     
-    // Variables
+    // FXML Fields
     @FXML private Pane anpSceneRoot;
     
     // Methods
+    /**
+     * Adds the scene as presented scene
+     * @param scene the scene to show
+     * @param state the state the window has
+     */
     public void setScene(Node scene, SceneManager.States state) {
         ObservableList<Node> list = anpSceneRoot.getChildren();
         list.clear();
         list.add(scene);
         log.trace("set Scene "+state+", list size now: "+list.size());
+    }
+    
+    /**
+     * Disabled menu bar and scene pane
+     * @param b true if they should be disabled
+     */
+    public void setDisable(boolean b) {
+        getScene().setDisable(b);
+        anpSceneRoot.setDisable(b);
     }
     
     // FXML Event Handler

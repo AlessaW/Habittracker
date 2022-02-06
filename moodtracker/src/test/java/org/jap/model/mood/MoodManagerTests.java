@@ -29,10 +29,12 @@ public class MoodManagerTests {
         Assert.assertEquals(mood.getMoodValue(), -10);
     }
 
-    @Test
+    @Test (expected = IOException.class)
     public void testMoodCreationException() throws IOException {
 
         LocalDateTime date = LocalDateTime.of(2021, Month.DECEMBER, 27, 10,40);
+
+        MoodManager.getInstance().createMood(-1, "name", "desc", date, 5, 3);
         /*
         Throwable throw = new IOException();
 

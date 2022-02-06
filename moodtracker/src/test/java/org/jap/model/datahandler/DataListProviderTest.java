@@ -15,8 +15,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.OptionalDouble;
 
 /*
     Created by nika
@@ -49,14 +47,10 @@ public class DataListProviderTest {
             return moodDataList;
         }
 
-  /*      @Override
-        protected void addMood(MoodData mood){
-            moodDataList.add(mood);
-        }
 
-        public void deleteAll(){
-            moodDataList.clear();
-        }*/
+        public void setNull(){
+            moodDataList = null;
+        }
     }
 
     private static final Logger log = LogManager.getLogger(DataListProviderTest.class);
@@ -148,7 +142,11 @@ public class DataListProviderTest {
         Assert.assertEquals(expectedResult, week.getList());
     }
 
-    //Todo: fail: konnte nich ausgeführt werden
-    //Todo: keine Data vorhanden
-
+    @Test (expected = NullPointerException.class)
+    public void testIfNull() throws Exception, DataListProviderException{
+        MockMoodManager mockMoodManager = new MockMoodManager();
+        mockMoodManager.setNull();
+        DataListProvider week = new DataListProvider(DataListProvider.StatTimeModus.WEEK, mockMoodManager);
+        week.call();
+    }
 }

@@ -1,0 +1,26 @@
+/* VARIABLE DEFINITIONS: Only these 4 variables have to be adjusted, the rest is copy-paste */
+* {
+	/* menu */
+    -fx-menu-color: orange; 
+	-fx-menu-color-highlighted: #da6328;
+	/* dropdown */
+    -fx-dropmenu-color: #f7ce78;
+	-fx-dropmenu-color-highlighted: #c4930d;
+     /* font */
+    -fx-menu-font-color: black;
+    -fx-menu-font-color-highlighted: #FFFFFF;
+
+
+	/* buttons */
+	-fx-button-color: -fx-menu-color;
+	-fx-button-color-highlighted: -fx-menu-color-highlighted;
+	-fx-button-font-color: -fx-menu-font-color;
+	-fx-button-font-color-highlighted: -fx-menu-font-color-highlighted;
+
+	/*background*/
+	-fx-pane-background-color: #575485;
+    -fx-pane-background-color-light: #8d88d3;
+
+    -fx-list-view-even: -fx-pane-background-color-light;
+    -fx-list-view-odd: #726dbb;
+}
